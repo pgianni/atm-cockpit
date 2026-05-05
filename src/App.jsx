@@ -22,7 +22,7 @@ const INITIAL_NOTIFICATIONS = [
   { id: 8, unread: false, title: 'Utilization booked: GreenPort Infrastructure', description: 'First drawdown of 45 M EUR was posted and settlement was confirmed.',                   time: '2 days ago' },
 ]
 
-function PageContent({ page, dealId, clientId, collapsed, searchQuery, onSearch, notifications, onToggle, onMarkAllRead, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onBack }) {
+function PageContent({ page, dealId, clientId, collapsed, searchQuery, onSearch, notifications, onToggle, onMarkAllRead, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onBack, onSearchBarHidden }) {
   const style = { marginLeft: collapsed ? 64 : 226 }
   switch (page) {
     case 'notifs':       return <NotificationsPage  style={style} notifications={notifications} onToggle={onToggle} onMarkAllRead={onMarkAllRead} />
@@ -31,7 +31,7 @@ function PageContent({ page, dealId, clientId, collapsed, searchQuery, onSearch,
     case 'search':       return <SearchResultsPage  style={style} query={searchQuery} onSearch={onSearch} onNavigateDeal={onNavigateDeal} />
     case 'deal':         return <DealPage           style={style} dealId={dealId} onBack={onBack} onNavigateClient={onNavigateClient} />
     case 'clients':      return <ClientsPage        style={style} clientId={clientId} onBack={onBack} onNavigatePortfolio={onNavigatePortfolio} />
-    default:             return <Dashboard           style={style} onSearch={onSearch} onNavigateDeal={onNavigateDeal} onNavigatePortfolio={onNavigatePortfolio} onNavigateClient={onNavigateClient} />
+    default:             return <Dashboard           style={style} onSearch={onSearch} onNavigateDeal={onNavigateDeal} onNavigatePortfolio={onNavigatePortfolio} onNavigateClient={onNavigateClient} onSearchBarHidden={onSearchBarHidden} />
   }
 }
 
@@ -51,6 +51,7 @@ export default function App() {
   const [dealId,         setDealId]         = useState(null)
   const [prevPage,       setPrevPage]       = useState('home')
   const [clientId,       setClientId]       = useState(null)
+  const [homeSearchHidden, setHomeSearchHidden] = useState(false)
 
   const unreadCount = notifications.filter(n => n.unread).length
 
@@ -95,7 +96,7 @@ export default function App() {
     <div className="app">
       <Header
         onSearch={handleSearch}
-        showSearch={activePage !== 'home'}
+        showSearch={activePage !== 'home' || homeSearchHidden}
         searchQuery={searchQuery}
         onNotifClick={() => setNotifOpen(o => !o)}
         unreadCount={unreadCount}
@@ -130,6 +131,7 @@ export default function App() {
           onNavigatePortfolio={handleNavigatePortfolio}
           onNavigateClient={handleNavigateClient}
           onBack={handleBack}
+          onSearchBarHidden={setHomeSearchHidden}
         />
       </div>
     </div>

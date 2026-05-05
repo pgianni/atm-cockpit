@@ -87,7 +87,6 @@ export default function Header({ onSearch, showSearch = false, searchQuery = '',
               onBlur={() => setFocused(false)}
               placeholder="Rechercher deals, contrats, assets…"
               aria-label="Recherche globale"
-              autoFocus
             />
             {value && (
               <button

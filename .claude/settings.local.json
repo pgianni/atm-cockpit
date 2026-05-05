@@ -17,7 +17,13 @@
       "Bash(node ./node_modules/.bin/vite preview --port 5173 --host)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "mcp__a92ae42b-d1b9-46e7-951b-a1c27b64b8f4__get_design_context",
+      "mcp__a92ae42b-d1b9-46e7-951b-a1c27b64b8f4__get_screenshot",
+      "Bash(curl -s -o /tmp/figma_popup.png \"https://www.figma.com/api/mcp/asset/d6aa5498-4e25-410f-aff2-5e0682caa50d\")",
+      "Bash(lsof -ti:5173)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)"
     ]
   }
 }

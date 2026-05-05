@@ -59,10 +59,39 @@
   gap: var(--sp-300);
 }
 
+.dashboard__header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-200);
+}
+
 .dashboard__welcome {
   display: flex;
   align-items: center;
   gap: var(--sp-100);
+}
+
+/* ── Customize homepage button ── */
+.dashboard__customize-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  color: white;
+  background: transparent;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.dashboard__customize-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.9);
 }
 
 .dashboard__welcome-text {

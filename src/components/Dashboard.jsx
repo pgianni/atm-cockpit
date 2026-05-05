@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
-import { Search, X, ExternalLink, Star } from 'lucide-react'
+import { Search, X, ExternalLink, Star, Settings } from 'lucide-react'
 import AlertCard from './AlertCard'
 import ScopeOverview from './ScopeOverview'
 import SearchSuggestions from './SearchSuggestions'
+import HomepageCustomizeModal from './HomepageCustomizeModal'
 import { searchResults } from '../data/searchData'
 import { ALL_APPS, LS_KEY, getFavoriteIds } from '../data/appsData'
 import logoGlass from '../assets/logo-glass.svg?url'
@@ -12,6 +13,20 @@ import logoMitigant from '../assets/logo-mitigant.svg?url'
 import logoDocManagement from '../assets/logo-docmanagement.svg?url'
 import logoReporting from '../assets/logo-reporting.svg?url'
 import './Dashboard.css'
+
+const HOMEPAGE_WIDGETS_KEY = 'cockpit_homepage_widgets'
+const DEFAULT_WIDGET_ORDER = ['alerts', 'scope', 'deals', 'controls', 'favorites']
+
+function loadWidgetOrder() {
+  try {
+    const stored = localStorage.getItem(HOMEPAGE_WIDGETS_KEY)
+    if (stored) {
+      const parsed = JSON.parse(stored)
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed
+    }
+  } catch {}
+  return DEFAULT_WIDGET_ORDER
+}
 
 const LOGO_ICONS = { glass: logoGlass, comon: logoComon, asset: logoAsset, mitigant: logoMitigant, docmanagement: logoDocManagement, reporting: logoReporting }
 
@@ -96,10 +111,23 @@ const CONTROLS = [
   },
 ]
 
-export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigatePortfolio, onNavigateClient }) {
+export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onSearchBarHidden }) {
   const [value,   setValue]   = useState('')
   const [focused, setFocused] = useState(false)
-  const inputRef = useRef(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [widgetOrder, setWidgetOrder] = useState(() => loadWidgetOrder())
+  const inputRef   = useRef(null)
+  const searchRef  = useRef(null)
+
+  useEffect(() => {
+    if (!searchRef.current) return
+    const obs = new IntersectionObserver(
+      ([entry]) => onSearchBarHidden?.(!entry.isIntersecting),
+      { threshold: 0 }
+    )
+    obs.observe(searchRef.current)
+    return () => obs.disconnect()
+  }, [onSearchBarHidden])
 
   const suggestions  = focused ? searchResults(value) : []
   const showDropdown = focused && value.length >= 2
@@ -133,6 +161,11 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
 
   const favoriteApps = ALL_APPS.filter(a => favIds.has(a.id))
 
+  function handleSaveWidgets(newOrder) {
+    setWidgetOrder(newOrder)
+    try { localStorage.setItem(HOMEPAGE_WIDGETS_KEY, JSON.stringify(newOrder)) } catch {}
+  }
+
   return (
     <main className="dashboard" style={style}>
       {/* Green banner background */}
@@ -143,13 +176,19 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
 
         {/* ── Welcome header ── */}
         <header className="dashboard__header">
-          <div className="dashboard__welcome">
-            <h1 className="dashboard__welcome-text">Welcome, Hancock</h1>
-            <span className="dashboard__wave" role="img" aria-label="Waving hand">👋</span>
+          <div className="dashboard__header-top">
+            <div className="dashboard__welcome">
+              <h1 className="dashboard__welcome-text">Welcome, Hancock</h1>
+              <span className="dashboard__wave" role="img" aria-label="Waving hand">👋</span>
+            </div>
+            <button className="dashboard__customize-btn" onClick={() => setModalOpen(true)}>
+              <Settings size={15} strokeWidth={2} />
+              Customize homepage
+            </button>
           </div>
 
           {/* Search bar */}
-          <form className="dashboard__search" onSubmit={handleSubmit}>
+          <form className="dashboard__search" onSubmit={handleSubmit} ref={searchRef}>
             <input
               ref={inputRef}
               className="dashboard__search-input"
@@ -179,142 +218,161 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
           </form>
         </header>
 
-        {/* ── Alerts module ── */}
-        <section className="module">
-          <div className="module__header">
-            <div>
-              <h2 className="module__title">Coming up soon</h2>
-              <p className="module__subtitle">
-                A look at my upcoming alerts, reminders, and milestones over the next 30 days.
-              </p>
-            </div>
-          </div>
+        {/* ── Dynamic widget sections ── */}
+        {widgetOrder.map(id => {
+          switch (id) {
+            case 'alerts':
+              return (
+                <section key="alerts" className="module">
+                  <div className="module__header">
+                    <div>
+                      <h2 className="module__title">Coming up soon</h2>
+                      <p className="module__subtitle">
+                        A look at my upcoming alerts, reminders, and milestones over the next 30 days.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="module__cards">
+                    {ALERTS.map(alert => (
+                      <AlertCard key={alert.id} {...alert} onNavigate={() => onNavigateDeal?.(alert.dealId)} />
+                    ))}
+                  </div>
+                </section>
+              )
 
-          <div className="module__cards">
-            {ALERTS.map(alert => (
-              <AlertCard key={alert.id} {...alert} onNavigate={() => onNavigateDeal?.(alert.dealId)} />
-            ))}
-          </div>
-        </section>
+            case 'scope':
+              return <ScopeOverview key="scope" onNavigatePortfolio={onNavigatePortfolio} />
 
-        {/* ── Scope overview module ── */}
-        <ScopeOverview onNavigatePortfolio={onNavigatePortfolio} />
+            case 'deals':
+              return (
+                <section key="deals" className="module">
+                  <div className="module__header">
+                    <div>
+                      <h2 className="module__title">Derniers deals ouverts</h2>
+                      <p className="module__subtitle">Les transactions récemment ajoutées à votre portefeuille.</p>
+                    </div>
+                  </div>
+                  <div className="ds-table-wrap">
+                    <table className="ds-table">
+                      <thead>
+                        <tr className="ds-table__head-row">
+                          <th className="ds-table__th">Deal</th>
+                          <th className="ds-table__th">Client</th>
+                          <th className="ds-table__th ds-table__th--hidden-sm">Type</th>
+                          <th className="ds-table__th ds-table__th--right">Montant</th>
+                          <th className="ds-table__th">Statut</th>
+                          <th className="ds-table__th ds-table__th--hidden-sm">Date</th>
+                          <th className="ds-table__th" />
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {RECENT_DEALS.map(deal => (
+                          <tr
+                            key={deal.id}
+                            className="ds-table__row"
+                            onClick={() => onNavigateDeal?.(deal.id)}
+                          >
+                            <td className="ds-table__cell ds-table__cell--name">
+                              <button className="ds-table__name-btn" onClick={e => { e.stopPropagation(); onNavigateDeal?.(deal.id) }}>
+                                {deal.name}
+                              </button>
+                            </td>
+                            <td className="ds-table__cell ds-table__cell--minor">
+                              <button className="ds-table__client-btn" onClick={e => { e.stopPropagation(); onNavigateClient?.(deal.client) }}>
+                                {deal.client}
+                              </button>
+                            </td>
+                            <td className="ds-table__cell ds-table__cell--minor ds-table__cell--hidden-sm">{deal.type}</td>
+                            <td className="ds-table__cell ds-table__cell--right ds-table__cell--bold">{deal.size}</td>
+                            <td className="ds-table__cell">
+                              <span className={`ds-badge ${DEAL_STATUS_CLS[deal.status] || 'ds-badge--grey'}`}>{deal.status}</span>
+                            </td>
+                            <td className="ds-table__cell ds-table__cell--minor ds-table__cell--hidden-sm">{deal.date}</td>
+                            <td className="ds-table__cell ds-table__cell--action">
+                              <button className="ds-table__icon-btn" onClick={e => { e.stopPropagation(); onNavigateDeal?.(deal.id) }} aria-label={`Ouvrir ${deal.name}`}>
+                                <ExternalLink size={14} strokeWidth={1.5} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+              )
 
-        {/* ── Recent deals module ── */}
-        <section className="module">
-          <div className="module__header">
-            <div>
-              <h2 className="module__title">Derniers deals ouverts</h2>
-              <p className="module__subtitle">Les transactions récemment ajoutées à votre portefeuille.</p>
-            </div>
-          </div>
+            case 'controls':
+              return (
+                <section key="controls" className="module">
+                  <div className="module__header">
+                    <div>
+                      <h2 className="module__title">Deals controls</h2>
+                      <p className="module__subtitle">{CONTROLS.length} contrôles détectés sur vos deals actifs.</p>
+                    </div>
+                  </div>
+                  <div className="ds-controls">
+                    {CONTROLS.map(ctrl => (
+                      <div key={ctrl.id} className={`ds-ctrl ds-ctrl--${ctrl.severity}`}>
+                        <div className="ds-ctrl__left">
+                          <span className={`ds-ctrl__badge ds-ctrl__badge--${ctrl.severity}`}>{ctrl.severityLabel}</span>
+                          <p className="ds-ctrl__object">{ctrl.object}</p>
+                        </div>
+                        <div className="ds-ctrl__body">
+                          <p className="ds-ctrl__problem">{ctrl.problem}</p>
+                          <p className="ds-ctrl__impact">{ctrl.impact}</p>
+                        </div>
+                        <div className="ds-ctrl__right">
+                          <p className="ds-ctrl__action-label">Action suggérée</p>
+                          <p className="ds-ctrl__action">{ctrl.action}</p>
+                          <p className="ds-ctrl__owner">{ctrl.owner}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )
 
-          <div className="ds-table-wrap">
-            <table className="ds-table">
-              <thead>
-                <tr className="ds-table__head-row">
-                  <th className="ds-table__th">Deal</th>
-                  <th className="ds-table__th">Client</th>
-                  <th className="ds-table__th ds-table__th--hidden-sm">Type</th>
-                  <th className="ds-table__th ds-table__th--right">Montant</th>
-                  <th className="ds-table__th">Statut</th>
-                  <th className="ds-table__th ds-table__th--hidden-sm">Date</th>
-                  <th className="ds-table__th" />
-                </tr>
-              </thead>
-              <tbody>
-                {RECENT_DEALS.map(deal => (
-                  <tr
-                    key={deal.id}
-                    className="ds-table__row"
-                    onClick={() => onNavigateDeal?.(deal.id)}
-                  >
-                    <td className="ds-table__cell ds-table__cell--name">
-                      <button className="ds-table__name-btn" onClick={e => { e.stopPropagation(); onNavigateDeal?.(deal.id) }}>
-                        {deal.name}
-                      </button>
-                    </td>
-                    <td className="ds-table__cell ds-table__cell--minor">
-                      <button className="ds-table__client-btn" onClick={e => { e.stopPropagation(); onNavigateClient?.(deal.client) }}>
-                        {deal.client}
-                      </button>
-                    </td>
-                    <td className="ds-table__cell ds-table__cell--minor ds-table__cell--hidden-sm">{deal.type}</td>
-                    <td className="ds-table__cell ds-table__cell--right ds-table__cell--bold">{deal.size}</td>
-                    <td className="ds-table__cell">
-                      <span className={`ds-badge ${DEAL_STATUS_CLS[deal.status] || 'ds-badge--grey'}`}>{deal.status}</span>
-                    </td>
-                    <td className="ds-table__cell ds-table__cell--minor ds-table__cell--hidden-sm">{deal.date}</td>
-                    <td className="ds-table__cell ds-table__cell--action">
-                      <button className="ds-table__icon-btn" onClick={e => { e.stopPropagation(); onNavigateDeal?.(deal.id) }} aria-label={`Ouvrir ${deal.name}`}>
-                        <ExternalLink size={14} strokeWidth={1.5} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
+            case 'favorites':
+              return favoriteApps.length > 0 ? (
+                <section key="favorites" className="module">
+                  <div className="module__header">
+                    <div>
+                      <h2 className="module__title ds-fav__title">
+                        <Star size={16} strokeWidth={1.75} className="ds-fav__star" />
+                        My favorites
+                      </h2>
+                    </div>
+                  </div>
+                  <div className="ds-fav__grid">
+                    {favoriteApps.map(app => (
+                      <div key={app.id} className="ds-fav__card">
+                        {app.figmaIcon
+                          ? <img src={LOGO_ICONS[app.figmaIcon]} alt="" className="ds-fav__icon" />
+                          : <div className={`app-icon app-icon--${app.iconColor}`}>{app.letter}</div>
+                        }
+                        <span className="ds-fav__name">{app.name}</span>
+                        <a href="#" className="ds-fav__link" onClick={e => e.preventDefault()}>
+                          Open <ExternalLink size={11} strokeWidth={1.5} />
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              ) : null
 
-        {/* ── Deal controls ── */}
-        <section className="module">
-          <div className="module__header">
-            <div>
-              <h2 className="module__title">Deals controls</h2>
-              <p className="module__subtitle">{CONTROLS.length} contrôles détectés sur vos deals actifs.</p>
-            </div>
-          </div>
-          <div className="ds-controls">
-            {CONTROLS.map(ctrl => (
-              <div key={ctrl.id} className={`ds-ctrl ds-ctrl--${ctrl.severity}`}>
-                <div className="ds-ctrl__left">
-                  <span className={`ds-ctrl__badge ds-ctrl__badge--${ctrl.severity}`}>{ctrl.severityLabel}</span>
-                  <p className="ds-ctrl__object">{ctrl.object}</p>
-                </div>
-                <div className="ds-ctrl__body">
-                  <p className="ds-ctrl__problem">{ctrl.problem}</p>
-                  <p className="ds-ctrl__impact">{ctrl.impact}</p>
-                </div>
-                <div className="ds-ctrl__right">
-                  <p className="ds-ctrl__action-label">Action suggérée</p>
-                  <p className="ds-ctrl__action">{ctrl.action}</p>
-                  <p className="ds-ctrl__owner">{ctrl.owner}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Favorite apps ── */}
-        {favoriteApps.length > 0 && (
-          <section className="module">
-            <div className="module__header">
-              <div>
-                <h2 className="module__title ds-fav__title">
-                  <Star size={16} strokeWidth={1.75} className="ds-fav__star" />
-                  My favorites
-                </h2>
-              </div>
-            </div>
-            <div className="ds-fav__grid">
-              {favoriteApps.map(app => (
-                <div key={app.id} className="ds-fav__card">
-                  {app.figmaIcon
-                    ? <img src={LOGO_ICONS[app.figmaIcon]} alt="" className="ds-fav__icon" />
-                    : <div className={`app-icon app-icon--${app.iconColor}`}>{app.letter}</div>
-                  }
-                  <span className="ds-fav__name">{app.name}</span>
-                  <a href="#" className="ds-fav__link" onClick={e => e.preventDefault()}>
-                    Open <ExternalLink size={11} strokeWidth={1.5} />
-                  </a>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+            default:
+              return null
+          }
+        })}
 
       </div>
+
+      <HomepageCustomizeModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        selection={widgetOrder}
+        onSave={handleSaveWidgets}
+      />
     </main>
   )
 }
