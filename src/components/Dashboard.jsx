@@ -53,6 +53,49 @@ const ALERTS = [
   },
 ]
 
+const CONTROLS = [
+  {
+    id: 1,
+    severity: 'blocking',
+    severityLabel: 'Operational',
+    object: 'Tranche TLB-01',
+    problem: 'Tranche sans plan d\'amortissement',
+    impact: 'Impossible de calculer les échéances → bloque le booking',
+    action: 'Ajouter un amortization schedule',
+    owner: 'Front Office / Structuration',
+  },
+  {
+    id: 2,
+    severity: 'regulatory',
+    severityLabel: 'Regulatory',
+    object: 'Deal (niveau global)',
+    problem: 'Bâle portfolio incorrect (Corporate au lieu de Specialized Lending)',
+    impact: 'Risque de non-conformité sur RWA et capital réglementaire',
+    action: 'Vérifier classification avec Risk / Coverage',
+    owner: 'Risk / Front Office',
+  },
+  {
+    id: 3,
+    severity: 'regulatory',
+    severityLabel: 'Counterparty',
+    object: 'Orion Tech Subsidiary GmbH',
+    problem: 'KYC incomplet (UBO non validé)',
+    impact: 'Blocage réglementaire avant booking',
+    action: 'Relancer équipe KYC',
+    owner: 'KYC / Compliance',
+  },
+  {
+    id: 4,
+    severity: 'warning',
+    severityLabel: 'Revenues',
+    object: 'Facility Fee',
+    problem: 'Fee calculée sans prorata temporis',
+    impact: 'Mauvais P&L (non bloquant)',
+    action: 'Corriger formule de calcul',
+    owner: 'Middle Office / Product Control',
+  },
+]
+
 export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigatePortfolio, onNavigateClient }) {
   const [value,   setValue]   = useState('')
   const [focused, setFocused] = useState(false)
@@ -211,6 +254,35 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
                 ))}
               </tbody>
             </table>
+          </div>
+        </section>
+
+        {/* ── Deal controls ── */}
+        <section className="module">
+          <div className="module__header">
+            <div>
+              <h2 className="module__title">Deals controls</h2>
+              <p className="module__subtitle">{CONTROLS.length} contrôles détectés sur vos deals actifs.</p>
+            </div>
+          </div>
+          <div className="ds-controls">
+            {CONTROLS.map(ctrl => (
+              <div key={ctrl.id} className={`ds-ctrl ds-ctrl--${ctrl.severity}`}>
+                <div className="ds-ctrl__left">
+                  <span className={`ds-ctrl__badge ds-ctrl__badge--${ctrl.severity}`}>{ctrl.severityLabel}</span>
+                  <p className="ds-ctrl__object">{ctrl.object}</p>
+                </div>
+                <div className="ds-ctrl__body">
+                  <p className="ds-ctrl__problem">{ctrl.problem}</p>
+                  <p className="ds-ctrl__impact">{ctrl.impact}</p>
+                </div>
+                <div className="ds-ctrl__right">
+                  <p className="ds-ctrl__action-label">Action suggérée</p>
+                  <p className="ds-ctrl__action">{ctrl.action}</p>
+                  <p className="ds-ctrl__owner">{ctrl.owner}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 

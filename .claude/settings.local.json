@@ -13,7 +13,11 @@
       "Bash(pkill -f \"vite preview\")",
       "Bash(sed -i '' 's/A summary of your portfolio activity\\\\./A summary of my portfolio activity./g' '/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/ScopeOverview.jsx')",
       "Bash(sed -i '' 's/All deals currently in progress across your portfolio\\\\./All deals currently in progress across my portfolio./g' '/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/PortfolioPage.jsx')",
-      "Bash(sed -i '' 's/A look at your upcoming alerts/A look at my upcoming alerts/g' '/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/Dashboard.jsx')"
+      "Bash(sed -i '' 's/A look at your upcoming alerts/A look at my upcoming alerts/g' '/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/Dashboard.jsx')",
+      "Bash(node ./node_modules/.bin/vite preview --port 5173 --host)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

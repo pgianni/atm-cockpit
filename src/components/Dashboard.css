@@ -335,3 +335,103 @@
   transition: color 0.15s;
 }
 .ds-fav__link:hover { color: var(--color-primary-hover); }
+
+/* ── Deal controls ── */
+.ds-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ds-ctrl {
+  display: grid;
+  grid-template-columns: 160px 1fr 220px;
+  gap: 16px;
+  align-items: start;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-left: 4px solid;
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.ds-ctrl--blocking    { border-left-color: #d92726; }
+.ds-ctrl--regulatory  { border-left-color: #e07b28; }
+.ds-ctrl--warning     { border-left-color: #e6b800; }
+
+.ds-ctrl__left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ds-ctrl__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  width: fit-content;
+}
+.ds-ctrl__badge--blocking   { background: #fde8e8; color: #b01f1e; }
+.ds-ctrl__badge--regulatory { background: #fef0e6; color: #b45309; }
+.ds-ctrl__badge--warning    { background: #fefce6; color: #92660a; }
+
+.ds-ctrl__badge--blocking::before   { content: '●'; font-size: 8px; color: #d92726; }
+.ds-ctrl__badge--regulatory::before { content: '●'; font-size: 8px; color: #e07b28; }
+.ds-ctrl__badge--warning::before    { content: '●'; font-size: 8px; color: #e6b800; }
+
+.ds-ctrl__object {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-major);
+}
+
+.ds-ctrl__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ds-ctrl__problem {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-major);
+}
+
+.ds-ctrl__impact {
+  font-size: 13px;
+  color: var(--color-text-minor);
+  line-height: 1.4;
+}
+
+.ds-ctrl__right {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-left: 1px solid var(--color-border-default);
+  padding-left: 16px;
+}
+
+.ds-ctrl__action-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-minor);
+}
+
+.ds-ctrl__action {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.ds-ctrl__owner {
+  font-size: 12px;
+  color: var(--color-text-minor);
+  margin-top: 2px;
+}
