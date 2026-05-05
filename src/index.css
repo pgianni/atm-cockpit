@@ -1,0 +1,96 @@
+/* ─── Design Tokens ──────────────────────────────────────────────── */
+:root {
+  /* Colors */
+  --color-primary:        #007d57;
+  --color-primary-hover:  #005a3f;
+  --color-primary-subtle: rgba(79, 188, 149, 0.1);
+  --color-danger:         #d92726;
+  --color-danger-hover:   #b01f1e;
+
+  --color-bg-page:        #f0f3f3;
+  --color-bg-surface:     #ffffff;
+  --color-bg-header-bkg:  #007d57; /* green banner */
+
+  --color-text-major:     #262a2d;
+  --color-text-minor:     #5e6a71;
+  --color-text-primary:   #007d57;
+  --color-text-reverse:   #ffffff;
+
+  --color-border-default: #dfe1e3;
+  --color-border-danger:  #d92726;
+
+  /* Spacing */
+  --sp-025:  2px;
+  --sp-050:  4px;
+  --sp-075:  6px;
+  --sp-100:  8px;
+  --sp-125: 10px;
+  --sp-150: 12px;
+  --sp-200: 16px;
+  --sp-300: 24px;
+  --sp-400: 32px;
+
+  /* Border radius */
+  --r-050:  4px;
+  --r-100:  8px;
+  --r-200: 16px;
+
+  /* Typography */
+  --font-main:  'Open Sans', sans-serif;
+  --font-inter: 'Open Sans', sans-serif;
+
+  --fs-02: 14px;
+  --fs-03: 16px;
+  --fs-04: 18px;
+  --fs-05: 20px;
+  --fs-06: 24px;
+
+  --lh-02: 22px;
+  --lh-03: 24px;
+  --lh-04: 28px;
+  --lh-05: 30px;
+  --lh-06: 36px;
+
+  --fw-regular:  400;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  /* Shadow */
+  --shadow-header: 0 2px 4px rgba(19,21,23,.10), 0 0 3px rgba(19,21,23,.15);
+}
+
+/* ─── Dark mode tokens ───────────────────────────────────────────── */
+html.dark {
+  --color-primary:        #4fbc95;
+  --color-primary-hover:  #79d4b5;
+  --color-primary-subtle: rgba(79, 188, 149, 0.12);
+
+  --color-bg-page:        #0f1214;
+  --color-bg-surface:     #1a1f22;
+  --color-bg-header-bkg:  #005740;
+
+  --color-text-major:     #e8ecee;
+  --color-text-minor:     #8a9499;
+  --color-text-primary:   #4fbc95;
+  --color-text-reverse:   #ffffff;
+
+  --color-border-default: #2e3538;
+  --color-border-danger:  #d92726;
+
+  --shadow-header: 0 2px 4px rgba(0,0,0,.4), 0 0 3px rgba(0,0,0,.3);
+}
+
+/* ─── Reset / Base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg-page);
+  color: var(--color-text-major);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; background: none; border: none; font: inherit; }
+ul, ol { list-style: none; }

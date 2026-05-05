@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ATM Cockpit – Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* ── Design tokens ── */
+    :root {
+      --primary:        #007d57;
+      --primary-hover:  #005a3f;
+      --danger:         #d92726;
+      --bg-page:        #f0f3f3;
+      --bg-surface:     #ffffff;
+      --text-major:     #262a2d;
+      --text-minor:     #5e6a71;
+      --text-primary:   #007d57;
+      --text-reverse:   #ffffff;
+      --border-default: #dfe1e3;
+      --border-danger:  #d92726;
+      --font:           'Open Sans', sans-serif;
+      --font-inter:     'Inter', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-page);
+      color: var(--text-major);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; cursor: pointer; }
+    button { cursor: pointer; background: none; border: none; font: inherit; }
+
+    /* ── Layout shell ── */
+    .app { min-height: 100vh; background: var(--bg-page); }
+
+    /* ════════════════════════════════════════
+       HEADER
+    ════════════════════════════════════════ */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; gap: 32px;
+      height: 62px; padding: 8px 16px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-default);
+      box-shadow: 0 2px 4px rgba(19,21,23,.10), 0 0 3px rgba(19,21,23,.15);
+    }
+    .header-logo {
+      display: flex; align-items: center; gap: 8px; height: 40px;
+    }
+    .header-logo svg { flex-shrink: 0; }
+    .header-logo-name {
+      font-family: var(--font-inter); font-weight: 700; font-size: 16px;
+      line-height: 1.3; color: #333; width: 120px;
+    }
+    .header-search-zone { flex: 1; }
+    .header-right { display: flex; align-items: center; gap: 8px; }
+    .header-actions { display: flex; align-items: center; gap: 2px; }
+    .header-icon-btn {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 4px; color: var(--text-major);
+      transition: background .15s;
+    }
+    .header-icon-btn:hover { background: var(--bg-page); }
+    .header-badge {
+      position: absolute; top: 10px; left: 22px;
+      min-width: 16px; padding: 0 4px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--danger); color: #fff;
+      font-size: 10px; font-weight: 600; border-radius: 16px;
+    }
+    .header-profile { display: flex; align-items: center; gap: 8px; }
+    .header-profile-text { display: flex; flex-direction: column; align-items: flex-end; }
+    .header-profile-name { font-size: 16px; font-weight: 700; line-height: 24px; }
+    .header-profile-role { font-size: 14px; font-weight: 400; line-height: 22px; color: var(--text-minor); }
+
+    /* ════════════════════════════════════════
+       SIDEBAR
+    ════════════════════════════════════════ */
+    .sidebar {
+      position: fixed; top: 62px; left: 0; bottom: 0; z-index: 90;
+      width: 226px;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-default);
+      display: flex; flex-direction: column; gap: 16px;
+      padding: 12px;
+      transition: width .2s ease; overflow: hidden;
+    }
+    .sidebar.collapsed { width: 56px; }
+    .sidebar-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 4px;
+      color: var(--text-major); transition: background .15s;
+    }
+    .sidebar-toggle:hover { background: var(--bg-page); }
+    .sidebar-divider { height: 1px; background: var(--border-default); flex-shrink: 0; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 2px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      height: 32px; padding: 0 8px; border-radius: 4px;
+      color: var(--text-major); width: 100%; text-align: left;
+      white-space: nowrap; transition: background .15s, color .15s;
+    }
+    .nav-item:hover { background: rgba(0,125,87,.08); }
+    .nav-item.active { background: rgba(0,125,87,.08); color: var(--primary); }
+    .nav-item-label { font-size: 14px; font-weight: 400; line-height: 22px; }
+
+    /* ════════════════════════════════════════
+       DASHBOARD
+    ════════════════════════════════════════ */
+    .dashboard {
+      position: relative;
+      margin-top: 62px;
+      margin-left: 226px;
+      min-height: calc(100vh - 62px);
+    }
+    .dashboard-banner {
+      position: absolute; top: 0; left: 0; right: 0; height: 475px;
+      pointer-events: none; z-index: 0;
+      background: linear-gradient(135deg, #005740 0%, #007d57 45%, #009a6a 100%);
+      opacity: .92;
+    }
+    .dashboard-content {
+      position: relative; z-index: 1;
+      max-width: 1054px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 32px;
+      padding: 32px;
+    }
+    .dash-header { display: flex; flex-direction: column; gap: 24px; }
+    .welcome-row { display: flex; align-items: center; gap: 8px; }
+    .welcome-text {
+      font-size: 24px; font-weight: 700; line-height: 36px;
+      color: #fff; white-space: nowrap;
+    }
+    .wave { font-size: 28px; line-height: 1; }
+    .search-bar {
+      position: relative; display: flex; align-items: center;
+    }
+    .search-input {
+      width: 100%; height: 40px;
+      padding: 4px 44px 4px 16px;
+      background: var(--bg-surface);
+      border: 1px solid #8e979c; border-radius: 4px;
+      font-family: var(--font); font-size: 16px; color: var(--text-major);
+      outline: none; transition: border-color .15s, box-shadow .15s;
+    }
+    .search-input::placeholder { color: var(--text-minor); }
+    .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(0,125,87,.15); }
+    .search-icon {
+      position: absolute; right: 16px; color: var(--text-minor); pointer-events: none;
+    }
+
+    /* ── Module (card section) ── */
+    .module {
+      background: var(--bg-surface);
+      backdrop-filter: blur(20px);
+      border-radius: 16px; padding: 24px;
+      display: flex; flex-direction: column; gap: 32px;
+      overflow: hidden;
+    }
+    .module-header { display: flex; align-items: flex-start; gap: 8px; }
+    .module-title-block { flex: 1; }
+    .module-title { font-size: 20px; font-weight: 700; line-height: 30px; color: var(--text-major); }
+    .module-subtitle { font-size: 14px; font-weight: 400; line-height: 22px; color: var(--text-minor); margin-top: 4px; }
+    .module-cards { display: flex; gap: 16px; }
+
+    /* ── Alert card ── */
+    .alert-wrap { position: relative; flex: 1; min-width: 0; padding-top: 11px; }
+    .alert-tag {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 1;
+      display: flex; align-items: center; gap: 6px;
+      height: 22px; padding: 0 8px; border-radius: 16px;
+      font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap;
+    }
+    .alert-tag.danger { background: var(--danger); }
+    .alert-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px; overflow: hidden;
+      min-height: 156px; padding: 16px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .alert-card.has-danger-border { border-color: var(--border-danger); }
+    .alert-title-row { display: flex; align-items: center; gap: 8px; }
+    .alert-title {
+      flex: 1; font-size: 18px; font-weight: 700; line-height: 28px;
+      color: var(--text-major);
+      overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;
+    }
+    .alert-link {
+      display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+      font-size: 16px; font-weight: 600; color: var(--primary);
+      text-decoration: underline; white-space: nowrap;
+    }
+    .alert-link:hover { color: var(--primary-hover); }
+    .alert-divider { height: 1px; background: var(--border-default); flex-shrink: 0; }
+    .alert-desc {
+      font-size: 16px; font-weight: 400; line-height: 24px; color: var(--text-minor);
+    }
+    .alert-clients { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .client-icon { color: var(--text-minor); flex-shrink: 0; }
+    .client-group { display: flex; align-items: center; gap: 8px; }
+    .client-sep { font-size: 16px; line-height: 24px; color: var(--text-major); }
+    .client-link {
+      font-size: 16px; font-weight: 600; color: var(--primary);
+      text-decoration: underline; white-space: nowrap;
+    }
+    .client-link:hover { color: var(--primary-hover); }
+
+    /* ── Scope overview ── */
+    .scope {
+      background: var(--bg-surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.75);
+      border-radius: 16px; padding: 24px;
+      display: flex; flex-direction: column; gap: 32px;
+    }
+    .scope-header { display: flex; align-items: flex-start; gap: 8px; }
+    .scope-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 4px;
+      color: var(--text-major); transition: background .15s; flex-shrink: 0;
+    }
+    .scope-toggle:hover { background: var(--bg-page); }
+    .scope-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px; padding: 16px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .scope-card-header { display: flex; align-items: center; gap: 8px; }
+    .scope-card-icon {
+      width: 32px; height: 32px; flex-shrink: 0; border-radius: 4px;
+      background: rgba(79,188,149,.1); color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .scope-card-title {
+      flex: 1; font-size: 18px; font-weight: 700; line-height: 28px; color: var(--text-major);
+    }
+    .scope-card-link {
+      font-size: 16px; font-weight: 600; color: var(--primary);
+      text-decoration: underline; white-space: nowrap;
+    }
+    .scope-card-link:hover { color: var(--primary-hover); }
+    .scope-divider { height: 1px; background: var(--border-default); }
+    .scope-metrics { display: flex; flex-direction: column; gap: 8px; }
+    .scope-metric {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 16px; line-height: 24px; color: var(--text-major);
+    }
+    .scope-metric-label { flex: 1; font-weight: 400; }
+    .scope-metric-value { font-weight: 700; white-space: nowrap; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState } = React;
+
+/* ── Inline SVG icons ─────────────────────────── */
+const IconSearch = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+  </svg>
+);
+const IconBell = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+  </svg>
+);
+const IconHeadphones = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+  </svg>
+);
+const IconMenuLeft = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+);
+const IconMenuClose = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 12h18M3 6h12M3 18h12"/>
+  </svg>
+);
+const IconHome = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+  </svg>
+);
+const IconWallet = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>
+  </svg>
+);
+const IconGrid = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+  </svg>
+);
+const IconExternalLink = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+  </svg>
+);
+const IconCreditCard = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+  </svg>
+);
+const IconAlertCircle = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+  </svg>
+);
+const IconChevronUp = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="18 15 12 9 6 15"/>
+  </svg>
+);
+const IconChevronDown = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+);
+
+const CockpitLogo = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="32" height="32" rx="6" fill="#007d57"/>
+    <rect x="6" y="6" width="20" height="20" rx="3" fill="rgba(255,255,255,0.15)"/>
+    <path d="M10 12h12M10 16h8M10 20h10" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+  </svg>
+);
+
+/* ═══════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════ */
+function Header() {
+  return (
+    <header className="header">
+      <div className="header-logo">
+        <CockpitLogo />
+        <span className="header-logo-name">Cockpit</span>
+      </div>
+      <div className="header-search-zone" />
+      <div className="header-right">
+        <div className="header-actions">
+          <button className="header-icon-btn" title="Support">
+            <IconHeadphones />
+          </button>
+          <button className="header-icon-btn" title="Notifications">
+            <IconBell />
+            <span className="header-badge">1</span>
+          </button>
+        </div>
+        <div className="header-profile">
+          <div className="header-profile-text">
+            <span className="header-profile-name">Hancock Pitt</span>
+            <span className="header-profile-role">Transaction manager</span>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════ */
+const NAV_ITEMS = [
+  { id: 'home',         label: 'Home',             Icon: IconHome },
+  { id: 'portfolio',    label: 'Your portfolio',    Icon: IconWallet },
+  { id: 'notifs',       label: 'Notifications',     Icon: IconBell },
+  { id: 'applications', label: 'Your applications', Icon: IconGrid },
+];
+
+function Sidebar() {
+  const [active, setActive] = useState('home');
+  const [collapsed, setCollapsed] = useState(false);
+
+  return (
+    <aside className={`sidebar${collapsed ? ' collapsed' : ''}`}>
+      <button className="sidebar-toggle" onClick={() => setCollapsed(c => !c)} title={collapsed ? 'Open' : 'Close'}>
+        {collapsed ? <IconMenuLeft /> : <IconMenuClose />}
+      </button>
+      <div className="sidebar-divider" />
+      <nav className="sidebar-nav">
+        {NAV_ITEMS.map(({ id, label, Icon }) => (
+          <button
+            key={id}
+            className={`nav-item${active === id ? ' active' : ''}`}
+            onClick={() => setActive(id)}
+            title={collapsed ? label : undefined}
+          >
+            <Icon size={24} />
+            {!collapsed && <span className="nav-item-label">{label}</span>}
+          </button>
+        ))}
+      </nav>
+    </aside>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   ALERT CARD
+═══════════════════════════════════════════ */
+function AlertCard({ tag, tagVariant = 'danger', title, linkLabel, description, clients = [] }) {
+  return (
+    <div className="alert-wrap">
+      {tag && (
+        <div className={`alert-tag ${tagVariant}`}>
+          <IconAlertCircle />
+          <span>{tag}</span>
+        </div>
+      )}
+      <div className={`alert-card${tag && tagVariant === 'danger' ? ' has-danger-border' : ''}`}>
+        <div className="alert-title-row">
+          <h3 className="alert-title">{title}</h3>
+          <a className="alert-link" href="#">
+            {linkLabel} <IconExternalLink />
+          </a>
+        </div>
+        <div className="alert-divider" />
+        <p className="alert-desc">{description}</p>
+        {clients.length > 0 && (
+          <div className="alert-clients">
+            <span className="client-icon"><IconCreditCard /></span>
+            {clients.map((c, i) => (
+              <span key={c.name} className="client-group">
+                {i > 0 && <span className="client-sep">/</span>}
+                <a className="client-link" href="#">{c.name}</a>
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   SCOPE OVERVIEW
+═══════════════════════════════════════════ */
+const METRICS = [
+  { label: 'Booked deals',       value: '28' },
+  { label: 'Year-to-Date NBI',   value: '500.9 M EUR' },
+  { label: 'RWA',                value: '197.5 M EUR' },
+  { label: 'Current commitment', value: '499 M EUR' },
+];
+
+function ScopeOverview() {
+  const [expanded, setExpanded] = useState(true);
+  return (
+    <section className="scope">
+      <div className="scope-header">
+        <div className="module-title-block">
+          <h2 className="module-title">Scope overview</h2>
+          <p className="module-subtitle">A summary of your portfolio activity.</p>
+        </div>
+        <button className="scope-toggle" onClick={() => setExpanded(e => !e)}>
+          {expanded ? <IconChevronUp /> : <IconChevronDown />}
+        </button>
+      </div>
+      {expanded && (
+        <div className="scope-card">
+          <div className="scope-card-header">
+            <div className="scope-card-icon">
+              <IconWallet size={20} />
+            </div>
+            <h3 className="scope-card-title">Your portfolio</h3>
+            <a className="scope-card-link" href="#">See portfolio</a>
+          </div>
+          <div className="scope-divider" />
+          <ul className="scope-metrics">
+            {METRICS.map(m => (
+              <li key={m.label} className="scope-metric">
+                <span className="scope-metric-label">{m.label}</span>
+                <span className="scope-metric-value">{m.value}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   DASHBOARD
+═══════════════════════════════════════════ */
+const ALERTS = [
+  {
+    id: 1, tag: 'Critical alert', tagVariant: 'danger',
+    title: 'New signed deal: Silverpath Infra', linkLabel: 'See deal',
+    description: 'Signed on 2025-10-28 for a size of 150 M EUR.',
+    clients: [{ name: 'Atlas Energy' }, { name: 'Gaia Infrastructure' }],
+  },
+  {
+    id: 2, tag: null,
+    title: 'Status update: Energy Project', linkLabel: 'See opportunity',
+    description: 'Status updated to "BOM Committee".',
+    clients: [{ name: 'Helios Aviation Partners' }],
+  },
+];
+
+function Dashboard() {
+  return (
+    <main className="dashboard">
+      <div className="dashboard-banner" aria-hidden="true" />
+      <div className="dashboard-content">
+        <header className="dash-header">
+          <div className="welcome-row">
+            <h1 className="welcome-text">Welcome, Hancock</h1>
+            <span className="wave">👋</span>
+          </div>
+          <div className="search-bar">
+            <input className="search-input" type="text" placeholder="Search for a client or a deal" />
+            <span className="search-icon"><IconSearch /></span>
+          </div>
+        </header>
+
+        {/* Alerts module */}
+        <section className="module">
+          <div className="module-header">
+            <div className="module-title-block">
+              <h2 className="module-title">Coming up soon</h2>
+              <p className="module-subtitle">A look at your upcoming alerts, reminders, and milestones over the next 30 days.</p>
+            </div>
+          </div>
+          <div className="module-cards">
+            {ALERTS.map(a => <AlertCard key={a.id} {...a} />)}
+          </div>
+        </section>
+
+        <ScopeOverview />
+      </div>
+    </main>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   APP ROOT
+═══════════════════════════════════════════ */
+function App() {
+  return (
+    <div className="app">
+      <Header />
+      <Sidebar />
+      <Dashboard />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

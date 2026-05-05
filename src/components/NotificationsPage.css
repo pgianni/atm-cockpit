@@ -1,0 +1,257 @@
+.notif-page {
+  margin-top: 62px;
+  margin-left: 226px;
+  min-height: calc(100vh - 62px);
+  background: var(--color-bg-page);
+  transition: margin-left 0.2s ease;
+}
+
+/* ── Breadcrumb ── */
+.notif-page__breadcrumb {
+  height: 40px;
+  background: linear-gradient(90deg, #005740 0%, #007d57 60%, #009a6a 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sp-400);
+}
+.notif-page__breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-025);
+}
+.notif-page__crumb {
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-03);
+  color: var(--color-text-reverse);
+  white-space: nowrap;
+}
+.notif-page__crumb--link { text-decoration: underline; cursor: pointer; }
+.notif-page__crumb--link:hover { opacity: 0.8; }
+.notif-page__crumb-sep { color: var(--color-text-reverse); flex-shrink: 0; }
+
+/* ── Content ── */
+.notif-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 40px;
+}
+
+/* ── Header row ── */
+.notif-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-200);
+}
+
+.notif-page__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-100);
+}
+
+.notif-page__title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-100);
+  font-size: var(--fs-06);
+  font-weight: var(--fw-bold);
+  line-height: 1.3;
+  color: #333;
+}
+
+.notif-page__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 var(--sp-075);
+  border-radius: var(--r-200);
+  background: var(--color-danger);
+  color: var(--color-text-reverse);
+  font-size: 13px;
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+}
+
+/* "Mark all as read" ghost button */
+.notif-page__mark-all {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-075);
+  height: 32px;
+  padding: 0 var(--sp-150);
+  border-radius: var(--r-050);
+  border: 1px solid var(--color-primary);
+  font-size: var(--fs-02);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.notif-page__mark-all:hover {
+  background: var(--color-primary);
+  color: var(--color-text-reverse);
+}
+
+/* ── List card ── */
+.notif-page__list {
+  background: var(--color-bg-surface);
+  border: 1px solid #e1e6e8;
+  border-radius: var(--r-100);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ════════════════════════════════════
+   NOTIFICATION ITEM
+════════════════════════════════════ */
+.notif-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-150);
+  padding: var(--sp-200) var(--sp-300);
+  border-bottom: 1px solid #e1e6e8;
+  transition:
+    background-color  0.3s ease,
+    border-left-color 0.3s ease,
+    border-left-width 0.15s ease;
+}
+.notif-item:last-child { border-bottom: none; }
+
+/* Unread */
+.notif-item--unread {
+  background: #eef6f4;
+  border-left: 4px solid #007d58;
+}
+/* Read */
+.notif-item--read {
+  background: #f7f8f8;
+}
+
+/* ── Icon ── */
+.notif-item__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+.notif-item--unread .notif-item__icon-wrap { background: rgba(0,125,87,.12); color: var(--color-primary); }
+.notif-item--read   .notif-item__icon-wrap { background: rgba(0,0,0,.05);    color: var(--color-text-minor); }
+
+/* ── Content ── */
+.notif-item__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.notif-item__title {
+  font-size: var(--fs-03);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
+}
+.notif-item--unread .notif-item__title { font-weight: var(--fw-bold);    color: var(--color-primary); }
+.notif-item--read   .notif-item__title { font-weight: var(--fw-regular); color: #333; }
+
+.notif-item__desc {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-minor);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notif-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+/* Red dot — fades with opacity so no layout jump */
+.notif-item__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-danger);
+  flex-shrink: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.notif-item--unread .notif-item__dot { opacity: 1; transform: scale(1); }
+.notif-item--read   .notif-item__dot { opacity: 0; transform: scale(0); width: 0; }
+
+.notif-item__time {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-text-minor);
+  white-space: nowrap;
+}
+
+/* ── Actions ── */
+.notif-item__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-100);
+  flex-shrink: 0;
+}
+
+/* Toggle button — "Mark as read" or "Mark as unread" */
+.notif-item__toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-075);
+  height: 32px;
+  padding: 0 var(--sp-100);
+  border-radius: var(--r-050);
+  font-size: var(--fs-02);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  overflow: visible;
+  transition: background 0.15s, color 0.15s;
+}
+.notif-item__toggle-btn span { display: inline; color: inherit; }
+.notif-item--unread .notif-item__toggle-btn {
+  color: var(--color-primary);
+  border: 1px solid transparent;
+}
+.notif-item--read .notif-item__toggle-btn {
+  color: var(--color-text-minor);
+  border: 1px solid #c5cbce;
+}
+.notif-item__toggle-btn:hover { background: rgba(0,125,87,.08); color: var(--color-primary); border-color: transparent; }
+
+/* "Consult in Glass" — filled green */
+.notif-item__consult {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-075);
+  height: 32px;
+  padding: 0 var(--sp-150);
+  border-radius: var(--r-050);
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  font-size: var(--fs-02);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-reverse);
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+.notif-item__consult:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}

@@ -1,0 +1,337 @@
+.dashboard {
+  position: relative;
+  margin-top: 62px;
+  margin-left: 226px; /* overridden by inline style from App */
+  min-height: calc(100vh - 62px);
+  transition: margin-left 0.2s ease;
+}
+
+/* ── Green banner ── */
+.dashboard__banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 475px;
+  pointer-events: none;
+  z-index: 0;
+
+  background: linear-gradient(
+    135deg,
+    #005740 0%,
+    #007d57 40%,
+    #009a6a 100%
+  );
+  opacity: 0.92;
+}
+
+/* Decorative wave shape at the bottom of the banner */
+.dashboard__banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: var(--color-bg-page);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+/* ── Content ── */
+.dashboard__content {
+  position: relative;
+  z-index: 1;
+
+  max-width: 1054px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-400);
+
+  padding: var(--sp-400);
+}
+
+/* ── Welcome header ── */
+.dashboard__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-300);
+}
+
+.dashboard__welcome {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-100);
+}
+
+.dashboard__welcome-text {
+  font-size: var(--fs-06);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-06);
+  color: var(--color-text-reverse);
+  white-space: nowrap;
+}
+
+.dashboard__wave {
+  font-size: 28px;
+  line-height: 1;
+}
+
+/* ── Search bar ── */
+.dashboard__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard__search-input {
+  width: 100%;
+  height: 52px;
+  padding: var(--sp-050) var(--sp-300);
+  padding-right: 52px;
+
+  background: var(--color-bg-surface);
+  border: 1px solid #8e979c;
+  border-radius: 999px;
+
+  font-family: var(--font-main);
+  font-size: var(--fs-03);
+  font-weight: var(--fw-regular);
+  color: var(--color-text-major);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.dashboard__search-input::placeholder { color: var(--color-text-minor); }
+
+.dashboard__search-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 125, 87, 0.15);
+}
+
+.dashboard__search-icon {
+  position: absolute;
+  right: var(--sp-300);
+  color: var(--color-text-minor);
+  pointer-events: none;
+}
+
+.dashboard__search-clear {
+  position: absolute;
+  right: var(--sp-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: var(--color-text-minor);
+  background: var(--color-border-default);
+  transition: background 0.15s, color 0.15s;
+}
+
+.dashboard__search-clear:hover {
+  background: var(--color-text-minor);
+  color: var(--color-bg-surface);
+}
+
+/* ── Module (shared) ── */
+.module {
+  background: var(--color-bg-surface);
+  backdrop-filter: blur(20px);
+  border-radius: var(--r-200);
+  padding: var(--sp-300);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-400);
+}
+
+.module__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-100);
+}
+
+.module__title {
+  font-size: var(--fs-05);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-05);
+  color: var(--color-text-major);
+}
+
+.module__subtitle {
+  margin-top: var(--sp-025);
+  font-size: var(--fs-02);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-02);
+  color: var(--color-text-minor);
+}
+
+.module__cards {
+  display: flex;
+  gap: var(--sp-200);
+}
+
+/* ── Recent deals table ── */
+.ds-table-wrap {
+  overflow-x: auto;
+  margin: 0 calc(-1 * var(--sp-300));
+  padding: 0 var(--sp-300);
+}
+
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+}
+
+.ds-table__head-row {
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.ds-table__th {
+  padding: 0 12px 10px;
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-minor);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+.ds-table__th--right { text-align: right; }
+
+.ds-table__row {
+  border-bottom: 1px solid var(--color-border-default);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.ds-table__row:last-child { border-bottom: none; }
+.ds-table__row:hover { background: rgba(0, 125, 87, 0.05); }
+
+.ds-table__cell {
+  padding: 12px;
+  font-size: var(--fs-03);
+  color: var(--color-text-major);
+  vertical-align: middle;
+  text-align: left;
+}
+.ds-table__cell--minor { color: var(--color-text-minor); font-size: 12px; }
+.ds-table__cell--right { text-align: right; }
+.ds-table__cell--bold  { font-weight: var(--fw-semibold); }
+.ds-table__cell--action { width: 36px; text-align: center; }
+
+.ds-table__name-btn {
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ds-table__name-btn:hover { opacity: 0.75; }
+
+.ds-table__client-btn {
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+}
+.ds-table__client-btn:hover { opacity: 0.75; }
+
+.ds-table__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-050);
+  color: var(--color-text-minor);
+  transition: background 0.12s, color 0.12s;
+}
+.ds-table__icon-btn:hover {
+  background: rgba(0, 125, 87, 0.1);
+  color: var(--color-primary);
+}
+
+/* Status badges */
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+}
+.ds-badge--green  { background: #e6f4ea; color: #14851d; }
+.ds-badge--blue   { background: #e8f0fe; color: #1a56db; }
+.ds-badge--orange { background: #fef3e2; color: #b45309; }
+.ds-badge--purple { background: #f3e8ff; color: #7c3aed; }
+.ds-badge--grey   { background: #f1f3f4; color: #5e6a71; }
+
+/* ── Favorite apps block ── */
+.ds-fav__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ds-fav__star {
+  color: #f5a623;
+  fill: #f5a623;
+  flex-shrink: 0;
+}
+.ds-fav__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.ds-fav__card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.ds-fav__card:hover {
+  box-shadow: 0 2px 8px rgba(19,21,23,0.08);
+  border-color: #b5bec3;
+}
+.ds-fav__icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.ds-fav__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-major);
+  white-space: nowrap;
+}
+.ds-fav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  margin-left: 4px;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.ds-fav__link:hover { color: var(--color-primary-hover); }

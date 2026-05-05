@@ -1,0 +1,136 @@
+.scope {
+  background: var(--color-bg-surface);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: var(--r-200);
+  padding: var(--sp-300);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-400);
+}
+
+/* ── Section header ── */
+.scope__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-100);
+}
+
+.scope__header-text { flex: 1; }
+
+.scope__title {
+  font-size: var(--fs-05);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-05);
+  color: var(--color-text-major);
+}
+
+.scope__subtitle {
+  font-size: var(--fs-02);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-02);
+  color: var(--color-text-minor);
+}
+
+.scope__toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-050);
+  color: var(--color-text-major);
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.scope__toggle-btn:hover { background: var(--color-bg-page); }
+
+/* ── Portfolio card ── */
+.scope__card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--r-100);
+  padding: var(--sp-200);
+  min-height: 216px;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-200);
+}
+
+/* Card header */
+.scope__card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-100);
+}
+
+.scope__card-icon-wrap {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(79, 188, 149, 0.1);
+  border-radius: var(--r-050);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.scope__card-title {
+  flex: 1;
+  font-size: var(--fs-04);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-04);
+  color: var(--color-text-major);
+}
+
+.scope__card-link {
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+.scope__card-link:hover { color: var(--color-primary-hover); }
+
+/* Divider */
+.scope__card-divider {
+  height: 1px;
+  background: var(--color-border-default);
+  flex-shrink: 0;
+}
+
+/* Metrics */
+.scope__metrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-100);
+}
+
+.scope__metric-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-050);
+  font-size: var(--fs-03);
+  line-height: var(--lh-03);
+  color: var(--color-text-major);
+}
+
+.scope__metric-label {
+  flex: 1;
+  font-weight: var(--fw-regular);
+}
+
+.scope__metric-value {
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}

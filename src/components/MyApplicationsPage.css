@@ -1,0 +1,310 @@
+/* ─────────────────────────────────────────────
+   MyApplicationsPage.css
+───────────────────────────────────────────── */
+
+/* ── Page wrapper ── */
+.apps-page {
+  position: relative;
+  margin-top: 62px;
+  min-height: calc(100vh - 62px);
+  transition: margin-left 0.2s ease;
+  background: var(--color-bg-page);
+}
+
+/* ── Breadcrumb banner ── */
+.apps-page__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  padding: 0 var(--sp-400);
+  background: linear-gradient(135deg, #005740 0%, #007d57 50%, #00956a 100%);
+}
+
+.apps-page__bc-link {
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-reverse);
+  text-decoration: underline;
+  text-decoration-color: rgba(255 255 255 / 0.6);
+  text-underline-offset: 2px;
+  cursor: pointer;
+  transition: text-decoration-color 0.15s;
+}
+
+.apps-page__bc-link:hover {
+  text-decoration-color: #fff;
+}
+
+.apps-page__bc-sep {
+  color: rgba(255 255 255 / 0.7);
+  flex-shrink: 0;
+}
+
+.apps-page__bc-current {
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-reverse);
+}
+
+/* ── Content area ── */
+.apps-page__content {
+  max-width: 1054px;
+  margin: 0 auto;
+  padding: var(--sp-400);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-400);
+}
+
+/* ── Page header ── */
+.apps-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-200);
+}
+
+.apps-page__title {
+  font-size: var(--fs-06);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-06);
+  color: var(--color-text-major);
+}
+
+.apps-page__edit-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-100);
+  height: 40px;
+  padding: 0 var(--sp-125);
+  border-radius: var(--r-050);
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.apps-page__edit-btn:hover {
+  background: rgba(0, 125, 87, 0.08);
+}
+
+/* ── Filter chips ── */
+.apps-page__chips {
+  display: flex;
+  gap: var(--sp-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-050) var(--sp-200);
+  border-radius: 999px;
+  border: 1px solid #8e979c;
+  background: var(--color-bg-surface);
+  font-family: var(--font-main);
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.chip--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-reverse);
+}
+
+.chip:hover:not(.chip--active) {
+  background: var(--color-primary-subtle);
+  border-color: var(--color-primary);
+}
+
+/* ── Sections list ── */
+.apps-page__sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-400);
+}
+
+/* ── Section block ── */
+.apps-section {
+  background: var(--color-bg-surface);
+  border-radius: var(--r-100);
+  padding: var(--sp-300);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-400);
+}
+
+.apps-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.apps-section__title {
+  font-size: var(--fs-05);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-05);
+  color: var(--color-text-major);
+}
+
+.apps-section__subtitle {
+  font-size: var(--fs-02);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-02);
+  color: var(--color-text-minor);
+}
+
+/* ── App cards grid ── */
+.apps-section__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-200);
+}
+
+/* ── App card ── */
+.app-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--r-100);
+  padding: var(--sp-200);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-200);
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.app-card:hover {
+  box-shadow: 0 2px 10px rgba(19, 21, 23, 0.08);
+  border-color: #b5bec3;
+}
+
+.app-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-100);
+}
+
+.app-card__name {
+  font-size: 18px;
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-04);
+  color: var(--color-text-major);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.app-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-050);
+}
+
+.app-card__desc {
+  font-size: var(--fs-02);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-02);
+  color: var(--color-text-minor);
+
+  /* Clamp to 3 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.app-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-main);
+  font-size: var(--fs-02);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.app-card__link:hover {
+  color: var(--color-primary-hover);
+}
+
+/* ── Star / favorite button ── */
+.app-card__star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-050);
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #c4cdd2;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: color 0.15s, background 0.15s;
+}
+.app-card__star:hover {
+  color: #f5a623;
+  background: rgba(245, 166, 35, 0.08);
+}
+.app-card__star--active {
+  color: #f5a623;
+}
+.app-card__star--active svg {
+  fill: #f5a623;
+}
+
+/* ── Favorites section ── */
+.apps-section--favorites {
+  border: none;
+}
+.apps-section__title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-100);
+}
+.apps-section__fav-icon {
+  color: #f5a623;
+  fill: #f5a623;
+  flex-shrink: 0;
+}
+
+/* ── App icon ── */
+.app-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: var(--fw-bold);
+  color: #fff;
+  letter-spacing: 0;
+}
+
+.app-icon--green  { background: #007d57; }
+.app-icon--orange { background: #c0580e; }
+.app-icon--teal   { background: #0e7b61; }

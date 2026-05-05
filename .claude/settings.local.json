@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PATH=\"/usr/local/bin:$PATH\")",
+      "Bash(/usr/local/bin/node /usr/local/bin/npm run build)",
+      "mcp__Claude_Preview__preview_start",
+      "mcp__a92ae42b-d1b9-46e7-951b-a1c27b64b8f4__send_code_connect_mappings",
+      "Bash(PATH=\"/usr/local/bin:$PATH\" /usr/local/bin/node ./node_modules/.bin/vite build)",
+      "Bash(xargs kill:*)",
+      "Bash(/usr/local/bin/node ./node_modules/.bin/vite build)",
+      "Bash(npm run:*)",
+      "Bash(npm --version)",
+      "Bash(pkill -f \"vite preview\")",
+      "Bash(sed -i '' 's/A summary of your portfolio activity\\\\./A summary of my portfolio activity./g' '/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/ScopeOverview.jsx')",
+      "Bash(sed -i '' 's/All deals currently in progress across your portfolio\\\\./All deals currently in progress across my portfolio./g' '/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/PortfolioPage.jsx')",
+      "Bash(sed -i '' 's/A look at your upcoming alerts/A look at my upcoming alerts/g' '/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/Dashboard.jsx')"
+    ]
+  }
+}
