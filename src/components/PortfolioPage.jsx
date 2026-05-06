@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ChevronRight, TrendingUp, TrendingDown, ExternalLink, ArrowUpRight, ArrowDownRight } from 'lucide-react'
 import './PortfolioPage.css'
 
@@ -163,6 +163,8 @@ function DealRow({ deal, onNavigateDeal, onNavigateClient }) {
 
 export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient }) {
   const [activeStatus, setActiveStatus] = useState('All')
+
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }) }, [])
 
   const filteredDeals = activeStatus === 'All'
     ? DEALS

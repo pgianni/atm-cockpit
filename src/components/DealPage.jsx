@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ChevronDown, ChevronRight, Download, ExternalLink, Calendar, ShieldCheck, Box, ArrowRight } from 'lucide-react'
+import { ChevronDown, ChevronRight, Download, ExternalLink, Calendar, ShieldCheck, Box, ArrowRight, FolderOpen, Search, Filter, ArrowUpDown, Eye } from 'lucide-react'
 import iconDeal     from '../assets/icon-deal.svg'
 import iconContract from '../assets/icon-contract.svg'
 import iconTranche  from '../assets/icon-tranche.svg'
@@ -35,32 +35,32 @@ const DEALS = {
       {
         icon: Calendar, label: 'Covenant', count: 8,
         items: [
-          { id: 'cv1', name: 'DSCR Test',             type: 'Financial',     frequency: 'Semi-annual', status: 'Compliant' },
-          { id: 'cv2', name: 'LTV Ratio',              type: 'Financial',     frequency: 'Annual',      status: 'Compliant' },
-          { id: 'cv3', name: 'Insurance Renewal',      type: 'Informational', frequency: 'Annual',      status: 'Pending'   },
-          { id: 'cv4', name: 'Minimum Liquidity',      type: 'Financial',     frequency: 'Quarterly',   status: 'Compliant' },
-          { id: 'cv5', name: 'Debt Service Coverage',  type: 'Financial',     frequency: 'Semi-annual', status: 'Breach'    },
-          { id: 'cv6', name: 'Environmental Report',   type: 'Informational', frequency: 'Annual',      status: 'Pending'   },
-          { id: 'cv7', name: 'Security Package Review',type: 'Informational', frequency: 'Annual',      status: 'Compliant' },
-          { id: 'cv8', name: 'Operating Budget',       type: 'Financial',     frequency: 'Annual',      status: 'Compliant' },
+          { id: 'cv1', name: 'DSCR Test',              type: 'Financial',     covenantId: 'CVT-00004441', status: 'Effective'  },
+          { id: 'cv2', name: 'LTV Ratio',               type: 'Financial',     covenantId: 'CVT-00004442', status: 'Effective'  },
+          { id: 'cv3', name: 'Insurance Renewal',       type: 'Informational', covenantId: 'CVT-00004443', status: 'Effective'  },
+          { id: 'cv4', name: 'Minimum Liquidity',       type: 'Financial',     covenantId: 'CVT-00004444', status: 'Effective'  },
+          { id: 'cv5', name: 'Debt Service Coverage',   type: 'Financial',     covenantId: 'CVT-00004445', status: 'Draft'      },
+          { id: 'cv6', name: 'Environmental Report',    type: 'Informational', covenantId: 'CVT-00004446', status: 'Effective'  },
+          { id: 'cv7', name: 'Security Package Review', type: 'Informational', covenantId: 'CVT-00004447', status: 'Terminated' },
+          { id: 'cv8', name: 'Operating Budget',        type: 'Financial',     covenantId: 'CVT-00004448', status: 'Effective'  },
         ],
       },
       {
         icon: ShieldCheck, label: 'Mitigant', count: 3,
         items: [
-          { id: 'mg1', name: 'First Ranking Mortgage',  type: 'Real Estate',  value: '120 M EUR' },
-          { id: 'mg2', name: 'Share Pledge – SPV',      type: 'Share Pledge', value: '150 M EUR' },
-          { id: 'mg3', name: 'Revenue Account Pledge',  type: 'Account',      value: '15 M EUR'  },
+          { id: 'mg1', name: 'First Ranking Mortgage',  type: 'Real Estate',  value: '120 M EUR', mitigantId: 'MMT-00001371', status: 'Confirmed' },
+          { id: 'mg2', name: 'Share Pledge – SPV',      type: 'Share Pledge', value: '150 M EUR', mitigantId: 'MMT-00001372', status: 'Confirmed' },
+          { id: 'mg3', name: 'Revenue Account Pledge',  type: 'Account',      value: '15 M EUR',  mitigantId: 'MMT-00001373', status: 'Draft'     },
         ],
       },
       {
         icon: Box, label: 'Assets', count: 5,
         items: [
-          { id: 'as1', name: 'Silverpath Solar Farm A',   type: 'Solar',  value: '45 M EUR' },
-          { id: 'as2', name: 'Silverpath Solar Farm B',   type: 'Solar',  value: '38 M EUR' },
-          { id: 'as3', name: 'Wind Turbine Cluster Nord', type: 'Wind',   value: '32 M EUR' },
-          { id: 'as4', name: 'Grid Connection Equipment', type: 'Infra',  value: '18 M EUR' },
-          { id: 'as5', name: 'Land Lease Portfolio',      type: 'Land',   value: '17 M EUR' },
+          { id: 'as1', name: 'Silverpath Solar Farm A',   type: 'Solar', assetId: 'AST-00000001', status: 'Financed and pledged' },
+          { id: 'as2', name: 'Silverpath Solar Farm B',   type: 'Solar', assetId: 'AST-00000002', status: 'Financed and pledged' },
+          { id: 'as3', name: 'Wind Turbine Cluster Nord', type: 'Wind',  assetId: 'AST-00000003', status: 'Financed and pledged' },
+          { id: 'as4', name: 'Grid Connection Equipment', type: 'Infra', assetId: 'AST-00000004', status: 'Financed and pledged' },
+          { id: 'as5', name: 'Land Lease Portfolio',      type: 'Land',  assetId: 'AST-00000005', status: 'Financed and pledged' },
         ],
       },
     ],
@@ -98,6 +98,13 @@ const DEALS = {
         { initials: 'MH', name: 'M. Hecate', role: 'Job Title', color: '#b45309', avatar: true },
       ],
     },
+    documents: [
+      { name: 'SPI_2025_FacilityAgreement_v4...', type: 'Facility agreement', owner: 'P. Jackson',    updated: '2025-10-28' },
+      { name: 'SPI_2025_TermSheet_Final...',       type: 'Term sheet',        owner: 'A. Chase',      updated: '2025-10-15' },
+      { name: 'SPI_2025_CreditCommitteeMemo...',   type: 'Credit committee',  owner: 'C. Beckendorf', updated: '2025-10-03' },
+      { name: 'SPI_2025_InsuranceCertificate...',  type: 'Insurance',         owner: 'G. Underwood',  updated: '2025-09-18' },
+      { name: 'SPI_2025_SecurityPackage...',        type: 'Security package',  owner: 'P. Jackson',    updated: '2025-09-05' },
+    ],
   },
   2: {
     name: 'Energy Project – Refinancement',
@@ -123,28 +130,33 @@ const DEALS = {
       {
         icon: Calendar, label: 'Covenant', count: 5,
         items: [
-          { id: 'cv1', name: 'DSCR Test',            type: 'Financial',     frequency: 'Quarterly',   status: 'Compliant' },
-          { id: 'cv2', name: 'Insurance Renewal',     type: 'Informational', frequency: 'Annual',      status: 'Pending'   },
-          { id: 'cv3', name: 'Debt Service Coverage', type: 'Financial',     frequency: 'Semi-annual', status: 'Compliant' },
-          { id: 'cv4', name: 'Operating Budget',      type: 'Financial',     frequency: 'Annual',      status: 'Compliant' },
-          { id: 'cv5', name: 'Environmental Report',  type: 'Informational', frequency: 'Annual',      status: 'Pending'   },
+          { id: 'cv1', name: 'DSCR Test',            type: 'Financial',     covenantId: 'CVT-00004449', status: 'Effective' },
+          { id: 'cv2', name: 'Insurance Renewal',     type: 'Informational', covenantId: 'CVT-00004450', status: 'Effective' },
+          { id: 'cv3', name: 'Debt Service Coverage', type: 'Financial',     covenantId: 'CVT-00004451', status: 'Effective' },
+          { id: 'cv4', name: 'Operating Budget',      type: 'Financial',     covenantId: 'CVT-00004452', status: 'Draft'     },
+          { id: 'cv5', name: 'Environmental Report',  type: 'Informational', covenantId: 'CVT-00004453', status: 'Effective' },
         ],
       },
       {
         icon: ShieldCheck, label: 'Mitigant', count: 2,
         items: [
-          { id: 'mg1', name: 'First Ranking Mortgage', type: 'Real Estate',  value: '60 M EUR' },
-          { id: 'mg2', name: 'Revenue Account Pledge', type: 'Account',      value: '8 M EUR'  },
+          { id: 'mg1', name: 'First Ranking Mortgage', type: 'Real Estate', value: '60 M EUR', mitigantId: 'MMT-00001374', status: 'Confirmed' },
+          { id: 'mg2', name: 'Revenue Account Pledge', type: 'Account',     value: '8 M EUR',  mitigantId: 'MMT-00001375', status: 'Confirmed' },
         ],
       },
       {
         icon: Box, label: 'Assets', count: 3,
         items: [
-          { id: 'as1', name: 'Helios Solar Park I',  type: 'Solar', value: '30 M EUR' },
-          { id: 'as2', name: 'Helios Solar Park II', type: 'Solar', value: '20 M EUR' },
-          { id: 'as3', name: 'Grid Infrastructure',  type: 'Infra', value: '10 M EUR' },
+          { id: 'as1', name: 'Helios Solar Park I',  type: 'Solar', assetId: 'AST-00000006', status: 'Financed and pledged' },
+          { id: 'as2', name: 'Helios Solar Park II', type: 'Solar', assetId: 'AST-00000007', status: 'Financed and pledged' },
+          { id: 'as3', name: 'Grid Infrastructure',  type: 'Infra', assetId: 'AST-00000008', status: 'Financed and pledged' },
         ],
       },
+    ],
+    documents: [
+      { name: 'EP_2025_RefinancingAgreement_v2...', type: 'Facility agreement', owner: 'S. Ramos',   updated: '2025-11-01' },
+      { name: 'EP_2025_TermSheet_Final...',          type: 'Term sheet',        owner: 'K. Lambert',  updated: '2025-10-20' },
+      { name: 'EP_2025_BOM_Committee...',            type: 'BOM',               owner: 'S. Ramos',   updated: '2025-10-08' },
     ],
     client: {
       cpyName: 'Helios Aviation Partners',  cpyId: '9876543210',
@@ -181,10 +193,21 @@ const DEALS = {
   },
 }
 
+// Filled badges: bg + text color
 const STATUS_COLOR = {
-  Effective: { bg: '#14851d', label: 'Effective' },
-  Signed:    { bg: '#007d57', label: 'Signed' },
-  Default:   { bg: '#5e6a71', label: 'Unknown' },
+  'Pre-closing':          { bg: '#176ec4', text: '#fff'    },
+  'Legal doc draft':      { bg: '#176ec4', text: '#fff'    },
+  'Draft':                { bg: '#176ec4', text: '#fff'    },
+  'Effective':            { bg: '#14851d', text: '#fff'    },
+  'Signed':               { bg: '#14851d', text: '#fff'    },
+  'Confirmed':            { bg: '#14851d', text: '#fff'    },
+  'Financed and pledged': { bg: '#14851d', text: '#fff'    },
+  'Terminated':           { bg: '#176ec4', text: '#fff'    },
+  'Not effective anymore':{ bg: '#ee9d2b', text: '#262a2d' },
+  'Matured':              { bg: '#ee9d2b', text: '#262a2d' },
+  'Archived':             { bg: '#e7e9ea', text: '#262a2d' },
+  'Cancelled':            { bg: '#e7e9ea', text: '#262a2d' },
+  'Default':              { bg: '#5e6a71', text: '#fff'    },
 }
 
 /* Returns true if col c has a continuing vertical line for row at index i */
@@ -213,7 +236,7 @@ function getVisibleIndices(structure, collapsed) {
 /* ── Tree row ────────────────────────────────────────────────────── */
 function TreeRow({ node, index, structure, hasChildren, isCollapsed, onToggle }) {
   const level = node.level
-  const status = STATUS_COLOR[node.status] || STATUS_COLOR.Default
+  const status = STATUS_COLOR[node.status] || STATUS_COLOR['Default']
   const guides = Array.from({ length: level }, (_, col) => hasGuideAt(structure, index, col))
 
   return (
@@ -248,7 +271,7 @@ function TreeRow({ node, index, structure, hasChildren, isCollapsed, onToggle })
         <div className="deal-tree__content">
           <span className="deal-tree__name">{node.name}</span>
           <div className="deal-tree__meta">
-            <span className="deal-tree__badge" style={{ background: status.bg }}>{status.label}</span>
+            <span className="deal-tree__badge" style={{ background: status.bg, color: status.text }}>{node.status}</span>
             <span className="deal-tree__code">{node.code}</span>
           </div>
         </div>
@@ -257,10 +280,14 @@ function TreeRow({ node, index, structure, hasChildren, isCollapsed, onToggle })
   )
 }
 
+// Outlined badges for covenant occurrences
 const LINKED_STATUS_COLOR = {
-  Compliant: '#14851d',
-  Pending:   '#b45309',
-  Breach:    '#d92726',
+  'Received':                      { border: '#14851d', color: '#14851d' },
+  'Overdue - Action needed':       { border: '#ee9d2b', color: '#8d570c' },
+  'Non compliant - Action needed': { border: '#ee9d2b', color: '#8d570c' },
+  'Not started':                   { border: '#dfe1e3', color: '#262a2d' },
+  'Pending validation':            { border: '#ee9d2b', color: '#8d570c' },
+  'Confirmed':                     { border: '#14851d', color: '#14851d' },
 }
 
 /* ── Linked objects tree (same guide-line pattern as Deal Structure) ── */
@@ -272,7 +299,7 @@ function LinkedObjectTree({ objects }) {
     const catId = `cat-${obj.label}`
     allNodes.push({ id: catId, level: 0, nodeType: 'category', label: obj.label, count: obj.count, Icon: obj.icon })
     for (const item of obj.items) {
-      allNodes.push({ id: item.id, level: 1, nodeType: 'item', name: item.name, itemType: item.type, frequency: item.frequency, value: item.value, status: item.status })
+      allNodes.push({ id: item.id, level: 1, nodeType: 'item', name: item.name, itemType: item.type, value: item.value, assetId: item.assetId, covenantId: item.covenantId, mitigantId: item.mitigantId, status: item.status })
     }
   }
 
@@ -323,11 +350,15 @@ function LinkedObjectTree({ objects }) {
                 return <div key={col} className={cls} />
               })}
 
-              <div className="deal-tree__body">
+              <div
+                className="deal-tree__body"
+                onClick={() => hasChildren && toggle(node.id)}
+                style={hasChildren ? { cursor: 'pointer' } : undefined}
+              >
                 {hasChildren ? (
                   <button
                     className={`deal-tree__toggle${isCollapsed ? ' deal-tree__toggle--collapsed' : ''}`}
-                    onClick={() => toggle(node.id)}
+                    onClick={e => { e.stopPropagation(); toggle(node.id) }}
                     aria-label={isCollapsed ? 'Expand' : 'Collapse'}
                   >
                     <ChevronDown size={13} strokeWidth={2} />
@@ -336,34 +367,36 @@ function LinkedObjectTree({ objects }) {
                   <span className="deal-tree__toggle-placeholder" />
                 )}
 
-                {node.nodeType === 'category' ? (
+                {node.nodeType === 'category' && (
                   <div className="deal-tree__icon deal-tree__icon--lo">
                     <node.Icon size={22} strokeWidth={1.5} style={{ color: 'var(--color-primary)' }} />
                   </div>
-                ) : (
-                  <span className="deal-tree__toggle-placeholder" />
                 )}
 
                 <div className="deal-tree__content">
                   {node.nodeType === 'category' ? (
-                    <>
+                    <div className="deal-tree__name-row">
                       <span className="deal-tree__name">{node.label}</span>
-                      <div className="deal-tree__meta">
-                        <span className="deal-tree__code">{node.count} objects</span>
-                      </div>
-                    </>
+                      <span className="deal-tree__count-tag">{node.count}</span>
+                    </div>
                   ) : (
                     <>
                       <span className="deal-tree__name">{node.name}</span>
                       <div className="deal-tree__meta">
+                        {node.status && (() => {
+                          const s = STATUS_COLOR[node.status] || STATUS_COLOR['Default']
+                          return (
+                            <span className="deal-tree__badge"
+                              style={{ background: s.bg, color: s.text }}>
+                              {node.status}
+                            </span>
+                          )
+                        })()}
+                        {node.covenantId && <span className="deal-tree__code">{node.covenantId}</span>}
+                        {node.mitigantId && <span className="deal-tree__code">{node.mitigantId}</span>}
+                        {node.assetId && <span className="deal-tree__code">{node.assetId}</span>}
                         {node.itemType && <span className="deal-tree__code">{node.itemType}</span>}
-                        {node.frequency && <span className="deal-tree__code">{node.frequency}</span>}
                         {node.value && <span className="deal-tree__code">{node.value}</span>}
-                        {node.status && (
-                          <span className="deal-tree__badge" style={{ background: LINKED_STATUS_COLOR[node.status] ?? '#5e6a71' }}>
-                            {node.status}
-                          </span>
-                        )}
                       </div>
                     </>
                   )}
@@ -374,6 +407,34 @@ function LinkedObjectTree({ objects }) {
         })}
       </div>
     </>
+  )
+}
+
+/* ── Table helpers ───────────────────────────────────────────────── */
+function SortableTh({ children, width }) {
+  return (
+    <th className="cp-table__th" style={{ width }}>
+      <span className="cp-table__th-content">
+        {children}
+        <ArrowUpDown size={12} strokeWidth={1.75} className="cp-table__sort-icon" />
+      </span>
+    </th>
+  )
+}
+
+function SearchRow({ cols }) {
+  return (
+    <tr className="cp-table__search-row">
+      {cols.map((_, i) => (
+        <td key={i} className="cp-table__search-cell">
+          <div className="cp-table__search-box">
+            <Search size={12} strokeWidth={1.75} />
+            <input type="text" placeholder="Search" />
+            <Filter size={12} strokeWidth={1.75} />
+          </div>
+        </td>
+      ))}
+    </tr>
   )
 }
 
@@ -646,6 +707,65 @@ export default function DealPage({ style, dealId = 1, onBack, onNavigateClient }
           <div className="deal-page__contacts-row">
             {deal.contacts.kycTeam.map(c => <ContactCard key={c.name} contact={c} />)}
           </div>
+        </div>
+      </div>
+
+      {/* ── Documents ── */}
+      <div className="deal-page__contacts-section">
+        <div className="deal-page__card deal-page__card--full">
+          <div className="deal-page__card-header">
+            <div className="deal-page__card-header-left">
+              <div className="deal-page__card-icon">
+                <FolderOpen size={20} strokeWidth={1.5} />
+              </div>
+              <div>
+                <h2 className="deal-page__section-title">Documents</h2>
+                <p className="deal-page__section-sub deal-page__section-sub--header">
+                  Last updated today at 12:33 · Source: <a href="#" onClick={e => e.preventDefault()}>DMS</a>
+                </p>
+              </div>
+            </div>
+            <button className="deal-page__btn-outline deal-page__btn-outline--sm">
+              <Download size={14} strokeWidth={1.5} />
+              Export
+            </button>
+          </div>
+          <div className="deal-page__divider" />
+          <div className="cp-table-wrap">
+            <table className="cp-table">
+              <thead>
+                <tr>
+                  <SortableTh>Document name</SortableTh>
+                  <SortableTh>Document type</SortableTh>
+                  <SortableTh>Owner</SortableTh>
+                  <SortableTh>Last update</SortableTh>
+                  <th className="cp-table__th" style={{ width: 72 }} />
+                </tr>
+                <SearchRow cols={[1, 2, 3, 4, 5]} />
+              </thead>
+              <tbody>
+                {deal.documents.map((doc, idx) => (
+                  <tr key={idx} className="cp-table__row">
+                    <td className="cp-table__cell">{doc.name}</td>
+                    <td className="cp-table__cell">{doc.type}</td>
+                    <td className="cp-table__cell">{doc.owner}</td>
+                    <td className="cp-table__cell">{doc.updated}</td>
+                    <td className="cp-table__cell cp-table__cell--action cp-table__cell--action-wide">
+                      <Eye size={14} strokeWidth={1.75} />
+                      <Download size={14} strokeWidth={1.75} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="cp-table__footer">
+              <span className="cp-table__rows">Rows: {deal.documents.length}</span>
+            </div>
+          </div>
+          <button className="cp-primary-btn">
+            <FolderOpen size={14} strokeWidth={2} />
+            Explore repository
+          </button>
         </div>
       </div>
 
