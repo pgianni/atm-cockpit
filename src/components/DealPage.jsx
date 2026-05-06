@@ -32,9 +32,37 @@ const DEALS = {
       { id: 's6', level: 2, name: 'Tranche RCF', status: 'Effective', code: '9000001806' },
     ],
     linkedObjects: [
-      { icon: Calendar,      label: 'Covenant',  count: 8 },
-      { icon: ShieldCheck,   label: 'Mitigant',  count: 3 },
-      { icon: Box,           label: 'Assets',    count: 5 },
+      {
+        icon: Calendar, label: 'Covenant', count: 8,
+        items: [
+          { id: 'cv1', name: 'DSCR Test',             type: 'Financial',     frequency: 'Semi-annual', status: 'Compliant' },
+          { id: 'cv2', name: 'LTV Ratio',              type: 'Financial',     frequency: 'Annual',      status: 'Compliant' },
+          { id: 'cv3', name: 'Insurance Renewal',      type: 'Informational', frequency: 'Annual',      status: 'Pending'   },
+          { id: 'cv4', name: 'Minimum Liquidity',      type: 'Financial',     frequency: 'Quarterly',   status: 'Compliant' },
+          { id: 'cv5', name: 'Debt Service Coverage',  type: 'Financial',     frequency: 'Semi-annual', status: 'Breach'    },
+          { id: 'cv6', name: 'Environmental Report',   type: 'Informational', frequency: 'Annual',      status: 'Pending'   },
+          { id: 'cv7', name: 'Security Package Review',type: 'Informational', frequency: 'Annual',      status: 'Compliant' },
+          { id: 'cv8', name: 'Operating Budget',       type: 'Financial',     frequency: 'Annual',      status: 'Compliant' },
+        ],
+      },
+      {
+        icon: ShieldCheck, label: 'Mitigant', count: 3,
+        items: [
+          { id: 'mg1', name: 'First Ranking Mortgage',  type: 'Real Estate',  value: '120 M EUR' },
+          { id: 'mg2', name: 'Share Pledge – SPV',      type: 'Share Pledge', value: '150 M EUR' },
+          { id: 'mg3', name: 'Revenue Account Pledge',  type: 'Account',      value: '15 M EUR'  },
+        ],
+      },
+      {
+        icon: Box, label: 'Assets', count: 5,
+        items: [
+          { id: 'as1', name: 'Silverpath Solar Farm A',   type: 'Solar',  value: '45 M EUR' },
+          { id: 'as2', name: 'Silverpath Solar Farm B',   type: 'Solar',  value: '38 M EUR' },
+          { id: 'as3', name: 'Wind Turbine Cluster Nord', type: 'Wind',   value: '32 M EUR' },
+          { id: 'as4', name: 'Grid Connection Equipment', type: 'Infra',  value: '18 M EUR' },
+          { id: 'as5', name: 'Land Lease Portfolio',      type: 'Land',   value: '17 M EUR' },
+        ],
+      },
     ],
     client: {
       cpyName: 'Silverpath Holdings SA',    cpyId: '1234567890',
@@ -92,9 +120,31 @@ const DEALS = {
       { id: 'e4', level: 2, name: 'Tranche B', status: 'Signed', code: '9000002004' },
     ],
     linkedObjects: [
-      { icon: Calendar,    label: 'Covenant',  count: 5 },
-      { icon: ShieldCheck, label: 'Mitigant',  count: 2 },
-      { icon: Box,         label: 'Assets',    count: 3 },
+      {
+        icon: Calendar, label: 'Covenant', count: 5,
+        items: [
+          { id: 'cv1', name: 'DSCR Test',            type: 'Financial',     frequency: 'Quarterly',   status: 'Compliant' },
+          { id: 'cv2', name: 'Insurance Renewal',     type: 'Informational', frequency: 'Annual',      status: 'Pending'   },
+          { id: 'cv3', name: 'Debt Service Coverage', type: 'Financial',     frequency: 'Semi-annual', status: 'Compliant' },
+          { id: 'cv4', name: 'Operating Budget',      type: 'Financial',     frequency: 'Annual',      status: 'Compliant' },
+          { id: 'cv5', name: 'Environmental Report',  type: 'Informational', frequency: 'Annual',      status: 'Pending'   },
+        ],
+      },
+      {
+        icon: ShieldCheck, label: 'Mitigant', count: 2,
+        items: [
+          { id: 'mg1', name: 'First Ranking Mortgage', type: 'Real Estate',  value: '60 M EUR' },
+          { id: 'mg2', name: 'Revenue Account Pledge', type: 'Account',      value: '8 M EUR'  },
+        ],
+      },
+      {
+        icon: Box, label: 'Assets', count: 3,
+        items: [
+          { id: 'as1', name: 'Helios Solar Park I',  type: 'Solar', value: '30 M EUR' },
+          { id: 'as2', name: 'Helios Solar Park II', type: 'Solar', value: '20 M EUR' },
+          { id: 'as3', name: 'Grid Infrastructure',  type: 'Infra', value: '10 M EUR' },
+        ],
+      },
     ],
     client: {
       cpyName: 'Helios Aviation Partners',  cpyId: '9876543210',
@@ -204,6 +254,126 @@ function TreeRow({ node, index, structure, hasChildren, isCollapsed, onToggle })
         </div>
       </div>
     </div>
+  )
+}
+
+const LINKED_STATUS_COLOR = {
+  Compliant: '#14851d',
+  Pending:   '#b45309',
+  Breach:    '#d92726',
+}
+
+/* ── Linked objects tree (same guide-line pattern as Deal Structure) ── */
+function LinkedObjectTree({ objects }) {
+  // Build flat node list: level-0 = category, level-1 = item
+  const allNodes = []
+  const catIds = objects.map(o => `cat-${o.label}`)
+  for (const obj of objects) {
+    const catId = `cat-${obj.label}`
+    allNodes.push({ id: catId, level: 0, nodeType: 'category', label: obj.label, count: obj.count, Icon: obj.icon })
+    for (const item of obj.items) {
+      allNodes.push({ id: item.id, level: 1, nodeType: 'item', name: item.name, itemType: item.type, frequency: item.frequency, value: item.value, status: item.status })
+    }
+  }
+
+  // Start with all categories collapsed
+  const [collapsed, setCollapsed] = useState(() => new Set(catIds))
+  const allExpanded = catIds.every(id => !collapsed.has(id))
+
+  function toggle(id) {
+    setCollapsed(prev => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+  }
+
+  function toggleAll() {
+    setCollapsed(allExpanded ? new Set(catIds) : new Set())
+  }
+
+  const visibleIndices = getVisibleIndices(allNodes, collapsed)
+
+  return (
+    <>
+      <div className="deal-page__card-header">
+        <h2 className="deal-page__section-title">Linked objects</h2>
+        <button className="deal-page__see-more" onClick={toggleAll}>
+          {allExpanded ? 'Collapse all' : 'Expand all'}
+        </button>
+      </div>
+      <div className="deal-tree">
+        {visibleIndices.map(i => {
+          const node = allNodes[i]
+          const hasChildren = allNodes[i + 1]?.level > node.level
+          const isCollapsed = collapsed.has(node.id)
+          const guides = Array.from({ length: node.level }, (_, col) => hasGuideAt(allNodes, i, col))
+
+          return (
+            <div key={node.id} className="deal-tree__row">
+              {guides.map((hasMore, col) => {
+                const isBranch = col === node.level - 1
+                let cls = 'deal-tree__guide'
+                if (isBranch) {
+                  cls += ' deal-tree__guide--branch'
+                  if (hasMore) cls += ' deal-tree__guide--continues'
+                } else if (hasMore) {
+                  cls += ' deal-tree__guide--line'
+                }
+                return <div key={col} className={cls} />
+              })}
+
+              <div className="deal-tree__body">
+                {hasChildren ? (
+                  <button
+                    className={`deal-tree__toggle${isCollapsed ? ' deal-tree__toggle--collapsed' : ''}`}
+                    onClick={() => toggle(node.id)}
+                    aria-label={isCollapsed ? 'Expand' : 'Collapse'}
+                  >
+                    <ChevronDown size={13} strokeWidth={2} />
+                  </button>
+                ) : (
+                  <span className="deal-tree__toggle-placeholder" />
+                )}
+
+                {node.nodeType === 'category' ? (
+                  <div className="deal-tree__icon deal-tree__icon--lo">
+                    <node.Icon size={22} strokeWidth={1.5} style={{ color: 'var(--color-primary)' }} />
+                  </div>
+                ) : (
+                  <span className="deal-tree__toggle-placeholder" />
+                )}
+
+                <div className="deal-tree__content">
+                  {node.nodeType === 'category' ? (
+                    <>
+                      <span className="deal-tree__name">{node.label}</span>
+                      <div className="deal-tree__meta">
+                        <span className="deal-tree__code">{node.count} objects</span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <span className="deal-tree__name">{node.name}</span>
+                      <div className="deal-tree__meta">
+                        {node.itemType && <span className="deal-tree__code">{node.itemType}</span>}
+                        {node.frequency && <span className="deal-tree__code">{node.frequency}</span>}
+                        {node.value && <span className="deal-tree__code">{node.value}</span>}
+                        {node.status && (
+                          <span className="deal-tree__badge" style={{ background: LINKED_STATUS_COLOR[node.status] ?? '#5e6a71' }}>
+                            {node.status}
+                          </span>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </>
   )
 }
 
@@ -352,20 +522,7 @@ export default function DealPage({ style, dealId = 1, onBack, onNavigateClient }
 
           {/* Linked objects */}
           <div className="deal-page__card">
-            <h2 className="deal-page__section-title">Linked objects</h2>
-            <div className="deal-linked">
-              {deal.linkedObjects.map(obj => {
-                const Icon = obj.icon
-                return (
-                  <div key={obj.label} className="deal-linked__row">
-                    <Icon size={20} strokeWidth={1.5} className="deal-linked__icon" />
-                    <span className="deal-linked__label">{obj.label}</span>
-                    <span className="deal-linked__count">{obj.count}</span>
-                    <ArrowRight size={16} strokeWidth={1.5} className="deal-linked__arrow" />
-                  </div>
-                )
-              })}
-            </div>
+            <LinkedObjectTree objects={deal.linkedObjects} />
           </div>
         </div>
 

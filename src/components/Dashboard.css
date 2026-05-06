@@ -365,6 +365,22 @@
 }
 .ds-fav__link:hover { color: var(--color-primary-hover); }
 
+.ds-fav__empty {
+  font-size: var(--fs-02);
+  color: var(--color-text-minor);
+  padding: var(--sp-300) var(--sp-200);
+}
+
+.ds-fav__empty-link {
+  color: var(--color-text-primary);
+  font-size: var(--fs-02);
+  font-weight: var(--fw-semibold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s;
+}
+.ds-fav__empty-link:hover { color: var(--color-primary-hover); }
+
 /* ── Deal controls ── */
 .ds-controls {
   display: flex;

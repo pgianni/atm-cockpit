@@ -2,18 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import { Headphones, Bell, Search, X, Settings, Moon, LogOut } from 'lucide-react'
 import SearchSuggestions from './SearchSuggestions'
 import { searchResults } from '../data/searchData'
+import logoCockpit from '../assets/logo-cockpit.svg?url'
 import './Header.css'
-
-/* ── Cockpit logo mark (simplified SVG) ────────────────────────── */
-function CockpitLogo() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Cockpit logo">
-      <rect width="32" height="32" rx="6" fill="#007d57" />
-      <rect x="6" y="6" width="20" height="20" rx="3" fill="rgba(255,255,255,0.15)" />
-      <path d="M10 12h12M10 16h8M10 20h10" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  )
-}
 
 export default function Header({ onSearch, showSearch = false, searchQuery = '', onNotifClick, unreadCount = 0, darkMode = false, onToggleDark }) {
   const [value,       setValue]       = useState(searchQuery)
@@ -67,7 +57,7 @@ export default function Header({ onSearch, showSearch = false, searchQuery = '',
       {/* Left – logo */}
       <div className="header__left">
         <div className="header__logo">
-          <CockpitLogo />
+          <img src={logoCockpit} alt="Cockpit logo" width="32" height="32" />
           <span className="header__logo-name">Cockpit</span>
         </div>
       </div>

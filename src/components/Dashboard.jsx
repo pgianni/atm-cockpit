@@ -111,7 +111,7 @@ const CONTROLS = [
   },
 ]
 
-export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onSearchBarHidden }) {
+export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onNavigateApplications, onSearchBarHidden }) {
   const [value,   setValue]   = useState('')
   const [focused, setFocused] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
@@ -333,32 +333,41 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
               )
 
             case 'favorites':
-              return favoriteApps.length > 0 ? (
+              return (
                 <section key="favorites" className="module">
                   <div className="module__header">
                     <div>
                       <h2 className="module__title ds-fav__title">
                         <Star size={16} strokeWidth={1.75} className="ds-fav__star" />
-                        My favorites
+                        My favorites applications
                       </h2>
                     </div>
                   </div>
-                  <div className="ds-fav__grid">
-                    {favoriteApps.map(app => (
-                      <div key={app.id} className="ds-fav__card">
-                        {app.figmaIcon
-                          ? <img src={LOGO_ICONS[app.figmaIcon]} alt="" className="ds-fav__icon" />
-                          : <div className={`app-icon app-icon--${app.iconColor}`}>{app.letter}</div>
-                        }
-                        <span className="ds-fav__name">{app.name}</span>
-                        <a href="#" className="ds-fav__link" onClick={e => e.preventDefault()}>
-                          Open <ExternalLink size={11} strokeWidth={1.5} />
-                        </a>
-                      </div>
-                    ))}
-                  </div>
+                  {favoriteApps.length > 0 ? (
+                    <div className="ds-fav__grid">
+                      {favoriteApps.map(app => (
+                        <div key={app.id} className="ds-fav__card">
+                          {app.figmaIcon
+                            ? <img src={LOGO_ICONS[app.figmaIcon]} alt="" className="ds-fav__icon" />
+                            : <div className={`app-icon app-icon--${app.iconColor}`}>{app.letter}</div>
+                          }
+                          <span className="ds-fav__name">{app.name}</span>
+                          <a href="#" className="ds-fav__link" onClick={e => e.preventDefault()}>
+                            Open <ExternalLink size={11} strokeWidth={1.5} />
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="ds-fav__empty">
+                      No application has been added to your favorites yet.{' '}
+                      <button className="ds-fav__empty-link" onClick={() => onNavigateApplications?.()}>
+                        Go to My applications page
+                      </button>
+                    </p>
+                  )}
                 </section>
-              ) : null
+              )
 
             default:
               return null
