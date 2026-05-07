@@ -74,11 +74,12 @@
 .sidebar__item--active {
   background: var(--color-primary-subtle, rgba(0,125,87,.08));
   color: var(--color-primary);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-bold);
 }
 
 .sidebar--collapsed .sidebar__item {
   justify-content: flex-start;
+  padding: 0 8px;
 }
 
 .sidebar__item-icon-wrap {
