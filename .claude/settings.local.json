@@ -23,7 +23,16 @@
       "mcp__a92ae42b-d1b9-46e7-951b-a1c27b64b8f4__get_screenshot",
       "Bash(curl -s -o /tmp/figma_popup.png \"https://www.figma.com/api/mcp/asset/d6aa5498-4e25-410f-aff2-5e0682caa50d\")",
       "Bash(lsof -ti:5173)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
+      "Bash(gh pr *)",
+      "Bash(gh repo *)",
+      "mcp__Figma__get_screenshot",
+      "Bash(curl -sL \"https://www.figma.com/api/mcp/asset/412e0b76-cfe6-4f2b-b177-215aeaa40044\" -o /tmp/cockpit-logo-check)",
+      "Read(//tmp/**)",
+      "Bash(sed -n '103,130p' \"/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/MyApplicationsPage.css\")",
+      "Bash(sed -n '504,530p' \"/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/ClientsPage.css\")",
+      "Bash(git stash *)",
+      "Bash(git checkout *)"
     ]
   }
 }
