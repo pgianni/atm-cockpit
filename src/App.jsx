@@ -10,6 +10,7 @@ import NotificationPanel from './components/NotificationPanel'
 import DealPage from './components/DealPage'
 import ClientsPage from './components/ClientsPage'
 import SettingsPage from './components/SettingsPage'
+import ControlsPage from './components/ControlsPage'
 import './App.css'
 
 const INITIAL_NOTIFICATIONS = [
@@ -23,16 +24,17 @@ const INITIAL_NOTIFICATIONS = [
   { id: 8, unread: false, title: 'Utilization booked: GreenPort Infrastructure', description: 'First drawdown of 45 M EUR was posted and settlement was confirmed.',                   time: '2 days ago' },
 ]
 
-function PageContent({ page, dealId, clientId, collapsed, searchQuery, onSearch, notifications, onToggle, onMarkAllRead, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onNavigate, onBack, onSearchBarHidden }) {
+function PageContent({ page, dealId, clientId, collapsed, searchQuery, onSearch, notifications, onToggle, onMarkAllRead, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onNavigateHome, onNavigate, onBack, onSearchBarHidden }) {
   const style = { marginLeft: collapsed ? 64 : 226 }
   switch (page) {
-    case 'notifs':       return <NotificationsPage  style={style} notifications={notifications} onToggle={onToggle} onMarkAllRead={onMarkAllRead} />
-    case 'portfolio':    return <PortfolioPage      style={style} onNavigateDeal={onNavigateDeal} onNavigateClient={onNavigateClient} />
-    case 'applications': return <MyApplicationsPage style={style} />
-    case 'search':       return <SearchResultsPage  style={style} query={searchQuery} onSearch={onSearch} onNavigateDeal={onNavigateDeal} />
-    case 'deal':         return <DealPage           style={style} dealId={dealId} onBack={onBack} onNavigateClient={onNavigateClient} />
-    case 'clients':      return <ClientsPage        style={style} clientId={clientId} onBack={onBack} onNavigatePortfolio={onNavigatePortfolio} onNavigateDeal={onNavigateDeal} />
-    case 'settings':     return <SettingsPage       style={style} onBack={onBack} />
+    case 'notifs':       return <NotificationsPage  style={style} notifications={notifications} onToggle={onToggle} onMarkAllRead={onMarkAllRead} onNavigateHome={onNavigateHome} />
+    case 'portfolio':    return <PortfolioPage      style={style} onNavigateDeal={onNavigateDeal} onNavigateClient={onNavigateClient} onNavigateHome={onNavigateHome} />
+    case 'applications': return <MyApplicationsPage style={style} onNavigateHome={onNavigateHome} />
+    case 'search':       return <SearchResultsPage  style={style} query={searchQuery} onSearch={onSearch} onNavigateDeal={onNavigateDeal} onNavigateHome={onNavigateHome} />
+    case 'deal':         return <DealPage           style={style} dealId={dealId} onBack={onBack} onNavigateHome={onNavigateHome} onNavigateClient={onNavigateClient} />
+    case 'clients':      return <ClientsPage        style={style} clientId={clientId} onBack={onBack} onNavigateHome={onNavigateHome} onNavigatePortfolio={onNavigatePortfolio} onNavigateDeal={onNavigateDeal} />
+    case 'settings':     return <SettingsPage       style={style} onNavigateHome={onNavigateHome} />
+    case 'controls':     return <ControlsPage       style={style} onNavigateHome={onNavigateHome} />
     default:             return <Dashboard           style={style} onSearch={onSearch} onNavigateDeal={onNavigateDeal} onNavigatePortfolio={onNavigatePortfolio} onNavigateClient={onNavigateClient} onNavigateApplications={() => onNavigate('applications')} onSearchBarHidden={onSearchBarHidden} />
   }
 }
@@ -138,6 +140,7 @@ export default function App() {
           onNavigateDeal={handleNavigateDeal}
           onNavigatePortfolio={handleNavigatePortfolio}
           onNavigateClient={handleNavigateClient}
+          onNavigateHome={() => setActivePage('home')}
           onNavigate={setActivePage}
           onBack={handleBack}
           onSearchBarHidden={setHomeSearchHidden}
