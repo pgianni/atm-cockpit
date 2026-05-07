@@ -413,6 +413,7 @@
 .deal-tree__code {
   font-size: 11px;
   color: var(--color-text-minor);
+  white-space: nowrap;
 }
 
 .deal-tree__toggle {
@@ -838,9 +839,16 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Cards layout */
-  .deal-page__cards-grid {
-    grid-template-columns: 1fr !important;
+  /* Main body: 2-col → single column */
+  .deal-page__body {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  /* Client info grid inside right panel */
+  .deal-client__grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   /* Section padding */
@@ -855,6 +863,9 @@
   /* Linked object tree: smaller font */
   .deal-tree__name { font-size: 12px; }
 
-  /* Table in docs section: horizontal scroll */
-  .deal-page__docs-table-wrap { overflow-x: auto; }
+  /* Documents table: horizontal scroll */
+  .cp-table-wrap {
+    overflow-x: auto;
+    overflow-y: visible;
+  }
 }

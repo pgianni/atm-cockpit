@@ -704,6 +704,11 @@
   /* Hero padding */
   .clients-page__header { padding: 20px 16px 24px; }
 
+  /* Hero metrics: 3 → 2 columns */
+  .clients-page__metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   /* KPI numbers */
   .clients-page__kpi-grid {
     grid-template-columns: repeat(2, 1fr) !important;
@@ -716,8 +721,9 @@
   /* Tables: horizontal scroll */
   .clients-table-wrap { overflow-x: auto; }
 
-  /* Docs table */
+  /* Docs table — allow horizontal scroll, override hidden overflow */
   .cl-docs-table-wrap { overflow-x: auto; }
+  .cp-table-wrap { overflow-x: auto; overflow-y: visible; }
 
   /* Contact cards: single column */
   .clients-page__contacts-grid {

@@ -261,5 +261,43 @@
    ════════════════════════════════════════ */
 @media (max-width: 767px) {
   .notif-page__breadcrumb { padding: 0 var(--sp-200); }
-  .notif-page__content    { padding: var(--sp-200); }
+  .notif-page__content    { padding: var(--sp-200); gap: 16px; }
+
+  /* Header: stack title + button */
+  .notif-page__header { flex-wrap: wrap; gap: var(--sp-100); }
+
+  /* Notification item: wrap so actions drop below content */
+  .notif-item {
+    flex-wrap: wrap;
+    padding: var(--sp-150) var(--sp-150);
+    gap: var(--sp-100);
+  }
+
+  /* Icon + content take full first row */
+  .notif-item__icon-wrap {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .notif-item__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Actions drop to second row, full width, right-aligned */
+  .notif-item__actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: var(--sp-075);
+    padding-left: 42px; /* align under content, past icon */
+  }
+
+  /* Smaller buttons on mobile */
+  .notif-item__toggle-btn,
+  .notif-item__consult {
+    height: 28px;
+    font-size: 12px;
+    padding: 0 var(--sp-100);
+  }
 }
