@@ -1,67 +1,34 @@
 import { useState, useEffect } from 'react'
-import { ChevronRight, TrendingUp, TrendingDown, ExternalLink, ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { ChevronRight, ExternalLink, ArrowUpRight, ArrowDownRight, Download, ArrowUp, ArrowDown, ArrowUpDown, Plus, X } from 'lucide-react'
 import './PortfolioPage.css'
 
 /* ─── Data ────────────────────────────────────────────────────────── */
 
 const KPIS = [
-  {
-    id: 'deals',
-    label: 'Booked deals',
-    value: '28',
-    unit: '',
-    trend: +3,
-    trendLabel: 'vs last month',
-  },
-  {
-    id: 'nbi',
-    label: 'YTD NBI',
-    value: '500.9',
-    unit: 'M EUR',
-    trend: +12,
-    trendLabel: 'vs last year',
-    trendIsPercent: true,
-  },
-  {
-    id: 'rwa',
-    label: 'RWA',
-    value: '197.5',
-    unit: 'M EUR',
-    trend: -4,
-    trendLabel: 'vs last year',
-    trendIsPercent: true,
-  },
-  {
-    id: 'commitment',
-    label: 'Current commitment',
-    value: '499',
-    unit: 'M EUR',
-    trend: +8,
-    trendLabel: 'vs last year',
-    trendIsPercent: true,
-  },
+  { id: 'deals',      label: 'Booked deals',        value: '28',   unit: '',      trend: +3,  trendLabel: 'vs last month' },
+  { id: 'nbi',        label: 'YTD NBI',              value: '500.9',unit: 'M EUR', trend: +12, trendLabel: 'vs last year', trendIsPercent: true },
+  { id: 'rwa',        label: 'RWA',                  value: '197.5',unit: 'M EUR', trend: -4,  trendLabel: 'vs last year', trendIsPercent: true },
+  { id: 'commitment', label: 'Current commitment',   value: '499',  unit: 'M EUR', trend: +8,  trendLabel: 'vs last year', trendIsPercent: true },
 ]
 
 const CLIENTS = [
-  { id: 1, name: 'Atlas Energy',            sector: 'Energy',         commitment: '150 M',  deals: 3, lastDeal: '2025-10-28', health: 'good' },
-  { id: 2, name: 'Silverpath Infrastructure', sector: 'Infrastructure', commitment: '120 M', deals: 2, lastDeal: '2025-09-14', health: 'good' },
-  { id: 3, name: 'Helios Aviation Partners', sector: 'Aviation',       commitment: '75 M',   deals: 1, lastDeal: '2025-08-03', health: 'watch' },
-  { id: 4, name: 'Meridian Renewables',      sector: 'Renewables',    commitment: '60 M',   deals: 2, lastDeal: '2025-11-01', health: 'good' },
-  { id: 5, name: 'Nordic Capital Group',     sector: 'Infrastructure', commitment: '45 M',   deals: 1, lastDeal: '2025-07-22', health: 'good' },
-  { id: 6, name: 'Gaia Infrastructure',      sector: 'Infrastructure', commitment: '38 M',   deals: 1, lastDeal: '2025-10-28', health: 'watch' },
+  { id: 1, name: 'Atlas Energy',              sector: 'Energy',         commitment: '150 M', deals: 3, lastDeal: '2025-10-28', health: 'good'  },
+  { id: 2, name: 'Silverpath Infrastructure', sector: 'Infrastructure', commitment: '120 M', deals: 2, lastDeal: '2025-09-14', health: 'good'  },
+  { id: 3, name: 'Helios Aviation Partners',  sector: 'Aviation',       commitment: '75 M',  deals: 1, lastDeal: '2025-08-03', health: 'watch' },
+  { id: 4, name: 'Meridian Renewables',       sector: 'Renewables',     commitment: '60 M',  deals: 2, lastDeal: '2025-11-01', health: 'good'  },
+  { id: 5, name: 'Nordic Capital Group',      sector: 'Infrastructure', commitment: '45 M',  deals: 1, lastDeal: '2025-07-22', health: 'good'  },
+  { id: 6, name: 'Gaia Infrastructure',       sector: 'Infrastructure', commitment: '38 M',  deals: 1, lastDeal: '2025-10-28', health: 'watch' },
 ]
 
-const DEAL_STATUSES = ['All', 'Signed', 'Pre-closing', 'Committee', 'KYC Review', 'Prospect']
-
 const DEALS = [
-  { id: 1, name: 'Silverpath Infra',    client: 'Atlas Energy',            type: 'Infrastructure',   size: 150, currency: 'EUR', status: 'Signed',      signingDate: '2025-10-28', maturityDate: '2032-10-28' },
-  { id: 2, name: 'Energy Project',      client: 'Helios Aviation Partners', type: 'Renewable Energy', size: 75,  currency: 'EUR', status: 'Committee',   signingDate: '2025-11-04', maturityDate: '2031-11-04' },
-  { id: 3, name: 'Nordic Wind Farm',    client: 'Nordic Capital Group',    type: 'Infrastructure',   size: 45,  currency: 'EUR', status: 'KYC Review',  signingDate: '2025-09-18', maturityDate: '2033-03-18' },
-  { id: 4, name: 'Meridian Solar II',   client: 'Meridian Renewables',     type: 'Renewable Energy', size: 60,  currency: 'EUR', status: 'Pre-closing', signingDate: '2025-11-01', maturityDate: '2030-05-01' },
-  { id: 5, name: 'Atlas Infra Bridge',  client: 'Atlas Energy',            type: 'Bridge Loan',      size: 30,  currency: 'EUR', status: 'Signed',      signingDate: '2025-08-15', maturityDate: '2027-02-15' },
-  { id: 6, name: 'Gaia Road Project',   client: 'Gaia Infrastructure',     type: 'Infrastructure',   size: 38,  currency: 'EUR', status: 'Committee',   signingDate: '2025-10-12', maturityDate: '2034-10-12' },
-  { id: 7, name: 'Meridian Wind I',     client: 'Meridian Renewables',     type: 'Renewable Energy', size: 42,  currency: 'EUR', status: 'Signed',      signingDate: '2025-07-03', maturityDate: '2031-07-03' },
-  { id: 8, name: 'Helios Cargo Hub',    client: 'Helios Aviation Partners', type: 'Infrastructure',   size: 25,  currency: 'EUR', status: 'Prospect',    signingDate: '2025-11-08', maturityDate: '2030-11-08' },
+  { id: 1, name: 'Silverpath Infra',   client: 'Atlas Energy',            size: 150, currency: 'EUR', status: 'Signed',      signingDate: '2025-10-28', maturityDate: '2032-10-28' },
+  { id: 2, name: 'Energy Project',     client: 'Helios Aviation Partners', size: 75,  currency: 'EUR', status: 'Committee',   signingDate: '2025-11-04', maturityDate: '2031-11-04' },
+  { id: 3, name: 'Nordic Wind Farm',   client: 'Nordic Capital Group',    size: 45,  currency: 'EUR', status: 'KYC Review',  signingDate: '2025-09-18', maturityDate: '2033-03-18' },
+  { id: 4, name: 'Meridian Solar II',  client: 'Meridian Renewables',     size: 60,  currency: 'EUR', status: 'Pre-closing', signingDate: '2025-11-01', maturityDate: '2030-05-01' },
+  { id: 5, name: 'Atlas Infra Bridge', client: 'Atlas Energy',            size: 30,  currency: 'EUR', status: 'Signed',      signingDate: '2025-08-15', maturityDate: '2027-02-15' },
+  { id: 6, name: 'Gaia Road Project',  client: 'Gaia Infrastructure',     size: 38,  currency: 'EUR', status: 'Committee',   signingDate: '2025-10-12', maturityDate: '2034-10-12' },
+  { id: 7, name: 'Meridian Wind I',    client: 'Meridian Renewables',     size: 42,  currency: 'EUR', status: 'Signed',      signingDate: '2025-07-03', maturityDate: '2031-07-03' },
+  { id: 8, name: 'Helios Cargo Hub',   client: 'Helios Aviation Partners', size: 25,  currency: 'EUR', status: 'Prospect',    signingDate: '2025-11-08', maturityDate: '2030-11-08' },
 ]
 
 const STATUS_COLORS = {
@@ -73,11 +40,14 @@ const STATUS_COLORS = {
 }
 
 const HEALTH_LABELS = {
-  good:  { label: 'Active',     cls: 'health--good' },
+  good:  { label: 'Active',     cls: 'health--good'  },
   watch: { label: 'Watch list', cls: 'health--watch' },
 }
 
-/* ─── Sub-components ──────────────────────────────────────────────── */
+const CLIENT_OPTIONS  = [...new Set(DEALS.map(d => d.client))].sort()
+const STATUS_OPTIONS  = ['Signed', 'Pre-closing', 'Committee', 'KYC Review', 'Prospect']
+
+/* ─── KPI card ──────────────────────────────────────────────────────── */
 
 function KpiCard({ kpi }) {
   const positive = kpi.trend > 0
@@ -89,23 +59,65 @@ function KpiCard({ kpi }) {
         {kpi.unit && <span className="kpi-card__unit">{kpi.unit}</span>}
       </div>
       <div className={`kpi-card__trend ${positive ? 'kpi-card__trend--up' : 'kpi-card__trend--down'}`}>
-        {positive
-          ? <ArrowUpRight   size={14} strokeWidth={2} />
-          : <ArrowDownRight size={14} strokeWidth={2} />
-        }
-        <span>
-          {positive ? '+' : ''}{kpi.trend}{kpi.trendIsPercent ? '%' : ''} {kpi.trendLabel}
-        </span>
+        {positive ? <ArrowUpRight size={14} strokeWidth={2} /> : <ArrowDownRight size={14} strokeWidth={2} />}
+        <span>{positive ? '+' : ''}{kpi.trend}{kpi.trendIsPercent ? '%' : ''} {kpi.trendLabel}</span>
       </div>
     </div>
   )
 }
 
+/* ─── Filter select ─────────────────────────────────────────────────── */
+
+function FilterSelect({ label, value, onChange, options, placeholder }) {
+  return (
+    <div className="pf-select">
+      <label className="pf-select__label">{label}</label>
+      <div className="pf-select__wrap">
+        <select
+          className="pf-select__input"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+        >
+          <option value="">{placeholder}</option>
+          {options.map(o => <option key={o} value={o}>{o}</option>)}
+        </select>
+        <ArrowDown size={14} strokeWidth={2} className="pf-select__chevron" />
+      </div>
+    </div>
+  )
+}
+
+/* ─── Sortable column header ────────────────────────────────────────── */
+
+function SortTh({ col, sortConfig, onSort, children, className = '' }) {
+  const active = sortConfig.key === col
+  return (
+    <th
+      className={`ptable__th ptable__th--sortable ${className}`}
+      onClick={() => onSort(col)}
+    >
+      <span className="ptable__th-inner">
+        {children}
+        <span className={`ptable__sort-icon${active ? ' ptable__sort-icon--active' : ''}`}>
+          {!active
+            ? <ArrowUpDown  size={12} strokeWidth={1.8} />
+            : sortConfig.dir === 'asc'
+              ? <ArrowUp    size={12} strokeWidth={2} />
+              : <ArrowDown  size={12} strokeWidth={2} />
+          }
+        </span>
+      </span>
+    </th>
+  )
+}
+
+/* ─── Client row ────────────────────────────────────────────────────── */
+
 function ClientRow({ client, onNavigateClient }) {
   const health = HEALTH_LABELS[client.health]
   return (
     <tr className="ptable__row">
-      <td className="ptable__cell ptable__cell--name">
+      <td className="ptable__cell">
         <button className="ptable__client-link" onClick={() => onNavigateClient?.(client.id)}>
           {client.name}
         </button>
@@ -126,11 +138,13 @@ function ClientRow({ client, onNavigateClient }) {
   )
 }
 
+/* ─── Deal row ──────────────────────────────────────────────────────── */
+
 function DealRow({ deal, onNavigateDeal, onNavigateClient }) {
   function handleOpen() { onNavigateDeal?.(deal.id) }
   return (
     <tr className="ptable__row ptable__row--clickable" onClick={handleOpen}>
-      <td className="ptable__cell ptable__cell--name">
+      <td className="ptable__cell">
         <button className="ptable__client-link" onClick={e => { e.stopPropagation(); handleOpen() }}>
           {deal.name}
         </button>
@@ -140,7 +154,6 @@ function DealRow({ deal, onNavigateDeal, onNavigateClient }) {
           {deal.client}
         </button>
       </td>
-      <td className="ptable__cell ptable__cell--minor">{deal.type}</td>
       <td className="ptable__cell ptable__cell--right ptable__cell--bold">
         {deal.size} M {deal.currency}
       </td>
@@ -160,21 +173,50 @@ function DealRow({ deal, onNavigateDeal, onNavigateClient }) {
   )
 }
 
-/* ─── Page ────────────────────────────────────────────────────────── */
+/* ─── Page ──────────────────────────────────────────────────────────── */
 
 export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient, onNavigateHome }) {
-  const [activeStatus, setActiveStatus] = useState('All')
+  const [filterClient,  setFilterClient]  = useState('')
+  const [filterStatus,  setFilterStatus]  = useState('')
+  const [sortConfig,    setSortConfig]    = useState({ key: null, dir: 'asc' })
 
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }) }, [])
 
-  const filteredDeals = activeStatus === 'All'
-    ? DEALS
-    : DEALS.filter(d => d.status === activeStatus)
+  function handleSort(key) {
+    setSortConfig(prev => ({
+      key,
+      dir: prev.key === key && prev.dir === 'asc' ? 'desc' : 'asc',
+    }))
+  }
+
+  function clearFilters() {
+    setFilterClient('')
+    setFilterStatus('')
+  }
+
+  const hasActiveFilters = filterClient || filterStatus
+
+  // Filter
+  let visibleDeals = DEALS
+  if (filterClient) visibleDeals = visibleDeals.filter(d => d.client === filterClient)
+  if (filterStatus) visibleDeals = visibleDeals.filter(d => d.status === filterStatus)
+
+  // Sort
+  if (sortConfig.key) {
+    visibleDeals = [...visibleDeals].sort((a, b) => {
+      let av = a[sortConfig.key]
+      let bv = b[sortConfig.key]
+      if (typeof av === 'string') { av = av.toLowerCase(); bv = bv.toLowerCase() }
+      if (av < bv) return sortConfig.dir === 'asc' ? -1 : 1
+      if (av > bv) return sortConfig.dir === 'asc' ?  1 : -1
+      return 0
+    })
+  }
 
   return (
     <main className="portfolio-page" style={style}>
 
-      {/* ── Breadcrumb banner ── */}
+      {/* ── Breadcrumb ── */}
       <div className="portfolio-page__breadcrumb">
         <button className="portfolio-page__bc-link" onClick={() => onNavigateHome?.()}>Home</button>
         <ChevronRight size={14} strokeWidth={2} className="portfolio-page__bc-sep" />
@@ -186,6 +228,10 @@ export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient,
         {/* ── Page header ── */}
         <div className="portfolio-page__header">
           <h1 className="portfolio-page__title">My portfolio</h1>
+          <button className="portfolio-page__export-btn">
+            <Download size={15} strokeWidth={1.8} />
+            Export to Excel
+          </button>
         </div>
 
         {/* ── KPIs ── */}
@@ -225,11 +271,11 @@ export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient,
           </div>
         </section>
 
-        {/* ── Active deals ── */}
+        {/* ── Booked deals ── */}
         <section className="portfolio-section">
           <div className="portfolio-section__header">
             <div>
-              <h2 className="portfolio-section__title">Active deals</h2>
+              <h2 className="portfolio-section__title">Booked deals</h2>
               <p className="portfolio-section__subtitle">All deals currently in progress across my portfolio.</p>
             </div>
             <a href="#" className="portfolio-section__link" onClick={e => e.preventDefault()}>
@@ -237,41 +283,73 @@ export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient,
             </a>
           </div>
 
-          {/* Status filter chips */}
-          <div className="portfolio-chips">
-            {DEAL_STATUSES.map(s => (
-              <button
-                key={s}
-                className={`chip${activeStatus === s ? ' chip--active' : ''}`}
-                onClick={() => setActiveStatus(s)}
-              >
-                {s}
-              </button>
-            ))}
+          {/* ── Filter block ── */}
+          <div className="portfolio-filters">
+            <h3 className="portfolio-filters__title">Filters</h3>
+            <div className="portfolio-filters__grid">
+              <FilterSelect
+                label="Client"
+                value={filterClient}
+                onChange={setFilterClient}
+                options={CLIENT_OPTIONS}
+                placeholder="Select client"
+              />
+              <FilterSelect
+                label="Status"
+                value={filterStatus}
+                onChange={setFilterStatus}
+                options={STATUS_OPTIONS}
+                placeholder="Select status"
+              />
+              <FilterSelect
+                label="Size"
+                value=""
+                onChange={() => {}}
+                options={['< 50 M EUR', '50 – 100 M EUR', '> 100 M EUR']}
+                placeholder="All sizes"
+              />
+              <div className="portfolio-filters__actions">
+                {hasActiveFilters && (
+                  <button className="portfolio-filters__clear-btn" onClick={clearFilters}>
+                    <X size={13} strokeWidth={2} />
+                    Clear filters
+                  </button>
+                )}
+                <button className="portfolio-filters__more-btn">
+                  <Plus size={14} strokeWidth={2} />
+                  Show more filters
+                </button>
+              </div>
+            </div>
           </div>
 
+          {/* ── Deals table ── */}
           <div className="ptable-wrap">
             <table className="ptable">
               <thead>
                 <tr className="ptable__head-row">
-                  <th className="ptable__th">Deal</th>
-                  <th className="ptable__th">Client</th>
-                  <th className="ptable__th">Type</th>
-                  <th className="ptable__th ptable__th--right">Size</th>
-                  <th className="ptable__th">Status</th>
-                  <th className="ptable__th">Signing date</th>
-                  <th className="ptable__th">Maturity date</th>
+                  <SortTh col="name"         sortConfig={sortConfig} onSort={handleSort}>Deal</SortTh>
+                  <SortTh col="client"       sortConfig={sortConfig} onSort={handleSort}>Client</SortTh>
+                  <SortTh col="size"         sortConfig={sortConfig} onSort={handleSort} className="ptable__th--right">Size</SortTh>
+                  <SortTh col="status"       sortConfig={sortConfig} onSort={handleSort}>Status</SortTh>
+                  <SortTh col="signingDate"  sortConfig={sortConfig} onSort={handleSort}>Signing date</SortTh>
+                  <SortTh col="maturityDate" sortConfig={sortConfig} onSort={handleSort}>Maturity date</SortTh>
                   <th className="ptable__th" />
                 </tr>
               </thead>
               <tbody>
-                {filteredDeals.map(d => <DealRow key={d.id} deal={d} onNavigateDeal={onNavigateDeal} onNavigateClient={onNavigateClient} />)}
+                {visibleDeals.map(d => (
+                  <DealRow key={d.id} deal={d} onNavigateDeal={onNavigateDeal} onNavigateClient={onNavigateClient} />
+                ))}
               </tbody>
             </table>
-            {filteredDeals.length === 0 && (
-              <p className="ptable__empty">No deals match this filter.</p>
+            {visibleDeals.length === 0 && (
+              <p className="ptable__empty">No deals match the current filters.</p>
             )}
           </div>
+
+          {/* Result count */}
+          <p className="ptable__count">{visibleDeals.length} deal{visibleDeals.length !== 1 ? 's' : ''}</p>
         </section>
 
       </div>
