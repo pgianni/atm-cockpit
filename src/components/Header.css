@@ -364,3 +364,42 @@
   background: var(--color-primary);
   color: #fff;
 }
+
+/* ════════════════════════════════════════
+   Mobile header
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .header {
+    padding: var(--sp-100) var(--sp-150);
+    gap: var(--sp-100);
+  }
+
+  /* Hide name/role text — keep only avatar */
+  .header__profile-text { display: none; }
+
+  /* Hide help icon */
+  .header__icon-btn:first-child { display: none; }
+
+  /* Shrink logo name on very small screens */
+  .header__logo-name { display: none; }
+
+  /* Search zone takes remaining space */
+  .header__search-zone {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .header__search {
+    max-width: 100%;
+  }
+
+  /* Dropdown opens from top-right, full width on mobile */
+  .header__profile-dropdown {
+    right: 0;
+    left: 0;
+    min-width: unset;
+    width: calc(100vw - 32px);
+    max-width: 360px;
+  }
+}
+

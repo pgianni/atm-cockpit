@@ -505,3 +505,42 @@
 .ro-type--asset    { background: rgba(20, 133, 29, 0.12);  color: #14851d; }
 .ro-type--covenant { background: rgba(174, 92, 0, 0.12);   color: #ae5c00; }
 .ro-type--mitigant { background: rgba(110, 43, 196, 0.12); color: #6e2bc4; }
+
+/* ════════════════════════════════════════
+   Dashboard — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .dashboard__banner { height: 340px; }
+
+  .dashboard__content { padding: var(--sp-200); gap: var(--sp-300); }
+
+  .dashboard__welcome-text { font-size: var(--fs-05); }
+
+  .dashboard__header-top { flex-wrap: wrap; gap: var(--sp-100); }
+
+  .dashboard__customize-btn { font-size: 12px; padding: 5px 10px; }
+
+  .dashboard__search-input { height: 44px; font-size: var(--fs-02); }
+
+  /* Controls widget cards: stack vertically */
+  .ds-ctrl {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .ds-ctrl__right {
+    border-left: none;
+    border-top: 1px solid var(--color-border-default);
+    padding-left: 0;
+    padding-top: 10px;
+  }
+
+  /* Recent objects table: hide context + opened columns, keep name + type */
+  .ds-table__th--context,
+  .ds-table__td--context,
+  .ds-table__th--opened,
+  .ds-table__td--opened  { display: none; }
+
+  /* Fav cards wrap tighter */
+  .ds-fav__grid { gap: 8px; }
+  .ds-fav__card { padding: 8px 10px; }
+}

@@ -812,3 +812,49 @@
   flex-direction: column;
   gap: 20px;
 }
+
+/* ════════════════════════════════════════
+   Deal Page — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .deal-page__breadcrumb { padding: 0 var(--sp-200); }
+
+  /* Hero */
+  .deal-page__hero { padding: 20px 16px 28px; }
+
+  .deal-page__hero-header { gap: 12px; }
+
+  .deal-page__illu { width: 48px; height: 72px; }
+  .deal-page__illu svg { width: 48px; height: 72px; }
+
+  .deal-page__name { font-size: 18px; }
+
+  .deal-page__hero-title-row { flex-direction: column; gap: 10px; }
+
+  .deal-page__hero-actions { flex-wrap: wrap; gap: 8px; }
+
+  /* Metrics: 2 cols instead of 6 */
+  .deal-page__metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Cards layout */
+  .deal-page__cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Section padding */
+  .deal-page__section,
+  .deal-page__contacts-section {
+    padding-left: var(--sp-200);
+    padding-right: var(--sp-200);
+  }
+
+  .deal-page__card { padding: var(--sp-200); }
+
+  /* Linked object tree: smaller font */
+  .deal-tree__name { font-size: 12px; }
+
+  /* Table in docs section: horizontal scroll */
+  .deal-page__docs-table-wrap { overflow-x: auto; }
+}

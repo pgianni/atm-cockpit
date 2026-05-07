@@ -287,3 +287,27 @@
   color: var(--color-text-minor);
   font-size: var(--fs-03);
 }
+
+/* ════════════════════════════════════════
+   Controls — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .controls-page__content { padding: var(--sp-200); gap: var(--sp-250); }
+  .controls-page__breadcrumb { padding: 0 var(--sp-200); }
+
+  .controls-page__header { flex-direction: column; gap: var(--sp-200); }
+
+  .controls-page__kpis { justify-content: flex-start; gap: var(--sp-150); }
+  .ctrl-kpi { min-width: 64px; padding: var(--sp-100) var(--sp-150); }
+  .ctrl-kpi__value { font-size: var(--fs-05); }
+
+  /* Cards: stack the 3 columns */
+  .ctrl-card {
+    grid-template-columns: 1fr;
+    gap: var(--sp-200);
+  }
+
+  .ctrl-card__right {
+    border-radius: var(--r-075);
+  }
+}

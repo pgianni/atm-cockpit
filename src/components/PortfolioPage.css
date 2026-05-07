@@ -307,3 +307,28 @@
 @media (max-width: 900px) {
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ════════════════════════════════════════
+   Portfolio — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .portfolio-page__content { padding: var(--sp-200); gap: var(--sp-300); }
+  .portfolio-page__breadcrumb { padding: 0 var(--sp-200); }
+
+  .kpi-row { grid-template-columns: repeat(2, 1fr); gap: var(--sp-150); }
+
+  .kpi-card { padding: var(--sp-200); }
+  .kpi-card__value { font-size: 24px; }
+
+  .portfolio-section { padding: var(--sp-200); }
+  .portfolio-section__header { flex-direction: column; gap: var(--sp-075); }
+  .portfolio-section__link { display: none; }
+
+  /* Table stays scroll-able, just reduce padding */
+  .ptable__th,
+  .ptable__cell { padding: var(--sp-100) var(--sp-125); font-size: 12px; }
+}
+
+@media (max-width: 480px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+}

@@ -694,3 +694,33 @@
   background: #fff4e5;
   color: #b45309;
 }
+
+/* ════════════════════════════════════════
+   Clients Page — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .clients-page__breadcrumb { padding: 0 var(--sp-200); }
+
+  /* Hero padding */
+  .clients-page__header { padding: 20px 16px 24px; }
+
+  /* KPI numbers */
+  .clients-page__kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Section content padding */
+  .clients-page__section { padding: var(--sp-200); }
+  .clients-page__section-content { padding: 0 var(--sp-200) var(--sp-200); }
+
+  /* Tables: horizontal scroll */
+  .clients-table-wrap { overflow-x: auto; }
+
+  /* Docs table */
+  .cl-docs-table-wrap { overflow-x: auto; }
+
+  /* Contact cards: single column */
+  .clients-page__contacts-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

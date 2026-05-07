@@ -345,3 +345,17 @@
   color: var(--color-primary);
   font-weight: var(--fw-semibold);
 }
+
+/* ════════════════════════════════════════
+   Settings — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .settings-page__breadcrumb { padding: 0 var(--sp-200); }
+  .settings-page__content    { padding: var(--sp-200); }
+
+  .settings-section { padding: var(--sp-200); }
+
+  /* Stack two-column form rows */
+  .settings-row { flex-direction: column; gap: var(--sp-150); }
+  .settings-field { min-width: unset; width: 100%; }
+}

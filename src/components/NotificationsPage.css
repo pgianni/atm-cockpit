@@ -255,3 +255,11 @@
   background: var(--color-primary-hover);
   border-color: var(--color-primary-hover);
 }
+
+/* ════════════════════════════════════════
+   Notifications — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .notif-page__breadcrumb { padding: 0 var(--sp-200); }
+  .notif-page__content    { padding: var(--sp-200); }
+}

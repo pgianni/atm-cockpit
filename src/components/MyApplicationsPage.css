@@ -309,3 +309,17 @@
 .app-icon--green  { background: #007d57; }
 .app-icon--orange { background: #c0580e; }
 .app-icon--teal   { background: #0e7b61; }
+
+/* ════════════════════════════════════════
+   My Apps — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .apps-page__content { padding: var(--sp-200); gap: var(--sp-300); }
+  .apps-page__breadcrumb { padding: 0 var(--sp-200); }
+
+  .apps-section__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .apps-section { padding: var(--sp-200); }
+}

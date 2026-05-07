@@ -40,7 +40,8 @@ export default function Sidebar({ activePage, onNavigate, collapsed, onCollapse,
                 <span className="sidebar__badge">{unreadCount}</span>
               )}
             </span>
-            {!collapsed && <span className="sidebar__item-label">{label}</span>}
+            {/* Label: hidden by CSS when collapsed on desktop; always shown on mobile */}
+            <span className="sidebar__item-label">{label}</span>
           </button>
         ))}
       </nav>
