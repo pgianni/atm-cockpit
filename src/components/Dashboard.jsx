@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Search, X, ExternalLink, Star, Settings } from 'lucide-react'
+import { Search, X, ExternalLink, Star, Settings, FileText, File, Box, Calendar, ShieldCheck, Briefcase } from 'lucide-react'
 import AlertCard from './AlertCard'
 import ScopeOverview from './ScopeOverview'
 import SearchSuggestions from './SearchSuggestions'
@@ -67,6 +67,27 @@ const ALERTS = [
     clients: [{ name: 'Helios Aviation Partners' }],
   },
 ]
+
+const RECENT_OBJECTS = [
+  { id: 'ro1',  objectType: 'deal',      name: 'Silverpath Infra – Senior Secured', context: 'Silverpath Holdings SA',      openedAt: '2 min ago'   },
+  { id: 'ro2',  objectType: 'document',  name: 'SPI_2025_FacilityAgreement_v4...',  context: 'Silverpath Infra',            openedAt: '18 min ago'  },
+  { id: 'ro3',  objectType: 'covenant',  name: 'DSCR Test',                          context: 'Silverpath Infra',            openedAt: '45 min ago'  },
+  { id: 'ro4',  objectType: 'deal',      name: 'Energy Project – Refinancement',     context: 'Helios Aviation Partners',    openedAt: '1 hour ago'  },
+  { id: 'ro5',  objectType: 'asset',     name: 'Silverpath Solar Farm A',            context: 'Silverpath Infra',            openedAt: '2 hours ago' },
+  { id: 'ro6',  objectType: 'mitigant',  name: 'First Ranking Mortgage',             context: 'Silverpath Infra',            openedAt: '3 hours ago' },
+  { id: 'ro7',  objectType: 'document',  name: 'EP_2025_TermSheet_Final...',         context: 'Energy Project',              openedAt: 'Yesterday'   },
+  { id: 'ro8',  objectType: 'covenant',  name: 'Insurance Renewal',                  context: 'Energy Project',              openedAt: 'Yesterday'   },
+  { id: 'ro9',  objectType: 'asset',     name: 'Wind Turbine Cluster Nord',          context: 'Silverpath Infra',            openedAt: 'Yesterday'   },
+  { id: 'ro10', objectType: 'mitigant',  name: 'Share Pledge – SPV',                 context: 'Silverpath Infra',            openedAt: '2 days ago'  },
+]
+
+const OBJECT_TYPE_META = {
+  deal:     { label: 'Deal',     icon: Briefcase,   cls: 'ro-type--deal'     },
+  document: { label: 'Document', icon: File,        cls: 'ro-type--document' },
+  asset:    { label: 'Asset',    icon: Box,         cls: 'ro-type--asset'    },
+  covenant: { label: 'Covenant', icon: Calendar,    cls: 'ro-type--covenant' },
+  mitigant: { label: 'Mitigant', icon: ShieldCheck, cls: 'ro-type--mitigant' },
+}
 
 const CONTROLS = [
   {
@@ -362,10 +383,61 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
                     <p className="ds-fav__empty">
                       No application has been added to your favorites yet.{' '}
                       <button className="ds-fav__empty-link" onClick={() => onNavigateApplications?.()}>
-                        Go to My applications page
+                        Go to My apps page
                       </button>
                     </p>
                   )}
+                </section>
+              )
+
+            case 'recent-objects':
+              return (
+                <section key="recent-objects" className="module">
+                  <div className="module__header">
+                    <div>
+                      <h2 className="module__title">Recently opened objects</h2>
+                      <p className="module__subtitle">The last 10 objects you opened across deals, documents, assets, covenants and mitigants.</p>
+                    </div>
+                  </div>
+                  <div className="ds-table-wrap">
+                    <table className="ds-table">
+                      <thead>
+                        <tr className="ds-table__head-row">
+                          <th className="ds-table__th">Object</th>
+                          <th className="ds-table__th">Type</th>
+                          <th className="ds-table__th">Context</th>
+                          <th className="ds-table__th">Opened</th>
+                          <th className="ds-table__th" />
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {RECENT_OBJECTS.map(obj => {
+                          const meta = OBJECT_TYPE_META[obj.objectType]
+                          const Icon = meta.icon
+                          return (
+                            <tr key={obj.id} className="ds-table__row">
+                              <td className="ds-table__cell ds-table__cell--name">
+                                <span className="ds-ro__name">{obj.name}</span>
+                              </td>
+                              <td className="ds-table__cell">
+                                <span className={`ds-ro__type ${meta.cls}`}>
+                                  <Icon size={12} strokeWidth={2} />
+                                  {meta.label}
+                                </span>
+                              </td>
+                              <td className="ds-table__cell ds-table__cell--minor">{obj.context}</td>
+                              <td className="ds-table__cell ds-table__cell--minor">{obj.openedAt}</td>
+                              <td className="ds-table__cell ds-table__cell--action">
+                                <button className="ds-table__icon-btn" aria-label={`Open ${obj.name}`}>
+                                  <ExternalLink size={14} strokeWidth={1.5} />
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 </section>
               )
 

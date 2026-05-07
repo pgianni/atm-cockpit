@@ -9,6 +9,7 @@ import SearchResultsPage from './components/SearchResultsPage'
 import NotificationPanel from './components/NotificationPanel'
 import DealPage from './components/DealPage'
 import ClientsPage from './components/ClientsPage'
+import SettingsPage from './components/SettingsPage'
 import './App.css'
 
 const INITIAL_NOTIFICATIONS = [
@@ -31,6 +32,7 @@ function PageContent({ page, dealId, clientId, collapsed, searchQuery, onSearch,
     case 'search':       return <SearchResultsPage  style={style} query={searchQuery} onSearch={onSearch} onNavigateDeal={onNavigateDeal} />
     case 'deal':         return <DealPage           style={style} dealId={dealId} onBack={onBack} onNavigateClient={onNavigateClient} />
     case 'clients':      return <ClientsPage        style={style} clientId={clientId} onBack={onBack} onNavigatePortfolio={onNavigatePortfolio} onNavigateDeal={onNavigateDeal} />
+    case 'settings':     return <SettingsPage       style={style} onBack={onBack} />
     default:             return <Dashboard           style={style} onSearch={onSearch} onNavigateDeal={onNavigateDeal} onNavigatePortfolio={onNavigatePortfolio} onNavigateClient={onNavigateClient} onNavigateApplications={() => onNavigate('applications')} onSearchBarHidden={onSearchBarHidden} />
   }
 }
@@ -83,6 +85,11 @@ export default function App() {
     setActivePage(prevPage)
   }
 
+  function handleNavigateSettings() {
+    setPrevPage(activePage)
+    setActivePage('settings')
+  }
+
   function handleToggleDark() {
     setDarkMode(prev => {
       const next = !prev
@@ -102,6 +109,7 @@ export default function App() {
         unreadCount={unreadCount}
         darkMode={darkMode}
         onToggleDark={handleToggleDark}
+        onNavigateSettings={handleNavigateSettings}
       />
       <NotificationPanel
         open={notifOpen}

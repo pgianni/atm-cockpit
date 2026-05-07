@@ -5,8 +5,8 @@
 /* ── Page wrapper ── */
 .apps-page {
   position: relative;
-  margin-top: 62px;
-  min-height: calc(100vh - 62px);
+  margin-top: 64px;
+  min-height: calc(100vh - 64px);
   transition: margin-left 0.2s ease;
   background: var(--color-bg-page);
 }
@@ -104,7 +104,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--sp-050) var(--sp-200);
+  height: 24px;
+  padding: 0 12px;
   border-radius: 999px;
   border: 1px solid #8e979c;
   background: var(--color-bg-surface);

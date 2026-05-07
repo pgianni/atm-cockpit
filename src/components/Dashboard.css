@@ -1,8 +1,8 @@
 .dashboard {
   position: relative;
-  margin-top: 62px;
+  margin-top: 64px;
   margin-left: 226px; /* overridden by inline style from App */
-  min-height: calc(100vh - 62px);
+  min-height: calc(100vh - 64px);
   transition: margin-left 0.2s ease;
 }
 
@@ -480,3 +480,28 @@
   color: var(--color-text-minor);
   margin-top: 2px;
 }
+
+/* ── Recently opened objects widget ── */
+.ds-ro__name {
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-major);
+  font-size: var(--fs-02);
+}
+
+.ds-ro__type {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+}
+
+.ro-type--deal     { background: rgba(23, 110, 196, 0.12); color: #176ec4; }
+.ro-type--document { background: rgba(94, 106, 113, 0.12); color: #5e6a71; }
+.ro-type--asset    { background: rgba(20, 133, 29, 0.12);  color: #14851d; }
+.ro-type--covenant { background: rgba(174, 92, 0, 0.12);   color: #ae5c00; }
+.ro-type--mitigant { background: rgba(110, 43, 196, 0.12); color: #6e2bc4; }

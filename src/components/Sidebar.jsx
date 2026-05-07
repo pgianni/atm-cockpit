@@ -5,7 +5,7 @@ const NAV_ITEMS = [
   { id: 'home',         label: 'Home',             icon: Home },
   { id: 'portfolio',    label: 'My portfolio',    icon: Wallet },
   { id: 'notifs',       label: 'Notifications',     icon: Bell },
-  { id: 'applications', label: 'My applications', icon: LayoutGrid },
+  { id: 'applications', label: 'My apps', icon: LayoutGrid },
 ]
 
 export default function Sidebar({ activePage, onNavigate, collapsed, onCollapse, unreadCount = 0 }) {

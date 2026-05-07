@@ -1,7 +1,7 @@
 /* ── Panel ────────────────────────────────────────────────────────── */
 .notif-panel {
   position: fixed;
-  top: 62px; /* below header */
+  top: 64px; /* below header */
   right: 0;
   bottom: 0;
   z-index: 201;

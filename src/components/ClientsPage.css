@@ -4,9 +4,9 @@
 
 .clients-page {
   position: relative;
-  margin-top: 62px;
+  margin-top: 64px;
   margin-left: 226px;
-  min-height: calc(100vh - 62px);
+  min-height: calc(100vh - 64px);
   background: #f4f6f6;
   transition: margin-left 0.2s ease;
 }

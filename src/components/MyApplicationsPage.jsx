@@ -136,14 +136,14 @@ export default function MyApplicationsPage({ style }) {
           Home
         </a>
         <ChevronRight size={14} strokeWidth={2} className="apps-page__bc-sep" />
-        <span className="apps-page__bc-current">My applications</span>
+        <span className="apps-page__bc-current">My apps</span>
       </div>
 
       <div className="apps-page__content">
 
         {/* ── Header ── */}
         <div className="apps-page__header">
-          <h1 className="apps-page__title">My applications</h1>
+          <h1 className="apps-page__title">My apps</h1>
           <button className="apps-page__edit-btn">
             <Settings size={18} strokeWidth={1.5} />
             Edit modules
