@@ -138,7 +138,7 @@ function CurrencySelect({ value, onChange, exclude }) {
 
 /* ── Page ───────────────────────────────────────────────────────── */
 
-export default function SettingsPage({ style, onBack }) {
+export default function SettingsPage({ style, onNavigateHome }) {
   const [settings, setSettings] = useState(loadSettings)
   const [saved,    setSaved]    = useState(false)
 
@@ -158,7 +158,7 @@ export default function SettingsPage({ style, onBack }) {
 
       {/* Breadcrumb */}
       <div className="settings-page__breadcrumb">
-        <button className="settings-page__bc-link" onClick={onBack}>Home</button>
+        <button className="settings-page__bc-link" onClick={() => onNavigateHome?.()}>Home</button>
         <ChevronRight size={14} strokeWidth={2} className="settings-page__bc-sep" />
         <span className="settings-page__bc-current">Settings</span>
       </div>

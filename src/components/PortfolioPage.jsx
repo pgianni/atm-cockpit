@@ -54,14 +54,14 @@ const CLIENTS = [
 const DEAL_STATUSES = ['All', 'Signed', 'Pre-closing', 'Committee', 'KYC Review', 'Prospect']
 
 const DEALS = [
-  { id: 1, name: 'Silverpath Infra',    client: 'Atlas Energy',            type: 'Infrastructure',  size: 150, currency: 'EUR', status: 'Signed',      date: '2025-10-28' },
-  { id: 2, name: 'Energy Project',      client: 'Helios Aviation Partners', type: 'Renewable Energy', size: 75,  currency: 'EUR', status: 'Committee',   date: '2025-11-04' },
-  { id: 3, name: 'Nordic Wind Farm',    client: 'Nordic Capital Group',    type: 'Infrastructure',  size: 45,  currency: 'EUR', status: 'KYC Review',  date: '2025-09-18' },
-  { id: 4, name: 'Meridian Solar II',   client: 'Meridian Renewables',     type: 'Renewable Energy', size: 60,  currency: 'EUR', status: 'Pre-closing', date: '2025-11-01' },
-  { id: 5, name: 'Atlas Infra Bridge',  client: 'Atlas Energy',            type: 'Bridge Loan',     size: 30,  currency: 'EUR', status: 'Signed',      date: '2025-08-15' },
-  { id: 6, name: 'Gaia Road Project',   client: 'Gaia Infrastructure',     type: 'Infrastructure',  size: 38,  currency: 'EUR', status: 'Committee',   date: '2025-10-12' },
-  { id: 7, name: 'Meridian Wind I',     client: 'Meridian Renewables',     type: 'Renewable Energy', size: 42,  currency: 'EUR', status: 'Signed',      date: '2025-07-03' },
-  { id: 8, name: 'Helios Cargo Hub',    client: 'Helios Aviation Partners', type: 'Infrastructure',  size: 25,  currency: 'EUR', status: 'Prospect',    date: '2025-11-08' },
+  { id: 1, name: 'Silverpath Infra',    client: 'Atlas Energy',            type: 'Infrastructure',   size: 150, currency: 'EUR', status: 'Signed',      signingDate: '2025-10-28', maturityDate: '2032-10-28' },
+  { id: 2, name: 'Energy Project',      client: 'Helios Aviation Partners', type: 'Renewable Energy', size: 75,  currency: 'EUR', status: 'Committee',   signingDate: '2025-11-04', maturityDate: '2031-11-04' },
+  { id: 3, name: 'Nordic Wind Farm',    client: 'Nordic Capital Group',    type: 'Infrastructure',   size: 45,  currency: 'EUR', status: 'KYC Review',  signingDate: '2025-09-18', maturityDate: '2033-03-18' },
+  { id: 4, name: 'Meridian Solar II',   client: 'Meridian Renewables',     type: 'Renewable Energy', size: 60,  currency: 'EUR', status: 'Pre-closing', signingDate: '2025-11-01', maturityDate: '2030-05-01' },
+  { id: 5, name: 'Atlas Infra Bridge',  client: 'Atlas Energy',            type: 'Bridge Loan',      size: 30,  currency: 'EUR', status: 'Signed',      signingDate: '2025-08-15', maturityDate: '2027-02-15' },
+  { id: 6, name: 'Gaia Road Project',   client: 'Gaia Infrastructure',     type: 'Infrastructure',   size: 38,  currency: 'EUR', status: 'Committee',   signingDate: '2025-10-12', maturityDate: '2034-10-12' },
+  { id: 7, name: 'Meridian Wind I',     client: 'Meridian Renewables',     type: 'Renewable Energy', size: 42,  currency: 'EUR', status: 'Signed',      signingDate: '2025-07-03', maturityDate: '2031-07-03' },
+  { id: 8, name: 'Helios Cargo Hub',    client: 'Helios Aviation Partners', type: 'Infrastructure',   size: 25,  currency: 'EUR', status: 'Prospect',    signingDate: '2025-11-08', maturityDate: '2030-11-08' },
 ]
 
 const STATUS_COLORS = {
@@ -149,7 +149,8 @@ function DealRow({ deal, onNavigateDeal, onNavigateClient }) {
           {deal.status}
         </span>
       </td>
-      <td className="ptable__cell ptable__cell--minor">{deal.date}</td>
+      <td className="ptable__cell ptable__cell--minor">{deal.signingDate}</td>
+      <td className="ptable__cell ptable__cell--minor">{deal.maturityDate}</td>
       <td className="ptable__cell ptable__cell--action">
         <button className="ptable__icon-link" onClick={e => { e.stopPropagation(); handleOpen() }}>
           <ExternalLink size={14} strokeWidth={1.5} />
@@ -161,7 +162,7 @@ function DealRow({ deal, onNavigateDeal, onNavigateClient }) {
 
 /* ─── Page ────────────────────────────────────────────────────────── */
 
-export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient }) {
+export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient, onNavigateHome }) {
   const [activeStatus, setActiveStatus] = useState('All')
 
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }) }, [])
@@ -175,7 +176,7 @@ export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient 
 
       {/* ── Breadcrumb banner ── */}
       <div className="portfolio-page__breadcrumb">
-        <a href="#" className="portfolio-page__bc-link" onClick={e => e.preventDefault()}>Home</a>
+        <button className="portfolio-page__bc-link" onClick={() => onNavigateHome?.()}>Home</button>
         <ChevronRight size={14} strokeWidth={2} className="portfolio-page__bc-sep" />
         <span className="portfolio-page__bc-current">My portfolio</span>
       </div>
@@ -258,7 +259,8 @@ export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient 
                   <th className="ptable__th">Type</th>
                   <th className="ptable__th ptable__th--right">Size</th>
                   <th className="ptable__th">Status</th>
-                  <th className="ptable__th">Date</th>
+                  <th className="ptable__th">Signing date</th>
+                  <th className="ptable__th">Maturity date</th>
                   <th className="ptable__th" />
                 </tr>
               </thead>

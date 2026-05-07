@@ -303,8 +303,8 @@ function LinkedObjectTree({ objects }) {
     }
   }
 
-  // Start with all categories collapsed
-  const [collapsed, setCollapsed] = useState(() => new Set(catIds))
+  // Start with all categories expanded
+  const [collapsed, setCollapsed] = useState(() => new Set())
   const allExpanded = catIds.every(id => !collapsed.has(id))
 
   function toggle(id) {
@@ -456,7 +456,7 @@ function ContactCard({ contact }) {
 }
 
 /* ── Main page ───────────────────────────────────────────────────── */
-export default function DealPage({ style, dealId = 1, onBack, onNavigateClient }) {
+export default function DealPage({ style, dealId = 1, onBack, onNavigateHome, onNavigateClient }) {
   const deal = DEALS[dealId] || DEALS[1]
   const [collapsed, setCollapsed] = useState(new Set())
 
@@ -481,7 +481,7 @@ export default function DealPage({ style, dealId = 1, onBack, onNavigateClient }
       {/* Breadcrumb */}
       <div className="deal-page__breadcrumb">
         <nav className="deal-page__breadcrumb-nav" aria-label="Breadcrumb">
-          <button className="deal-page__crumb deal-page__crumb--link" onClick={onBack}>Home</button>
+          <button className="deal-page__crumb deal-page__crumb--link" onClick={() => onNavigateHome?.()}>Home</button>
           <ChevronRight size={16} strokeWidth={1.5} className="deal-page__crumb-sep" />
           <button className="deal-page__crumb deal-page__crumb--link" onClick={onBack}>Portfolio</button>
           <ChevronRight size={16} strokeWidth={1.5} className="deal-page__crumb-sep" />
@@ -674,42 +674,6 @@ export default function DealPage({ style, dealId = 1, onBack, onNavigateClient }
         </div>
       </div>
 
-      {/* ── Key contacts ── */}
-      <div className="deal-page__contacts-section">
-        <div className="deal-page__card deal-page__card--full">
-          <div className="deal-page__card-header">
-            <div className="deal-page__card-header-left">
-              <div className="deal-page__card-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-              </div>
-              <h2 className="deal-page__section-title">Key contacts</h2>
-            </div>
-          </div>
-          <div className="deal-page__divider" />
-
-          <h3 className="deal-page__contacts-group-title">Counterparty</h3>
-          <div className="deal-page__contacts-row">
-            {deal.contacts.counterparty.map(c => <ContactCard key={c.name} contact={c} />)}
-          </div>
-
-          <div className="deal-page__divider" />
-
-          <h3 className="deal-page__contacts-group-title">Deal team</h3>
-          <div className="deal-page__contacts-row">
-            {deal.contacts.dealTeam.map(c => <ContactCard key={c.name} contact={c} />)}
-          </div>
-
-          <div className="deal-page__divider" />
-
-          <h3 className="deal-page__contacts-group-title">KYC team</h3>
-          <div className="deal-page__contacts-row">
-            {deal.contacts.kycTeam.map(c => <ContactCard key={c.name} contact={c} />)}
-          </div>
-        </div>
-      </div>
-
       {/* ── Documents ── */}
       <div className="deal-page__contacts-section">
         <div className="deal-page__card deal-page__card--full">
@@ -766,6 +730,42 @@ export default function DealPage({ style, dealId = 1, onBack, onNavigateClient }
             <FolderOpen size={14} strokeWidth={2} />
             Explore repository
           </button>
+        </div>
+      </div>
+
+      {/* ── Key contacts ── */}
+      <div className="deal-page__contacts-section">
+        <div className="deal-page__card deal-page__card--full">
+          <div className="deal-page__card-header">
+            <div className="deal-page__card-header-left">
+              <div className="deal-page__card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <h2 className="deal-page__section-title">Key contacts</h2>
+            </div>
+          </div>
+          <div className="deal-page__divider" />
+
+          <h3 className="deal-page__contacts-group-title">Counterparty</h3>
+          <div className="deal-page__contacts-row">
+            {deal.contacts.counterparty.map(c => <ContactCard key={c.name} contact={c} />)}
+          </div>
+
+          <div className="deal-page__divider" />
+
+          <h3 className="deal-page__contacts-group-title">Deal team</h3>
+          <div className="deal-page__contacts-row">
+            {deal.contacts.dealTeam.map(c => <ContactCard key={c.name} contact={c} />)}
+          </div>
+
+          <div className="deal-page__divider" />
+
+          <h3 className="deal-page__contacts-group-title">KYC team</h3>
+          <div className="deal-page__contacts-row">
+            {deal.contacts.kycTeam.map(c => <ContactCard key={c.name} contact={c} />)}
+          </div>
         </div>
       </div>
 

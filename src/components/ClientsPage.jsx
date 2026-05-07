@@ -215,7 +215,7 @@ function SearchRow({ cols }) {
 }
 
 /* ── Main component ────────────────────────────────────────────────── */
-export default function ClientsPage({ style, clientId, onBack, onNavigatePortfolio, onNavigateDeal }) {
+export default function ClientsPage({ style, clientId, onBack, onNavigateHome, onNavigatePortfolio, onNavigateDeal }) {
   const [activeFilter, setActiveFilter] = useState('active')
   const CLIENT_DATA = resolveClient(clientId)
   const PARENT_GROUP = CLIENT_DATA.parent
@@ -230,7 +230,7 @@ export default function ClientsPage({ style, clientId, onBack, onNavigatePortfol
       {/* Breadcrumb */}
       <div className="clients-page__breadcrumb">
         <nav className="clients-page__breadcrumb-nav" aria-label="Breadcrumb">
-          <button onClick={onBack} className="clients-page__crumb clients-page__crumb--link">Home</button>
+          <button onClick={() => onNavigateHome?.()} className="clients-page__crumb clients-page__crumb--link">Home</button>
           <ChevronRight size={16} strokeWidth={1.5} className="clients-page__crumb-sep" />
           <button onClick={() => onNavigatePortfolio?.()} className="clients-page__crumb clients-page__crumb--link">Portfolio</button>
           <ChevronRight size={16} strokeWidth={1.5} className="clients-page__crumb-sep" />

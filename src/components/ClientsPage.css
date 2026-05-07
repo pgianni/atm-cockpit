@@ -57,7 +57,7 @@
 }
 
 .clients-page__content > *:not(.clients-page__header) {
-  max-width: 1054px;
+  max-width: 1200px;
   width: calc(100% - 64px);
   margin-left: auto;
   margin-right: auto;
@@ -81,7 +81,7 @@
 
 /* Inner content constrained to same max-width as other modules */
 .clients-page__header-inner {
-  max-width: 1054px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   display: flex;

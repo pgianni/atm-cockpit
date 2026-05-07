@@ -74,6 +74,7 @@
 .sidebar__item--active {
   background: var(--color-primary-subtle, rgba(0,125,87,.08));
   color: var(--color-primary);
+  font-weight: var(--fw-semibold);
 }
 
 .sidebar--collapsed .sidebar__item {

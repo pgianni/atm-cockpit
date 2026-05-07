@@ -43,7 +43,7 @@ function NotificationItem({ notif, onToggle }) {
 }
 
 /* ── Page ─────────────────────────────────────────────────────────── */
-export default function NotificationsPage({ style, notifications, onToggle, onMarkAllRead }) {
+export default function NotificationsPage({ style, notifications, onToggle, onMarkAllRead, onNavigateHome }) {
   const unreadCount = notifications.filter(n => n.unread).length
 
   return (
@@ -52,7 +52,7 @@ export default function NotificationsPage({ style, notifications, onToggle, onMa
       {/* Breadcrumb */}
       <div className="notif-page__breadcrumb">
         <nav className="notif-page__breadcrumb-nav" aria-label="Breadcrumb">
-          <a className="notif-page__crumb notif-page__crumb--link" href="#">Home</a>
+          <button className="notif-page__crumb notif-page__crumb--link" onClick={() => onNavigateHome?.()}>Home</button>
           <ChevronRight size={16} strokeWidth={1.5} className="notif-page__crumb-sep" />
           <span className="notif-page__crumb">Notifications</span>
         </nav>
