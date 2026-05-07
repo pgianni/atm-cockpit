@@ -271,55 +271,52 @@ export default function PortfolioPage({ style, onNavigateDeal, onNavigateClient,
           </div>
         </section>
 
+        {/* ── Filter block ── */}
+        <div className="portfolio-filters">
+          <h3 className="portfolio-filters__title">Filters</h3>
+          <div className="portfolio-filters__grid">
+            <FilterSelect
+              label="Client"
+              value={filterClient}
+              onChange={setFilterClient}
+              options={CLIENT_OPTIONS}
+              placeholder="Select client"
+            />
+            <FilterSelect
+              label="Status"
+              value={filterStatus}
+              onChange={setFilterStatus}
+              options={STATUS_OPTIONS}
+              placeholder="Select status"
+            />
+            <FilterSelect
+              label="Size"
+              value=""
+              onChange={() => {}}
+              options={['< 50 M EUR', '50 – 100 M EUR', '> 100 M EUR']}
+              placeholder="All sizes"
+            />
+            <div className="portfolio-filters__actions">
+              {hasActiveFilters && (
+                <button className="portfolio-filters__clear-btn" onClick={clearFilters}>
+                  <X size={13} strokeWidth={2} />
+                  Clear filters
+                </button>
+              )}
+              <button className="portfolio-filters__more-btn">
+                <Plus size={14} strokeWidth={2} />
+                Show more filters
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* ── Booked deals ── */}
         <section className="portfolio-section">
           <div className="portfolio-section__header">
             <div>
               <h2 className="portfolio-section__title">Booked deals</h2>
               <p className="portfolio-section__subtitle">All deals currently in progress across my portfolio.</p>
-            </div>
-            <a href="#" className="portfolio-section__link" onClick={e => e.preventDefault()}>
-              See all deals <ExternalLink size={12} strokeWidth={1.5} />
-            </a>
-          </div>
-
-          {/* ── Filter block ── */}
-          <div className="portfolio-filters">
-            <h3 className="portfolio-filters__title">Filters</h3>
-            <div className="portfolio-filters__grid">
-              <FilterSelect
-                label="Client"
-                value={filterClient}
-                onChange={setFilterClient}
-                options={CLIENT_OPTIONS}
-                placeholder="Select client"
-              />
-              <FilterSelect
-                label="Status"
-                value={filterStatus}
-                onChange={setFilterStatus}
-                options={STATUS_OPTIONS}
-                placeholder="Select status"
-              />
-              <FilterSelect
-                label="Size"
-                value=""
-                onChange={() => {}}
-                options={['< 50 M EUR', '50 – 100 M EUR', '> 100 M EUR']}
-                placeholder="All sizes"
-              />
-              <div className="portfolio-filters__actions">
-                {hasActiveFilters && (
-                  <button className="portfolio-filters__clear-btn" onClick={clearFilters}>
-                    <X size={13} strokeWidth={2} />
-                    Clear filters
-                  </button>
-                )}
-                <button className="portfolio-filters__more-btn">
-                  <Plus size={14} strokeWidth={2} />
-                  Show more filters
-                </button>
-              </div>
             </div>
           </div>
 
