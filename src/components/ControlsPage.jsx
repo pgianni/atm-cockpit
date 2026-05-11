@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ChevronRight, ShieldAlert, Download } from 'lucide-react'
+import { ChevronRight, ShieldAlert } from 'lucide-react'
 import './ControlsPage.css'
 
 /* ── Mock data ──────────────────────────────────────────────────── */
@@ -116,10 +116,6 @@ export default function ControlsPage({ style, onNavigateHome }) {
                 <span className="ctrl-kpi__label">Warning</span>
               </div>
             </div>
-            <button className="controls-page__export-btn">
-              <Download size={15} strokeWidth={1.8} />
-              Export to Excel
-            </button>
           </div>
         </div>
 
