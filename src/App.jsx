@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import LoginPage from './components/LoginPage'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import Dashboard from './components/Dashboard'
@@ -40,6 +41,7 @@ function PageContent({ page, dealId, clientId, collapsed, searchQuery, onSearch,
 }
 
 export default function App() {
+  const [loggedIn,       setLoggedIn]       = useState(false)
   const [activePage,     setActivePage]     = useState('home')
   const [collapsed,      setCollapsed]      = useState(false)
   const [darkMode,       setDarkMode]       = useState(() => {
@@ -100,6 +102,8 @@ export default function App() {
       return next
     })
   }
+
+  if (!loggedIn) return <LoginPage onLogin={() => setLoggedIn(true)} />
 
   return (
     <div className="app">
