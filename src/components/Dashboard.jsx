@@ -70,17 +70,29 @@ const ALERTS = [
   },
 ]
 
+const RO_STATUS_COLOR = {
+  'Effective':            { bg: '#14851d', text: '#fff'    },
+  'Signed':               { bg: '#14851d', text: '#fff'    },
+  'Confirmed':            { bg: '#14851d', text: '#fff'    },
+  'Financed and pledged': { bg: '#14851d', text: '#fff'    },
+  'Pre-closing':          { bg: '#176ec4', text: '#fff'    },
+  'Draft':                { bg: '#176ec4', text: '#fff'    },
+  'Terminated':           { bg: '#ee9d2b', text: '#262a2d' },
+  'Archived':             { bg: '#e7e9ea', text: '#262a2d' },
+  'Default':              { bg: '#5e6a71', text: '#fff'    },
+}
+
 const RECENT_OBJECTS = [
-  { id: 'ro1',  objectType: 'deal',      name: 'Silverpath Infra – Senior Secured', context: 'Silverpath Holdings SA',      openedAt: '2 min ago'   },
-  { id: 'ro2',  objectType: 'document',  name: 'SPI_2025_FacilityAgreement_v4...',  context: 'Silverpath Infra',            openedAt: '18 min ago'  },
-  { id: 'ro3',  objectType: 'covenant',  name: 'DSCR Test',                          context: 'Silverpath Infra',            openedAt: '45 min ago'  },
-  { id: 'ro4',  objectType: 'deal',      name: 'Energy Project – Refinancement',     context: 'Helios Aviation Partners',    openedAt: '1 hour ago'  },
-  { id: 'ro5',  objectType: 'asset',     name: 'Silverpath Solar Farm A',            context: 'Silverpath Infra',            openedAt: '2 hours ago' },
-  { id: 'ro6',  objectType: 'mitigant',  name: 'First Ranking Mortgage',             context: 'Silverpath Infra',            openedAt: '3 hours ago' },
-  { id: 'ro7',  objectType: 'document',  name: 'EP_2025_TermSheet_Final...',         context: 'Energy Project',              openedAt: 'Yesterday'   },
-  { id: 'ro8',  objectType: 'covenant',  name: 'Insurance Renewal',                  context: 'Energy Project',              openedAt: 'Yesterday'   },
-  { id: 'ro9',  objectType: 'asset',     name: 'Wind Turbine Cluster Nord',          context: 'Silverpath Infra',            openedAt: 'Yesterday'   },
-  { id: 'ro10', objectType: 'mitigant',  name: 'Share Pledge – SPV',                 context: 'Silverpath Infra',            openedAt: '2 days ago'  },
+  { id: 'ro1',  objectType: 'deal',      status: 'Effective',            name: 'Silverpath Infra – Senior Secured', context: 'Silverpath Holdings SA',      openedAt: '2 min ago'   },
+  { id: 'ro2',  objectType: 'document',  status: 'Effective',            name: 'SPI_2025_FacilityAgreement_v4...',  context: 'Silverpath Infra',            openedAt: '18 min ago'  },
+  { id: 'ro3',  objectType: 'covenant',  status: 'Effective',            name: 'DSCR Test',                          context: 'Silverpath Infra',            openedAt: '45 min ago'  },
+  { id: 'ro4',  objectType: 'deal',      status: 'Pre-closing',          name: 'Energy Project – Refinancement',     context: 'Helios Aviation Partners',    openedAt: '1 hour ago'  },
+  { id: 'ro5',  objectType: 'asset',     status: 'Financed and pledged', name: 'Silverpath Solar Farm A',            context: 'Silverpath Infra',            openedAt: '2 hours ago' },
+  { id: 'ro6',  objectType: 'mitigant',  status: 'Confirmed',            name: 'First Ranking Mortgage',             context: 'Silverpath Infra',            openedAt: '3 hours ago' },
+  { id: 'ro7',  objectType: 'document',  status: 'Draft',                name: 'EP_2025_TermSheet_Final...',         context: 'Energy Project',              openedAt: 'Yesterday'   },
+  { id: 'ro8',  objectType: 'covenant',  status: 'Effective',            name: 'Insurance Renewal',                  context: 'Energy Project',              openedAt: 'Yesterday'   },
+  { id: 'ro9',  objectType: 'asset',     status: 'Financed and pledged', name: 'Wind Turbine Cluster Nord',          context: 'Silverpath Infra',            openedAt: 'Yesterday'   },
+  { id: 'ro10', objectType: 'mitigant',  status: 'Confirmed',            name: 'Share Pledge – SPV',                 context: 'Silverpath Infra',            openedAt: '2 days ago'  },
 ]
 
 const OBJECT_TYPE_META = {
@@ -407,6 +419,7 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
                         <tr className="ds-table__head-row">
                           <th className="ds-table__th">Object</th>
                           <th className="ds-table__th">Type</th>
+                          <th className="ds-table__th">Status</th>
                           <th className="ds-table__th">Context</th>
                           <th className="ds-table__th">Opened</th>
                           <th className="ds-table__th" />
@@ -431,6 +444,16 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
                               </td>
                               <td className="ds-table__cell ds-table__cell--minor">
                                 {meta.label}
+                              </td>
+                              <td className="ds-table__cell">
+                                {(() => {
+                                  const sc = RO_STATUS_COLOR[obj.status] || RO_STATUS_COLOR['Default']
+                                  return (
+                                    <span className="ds-ro__status-badge" style={{ background: sc.bg, color: sc.text }}>
+                                      {obj.status}
+                                    </span>
+                                  )
+                                })()}
                               </td>
                               <td className="ds-table__cell ds-table__cell--minor">{obj.context}</td>
                               <td className="ds-table__cell ds-table__cell--minor">{obj.openedAt}</td>
