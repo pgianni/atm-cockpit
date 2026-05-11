@@ -5,7 +5,7 @@ import { searchResults } from '../data/searchData'
 import logoCockpit from '../assets/logo-cockpit.svg?url'
 import './Header.css'
 
-export default function Header({ onSearch, showSearch = false, searchQuery = '', onNotifClick, unreadCount = 0, darkMode = false, onToggleDark, onNavigateSettings }) {
+export default function Header({ onSearch, showSearch = false, searchQuery = '', onNotifClick, unreadCount = 0, darkMode = false, onToggleDark, onNavigateSettings, onLogout }) {
   const [value,       setValue]       = useState(searchQuery)
   const [focused,     setFocused]     = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
@@ -164,7 +164,7 @@ export default function Header({ onSearch, showSearch = false, searchQuery = '',
             </button>
             <div className="header__dropdown-divider" />
 
-            <button className="header__dropdown-item header__dropdown-item--danger" onClick={() => setProfileOpen(false)}>
+            <button className="header__dropdown-item header__dropdown-item--danger" onClick={() => { setProfileOpen(false); onLogout?.() }}>
               <Power size={18} strokeWidth={1.5} className="header__dropdown-item-icon" />
               <div className="header__dropdown-item-text">
                 <span className="header__dropdown-item-label">Logout</span>

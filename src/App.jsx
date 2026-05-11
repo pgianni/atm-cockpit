@@ -116,6 +116,7 @@ export default function App() {
         darkMode={darkMode}
         onToggleDark={handleToggleDark}
         onNavigateSettings={handleNavigateSettings}
+        onLogout={() => setLoggedIn(false)}
       />
       <NotificationPanel
         open={notifOpen}
