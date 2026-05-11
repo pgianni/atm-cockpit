@@ -486,9 +486,20 @@
 
 /* ── Recently opened objects widget ── */
 .ds-ro__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-weight: var(--fw-semibold);
   color: var(--color-text-major);
   font-size: var(--fs-02);
+}
+
+.ds-ro__name-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* colour inherited from ro-type--* modifier */
 }
 
 .ds-ro__type {

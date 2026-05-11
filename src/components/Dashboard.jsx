@@ -417,13 +417,15 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
                           return (
                             <tr key={obj.id} className="ds-table__row">
                               <td className="ds-table__cell ds-table__cell--name">
-                                <span className="ds-ro__name">{obj.name}</span>
-                              </td>
-                              <td className="ds-table__cell">
-                                <span className={`ds-ro__type ${meta.cls}`}>
-                                  <Icon size={12} strokeWidth={2} />
-                                  {meta.label}
+                                <span className="ds-ro__name">
+                                  <span className={`ds-ro__name-icon ${meta.cls}`}>
+                                    <Icon size={13} strokeWidth={1.8} />
+                                  </span>
+                                  {obj.name}
                                 </span>
+                              </td>
+                              <td className="ds-table__cell ds-table__cell--minor">
+                                {meta.label}
                               </td>
                               <td className="ds-table__cell ds-table__cell--minor">{obj.context}</td>
                               <td className="ds-table__cell ds-table__cell--minor">{obj.openedAt}</td>
