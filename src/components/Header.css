@@ -33,7 +33,7 @@
   font-weight: var(--fw-bold);
   font-size: var(--fs-05);
   line-height: 1.3;
-  color: #333;
+  color: var(--color-text-major);
   width: 120px;
 }
 
