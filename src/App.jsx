@@ -14,14 +14,14 @@ import ControlsPage from './components/ControlsPage'
 import './App.css'
 
 const INITIAL_NOTIFICATIONS = [
-  { id: 1, unread: true,  title: 'KYC approved: Northwind Mobility',           description: 'Compliance cleared the borrower onboarding package for Germany.',                        time: '12 min ago' },
-  { id: 2, unread: true,  title: 'Credit committee scheduled: Silverpath Infra', description: 'Committee memo locked for review on 2025-11-03 at 09:30 CET.',                          time: '38 min ago' },
-  { id: 3, unread: true,  title: 'New document uploaded: BlueHarbor Grid',      description: 'Sponsor delivered the final term sheet markup and debt sizing note.',                    time: '1 hour ago' },
-  { id: 4, unread: true,  title: 'Condition precedent pending: Aster Data Parks', description: 'Insurance certificate still missing before first utilization can be released.',         time: '2 hours ago' },
-  { id: 5, unread: false, title: 'Covenant alert: Baltic Renewables HoldCo',    description: 'Projected DSCR moved below warning threshold in the latest monitoring pack.',            time: '3 hours ago' },
-  { id: 6, unread: false, title: 'Signature completed: Meridian Logistics',     description: 'All financing documents were executed by borrower, sponsors and lenders.',               time: 'Yesterday' },
-  { id: 7, unread: false, title: 'Waiver request received: Orion Fiber',        description: 'Borrower requested an extension for the reporting deadline to 2025-11-07.',              time: 'Yesterday' },
-  { id: 8, unread: false, title: 'Utilization booked: GreenPort Infrastructure', description: 'First drawdown of 45 M EUR was posted and settlement was confirmed.',                   time: '2 days ago' },
+  { id: 1, unread: true,  type: 'information', title: 'KYC approved: Northwind Mobility',             description: 'Compliance cleared the borrower onboarding package for Germany.',                        time: '12 min ago' },
+  { id: 2, unread: true,  type: 'action',      title: 'Credit committee scheduled: Silverpath Infra', description: 'Committee memo locked for review on 2025-11-03 at 09:30 CET.',                          time: '38 min ago' },
+  { id: 3, unread: true,  type: 'information', title: 'New document uploaded: BlueHarbor Grid',        description: 'Sponsor delivered the final term sheet markup and debt sizing note.',                    time: '1 hour ago' },
+  { id: 4, unread: true,  type: 'action',      title: 'Condition precedent pending: Aster Data Parks', description: 'Insurance certificate still missing before first utilization can be released.',         time: '2 hours ago' },
+  { id: 5, unread: false, type: 'action',      title: 'Covenant alert: Baltic Renewables HoldCo',      description: 'Projected DSCR moved below warning threshold in the latest monitoring pack.',            time: '3 hours ago' },
+  { id: 6, unread: false, type: 'information', title: 'Signature completed: Meridian Logistics',        description: 'All financing documents were executed by borrower, sponsors and lenders.',               time: 'Yesterday' },
+  { id: 7, unread: false, type: 'action',      title: 'Waiver request received: Orion Fiber',           description: 'Borrower requested an extension for the reporting deadline to 2025-11-07.',              time: 'Yesterday' },
+  { id: 8, unread: false, type: 'information', title: 'Utilization booked: GreenPort Infrastructure',   description: 'First drawdown of 45 M EUR was posted and settlement was confirmed.',                   time: '2 days ago' },
 ]
 
 function PageContent({ page, dealId, clientId, collapsed, searchQuery, onSearch, notifications, onToggle, onMarkAllRead, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onNavigateHome, onNavigate, onBack, onSearchBarHidden }) {

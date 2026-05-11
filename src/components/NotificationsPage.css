@@ -97,6 +97,77 @@
   color: var(--color-text-reverse);
 }
 
+/* ── Type filter tabs ── */
+.notif-page__filters {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--color-border-default);
+}
+
+.notif-page__filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-075);
+  height: 38px;
+  padding: 0 var(--sp-200);
+  border: none;
+  background: none;
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-minor);
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.notif-page__filter-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: transparent;
+  transition: background 0.15s;
+}
+.notif-page__filter-tab:hover { color: var(--color-text-major); }
+
+.notif-page__filter-tab--active {
+  color: var(--color-primary);
+}
+.notif-page__filter-tab--active::after {
+  background: var(--color-primary);
+}
+
+.notif-page__filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--color-border-default);
+  color: var(--color-text-minor);
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+.notif-page__filter-tab--active .notif-page__filter-count {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+/* ── Empty state ── */
+.notif-page__empty {
+  padding: var(--sp-400);
+  text-align: center;
+  font-size: var(--fs-02);
+  color: var(--color-text-minor);
+}
+
 /* ── List card ── */
 .notif-page__list {
   background: var(--color-bg-surface);
@@ -265,6 +336,10 @@
 
   /* Header: stack title + button */
   .notif-page__header { flex-wrap: wrap; gap: var(--sp-100); }
+
+  /* Filter tabs: smaller padding, allow scroll */
+  .notif-page__filters { overflow-x: auto; }
+  .notif-page__filter-tab { padding: 0 var(--sp-150); font-size: var(--fs-02); }
 
   /* Notification item: wrap so actions drop below content */
   .notif-item {

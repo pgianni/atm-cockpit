@@ -69,6 +69,34 @@
   flex-wrap: wrap;
 }
 
+.controls-page__header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--sp-150);
+}
+
+.controls-page__export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-075);
+  height: 36px;
+  padding: 0 var(--sp-200);
+  border-radius: var(--r-050);
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  font-size: var(--fs-02);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-reverse);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.controls-page__export-btn:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
 .controls-page__title {
   font-size: var(--fs-06);
   font-weight: var(--fw-bold);

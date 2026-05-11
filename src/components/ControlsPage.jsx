@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ChevronRight, ShieldAlert } from 'lucide-react'
+import { ChevronRight, ShieldAlert, Download } from 'lucide-react'
 import './ControlsPage.css'
 
 /* ── Mock data ──────────────────────────────────────────────────── */
@@ -101,19 +101,25 @@ export default function ControlsPage({ style, onNavigateHome }) {
               {CONTROLS.length} controls detected across your active deals.
             </p>
           </div>
-          <div className="controls-page__kpis">
-            <div className="ctrl-kpi ctrl-kpi--blocking">
-              <span className="ctrl-kpi__value">{counts.blocking}</span>
-              <span className="ctrl-kpi__label">Blocking</span>
+          <div className="controls-page__header-right">
+            <div className="controls-page__kpis">
+              <div className="ctrl-kpi ctrl-kpi--blocking">
+                <span className="ctrl-kpi__value">{counts.blocking}</span>
+                <span className="ctrl-kpi__label">Blocking</span>
+              </div>
+              <div className="ctrl-kpi ctrl-kpi--regulatory">
+                <span className="ctrl-kpi__value">{counts.regulatory}</span>
+                <span className="ctrl-kpi__label">Regulatory</span>
+              </div>
+              <div className="ctrl-kpi ctrl-kpi--warning">
+                <span className="ctrl-kpi__value">{counts.warning}</span>
+                <span className="ctrl-kpi__label">Warning</span>
+              </div>
             </div>
-            <div className="ctrl-kpi ctrl-kpi--regulatory">
-              <span className="ctrl-kpi__value">{counts.regulatory}</span>
-              <span className="ctrl-kpi__label">Regulatory</span>
-            </div>
-            <div className="ctrl-kpi ctrl-kpi--warning">
-              <span className="ctrl-kpi__value">{counts.warning}</span>
-              <span className="ctrl-kpi__label">Warning</span>
-            </div>
+            <button className="controls-page__export-btn">
+              <Download size={15} strokeWidth={1.8} />
+              Export to Excel
+            </button>
           </div>
         </div>
 
