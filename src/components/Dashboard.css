@@ -498,8 +498,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
-  /* colour inherited from ro-type--* modifier */
+  /* colour inherited from ro-type--* modifier for Lucide icons */
+}
+
+.ds-ro__name-img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
 }
 
 .ds-ro__type {

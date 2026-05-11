@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
-import { Search, X, ExternalLink, Star, Settings, FileText, File, Box, Calendar, ShieldCheck, Briefcase } from 'lucide-react'
+import { Search, X, ExternalLink, Star, Settings, FileText, Box, Calendar, ShieldCheck } from 'lucide-react'
+import iconDeal     from '../assets/icon-deal.svg'
+import iconContract from '../assets/icon-contract.svg'
 import AlertCard from './AlertCard'
 import ScopeOverview from './ScopeOverview'
 import SearchSuggestions from './SearchSuggestions'
@@ -82,11 +84,11 @@ const RECENT_OBJECTS = [
 ]
 
 const OBJECT_TYPE_META = {
-  deal:     { label: 'Deal',     icon: Briefcase,   cls: 'ro-type--deal'     },
-  document: { label: 'Document', icon: File,        cls: 'ro-type--document' },
-  asset:    { label: 'Asset',    icon: Box,         cls: 'ro-type--asset'    },
-  covenant: { label: 'Covenant', icon: Calendar,    cls: 'ro-type--covenant' },
-  mitigant: { label: 'Mitigant', icon: ShieldCheck, cls: 'ro-type--mitigant' },
+  deal:     { label: 'Deal',     imgSrc: iconDeal,     cls: 'ro-type--deal'     },
+  document: { label: 'Document', imgSrc: iconContract, cls: 'ro-type--document' },
+  asset:    { label: 'Asset',    icon: Box,            cls: 'ro-type--asset'    },
+  covenant: { label: 'Covenant', icon: Calendar,       cls: 'ro-type--covenant' },
+  mitigant: { label: 'Mitigant', icon: ShieldCheck,    cls: 'ro-type--mitigant' },
 }
 
 const CONTROLS = [
@@ -419,7 +421,10 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
                               <td className="ds-table__cell ds-table__cell--name">
                                 <span className="ds-ro__name">
                                   <span className={`ds-ro__name-icon ${meta.cls}`}>
-                                    <Icon size={13} strokeWidth={1.8} />
+                                    {meta.imgSrc
+                                      ? <img src={meta.imgSrc} alt="" className="ds-ro__name-img" />
+                                      : <Icon size={18} strokeWidth={1.8} />
+                                    }
                                   </span>
                                   {obj.name}
                                 </span>
