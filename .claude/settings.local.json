@@ -32,7 +32,11 @@
       "Bash(sed -n '103,130p' \"/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/MyApplicationsPage.css\")",
       "Bash(sed -n '504,530p' \"/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/ClientsPage.css\")",
       "Bash(git stash *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(git commit -m 'fix\\(header\\): logo name colour → var\\(--color-text-major\\) for dark mode *)",
+      "Bash(git commit -m 'feat\\(auth\\): logout button redirects to login page *)",
+      "Bash(git commit -m 'fix\\(controls\\): remove Export to Excel button *)",
+      "Bash(git commit -m 'chore: update allowed bash commands in settings.local.json *)"
     ]
   }
 }
