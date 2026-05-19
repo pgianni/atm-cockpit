@@ -36,7 +36,8 @@
       "Bash(git commit -m 'fix\\(header\\): logo name colour → var\\(--color-text-major\\) for dark mode *)",
       "Bash(git commit -m 'feat\\(auth\\): logout button redirects to login page *)",
       "Bash(git commit -m 'fix\\(controls\\): remove Export to Excel button *)",
-      "Bash(git commit -m 'chore: update allowed bash commands in settings.local.json *)"
+      "Bash(git commit -m 'chore: update allowed bash commands in settings.local.json *)",
+      "Bash(git commit -m 'revert: remove login page gate *)"
     ]
   }
 }
