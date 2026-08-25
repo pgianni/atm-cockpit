@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
-import { Search, X, ExternalLink, Star, Settings } from 'lucide-react'
+import { Search, X, ExternalLink, Star, Settings, FileText, Box, Calendar, ShieldCheck } from 'lucide-react'
+import iconDeal     from '../assets/icon-deal.svg'
+import iconContract from '../assets/icon-contract.svg'
 import AlertCard from './AlertCard'
 import ScopeOverview from './ScopeOverview'
 import SearchSuggestions from './SearchSuggestions'
@@ -68,6 +70,39 @@ const ALERTS = [
   },
 ]
 
+const RO_STATUS_COLOR = {
+  'Effective':            { bg: '#14851d', text: '#fff'    },
+  'Signed':               { bg: '#14851d', text: '#fff'    },
+  'Confirmed':            { bg: '#14851d', text: '#fff'    },
+  'Financed and pledged': { bg: '#14851d', text: '#fff'    },
+  'Pre-closing':          { bg: '#176ec4', text: '#fff'    },
+  'Draft':                { bg: '#176ec4', text: '#fff'    },
+  'Terminated':           { bg: '#ee9d2b', text: '#262a2d' },
+  'Archived':             { bg: '#e7e9ea', text: '#262a2d' },
+  'Default':              { bg: '#5e6a71', text: '#fff'    },
+}
+
+const RECENT_OBJECTS = [
+  { id: 'ro1',  objectType: 'deal',      status: 'Effective',            name: 'Silverpath Infra – Senior Secured', context: 'Silverpath Holdings SA',      openedAt: '2 min ago'   },
+  { id: 'ro2',  objectType: 'document',  status: 'Effective',            name: 'SPI_2025_FacilityAgreement_v4...',  context: 'Silverpath Infra',            openedAt: '18 min ago'  },
+  { id: 'ro3',  objectType: 'covenant',  status: 'Effective',            name: 'DSCR Test',                          context: 'Silverpath Infra',            openedAt: '45 min ago'  },
+  { id: 'ro4',  objectType: 'deal',      status: 'Pre-closing',          name: 'Energy Project – Refinancement',     context: 'Helios Aviation Partners',    openedAt: '1 hour ago'  },
+  { id: 'ro5',  objectType: 'asset',     status: 'Financed and pledged', name: 'Silverpath Solar Farm A',            context: 'Silverpath Infra',            openedAt: '2 hours ago' },
+  { id: 'ro6',  objectType: 'mitigant',  status: 'Confirmed',            name: 'First Ranking Mortgage',             context: 'Silverpath Infra',            openedAt: '3 hours ago' },
+  { id: 'ro7',  objectType: 'document',  status: 'Draft',                name: 'EP_2025_TermSheet_Final...',         context: 'Energy Project',              openedAt: 'Yesterday'   },
+  { id: 'ro8',  objectType: 'covenant',  status: 'Effective',            name: 'Insurance Renewal',                  context: 'Energy Project',              openedAt: 'Yesterday'   },
+  { id: 'ro9',  objectType: 'asset',     status: 'Financed and pledged', name: 'Wind Turbine Cluster Nord',          context: 'Silverpath Infra',            openedAt: 'Yesterday'   },
+  { id: 'ro10', objectType: 'mitigant',  status: 'Confirmed',            name: 'Share Pledge – SPV',                 context: 'Silverpath Infra',            openedAt: '2 days ago'  },
+]
+
+const OBJECT_TYPE_META = {
+  deal:     { label: 'Deal',     imgSrc: iconDeal,     cls: 'ro-type--deal'     },
+  document: { label: 'Document', imgSrc: iconContract, cls: 'ro-type--document' },
+  asset:    { label: 'Asset',    icon: Box,            cls: 'ro-type--asset'    },
+  covenant: { label: 'Covenant', icon: Calendar,       cls: 'ro-type--covenant' },
+  mitigant: { label: 'Mitigant', icon: ShieldCheck,    cls: 'ro-type--mitigant' },
+}
+
 const CONTROLS = [
   {
     id: 1,
@@ -111,7 +146,7 @@ const CONTROLS = [
   },
 ]
 
-export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onSearchBarHidden }) {
+export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigatePortfolio, onNavigateClient, onNavigateApplications, onSearchBarHidden }) {
   const [value,   setValue]   = useState('')
   const [focused, setFocused] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
@@ -333,32 +368,108 @@ export default function Dashboard({ style, onSearch, onNavigateDeal, onNavigateP
               )
 
             case 'favorites':
-              return favoriteApps.length > 0 ? (
+              return (
                 <section key="favorites" className="module">
                   <div className="module__header">
                     <div>
                       <h2 className="module__title ds-fav__title">
                         <Star size={16} strokeWidth={1.75} className="ds-fav__star" />
-                        My favorites
+                        My favorites applications
                       </h2>
                     </div>
                   </div>
-                  <div className="ds-fav__grid">
-                    {favoriteApps.map(app => (
-                      <div key={app.id} className="ds-fav__card">
-                        {app.figmaIcon
-                          ? <img src={LOGO_ICONS[app.figmaIcon]} alt="" className="ds-fav__icon" />
-                          : <div className={`app-icon app-icon--${app.iconColor}`}>{app.letter}</div>
-                        }
-                        <span className="ds-fav__name">{app.name}</span>
-                        <a href="#" className="ds-fav__link" onClick={e => e.preventDefault()}>
-                          Open <ExternalLink size={11} strokeWidth={1.5} />
-                        </a>
-                      </div>
-                    ))}
+                  {favoriteApps.length > 0 ? (
+                    <div className="ds-fav__grid">
+                      {favoriteApps.map(app => (
+                        <div key={app.id} className="ds-fav__card">
+                          {app.figmaIcon
+                            ? <img src={LOGO_ICONS[app.figmaIcon]} alt="" className="ds-fav__icon" />
+                            : <div className={`app-icon app-icon--${app.iconColor}`}>{app.letter}</div>
+                          }
+                          <span className="ds-fav__name">{app.name}</span>
+                          <a href="#" className="ds-fav__link" onClick={e => e.preventDefault()}>
+                            Open <ExternalLink size={11} strokeWidth={1.5} />
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="ds-fav__empty">
+                      No application has been added to your favorites yet.{' '}
+                      <button className="ds-fav__empty-link" onClick={() => onNavigateApplications?.()}>
+                        Go to My apps page
+                      </button>
+                    </p>
+                  )}
+                </section>
+              )
+
+            case 'recent-objects':
+              return (
+                <section key="recent-objects" className="module">
+                  <div className="module__header">
+                    <div>
+                      <h2 className="module__title">Recently opened objects</h2>
+                      <p className="module__subtitle">The last 10 objects you opened across deals, documents, assets, covenants and mitigants.</p>
+                    </div>
+                  </div>
+                  <div className="ds-table-wrap">
+                    <table className="ds-table">
+                      <thead>
+                        <tr className="ds-table__head-row">
+                          <th className="ds-table__th">Object</th>
+                          <th className="ds-table__th">Type</th>
+                          <th className="ds-table__th">Status</th>
+                          <th className="ds-table__th">Context</th>
+                          <th className="ds-table__th">Opened</th>
+                          <th className="ds-table__th" />
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {RECENT_OBJECTS.map(obj => {
+                          const meta = OBJECT_TYPE_META[obj.objectType]
+                          const Icon = meta.icon
+                          return (
+                            <tr key={obj.id} className="ds-table__row">
+                              <td className="ds-table__cell ds-table__cell--name">
+                                <span className="ds-ro__name">
+                                  <span className={`ds-ro__name-icon ${meta.cls}`}>
+                                    {meta.imgSrc
+                                      ? <img src={meta.imgSrc} alt="" className="ds-ro__name-img" />
+                                      : <Icon size={18} strokeWidth={1.8} />
+                                    }
+                                  </span>
+                                  {obj.name}
+                                </span>
+                              </td>
+                              <td className="ds-table__cell ds-table__cell--minor">
+                                {meta.label}
+                              </td>
+                              <td className="ds-table__cell">
+                                {(() => {
+                                  const sc = RO_STATUS_COLOR[obj.status] || RO_STATUS_COLOR['Default']
+                                  return (
+                                    <span className="ds-ro__status-badge" style={{ background: sc.bg, color: sc.text }}>
+                                      {obj.status}
+                                    </span>
+                                  )
+                                })()}
+                              </td>
+                              <td className="ds-table__cell ds-table__cell--minor">{obj.context}</td>
+                              <td className="ds-table__cell ds-table__cell--minor">{obj.openedAt}</td>
+                              <td className="ds-table__cell ds-table__cell--action">
+                                <button className="ds-table__icon-btn" aria-label={`Open ${obj.name}`}>
+                                  <ExternalLink size={14} strokeWidth={1.5} />
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 </section>
-              ) : null
+              )
 
             default:
               return null

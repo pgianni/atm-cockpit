@@ -1,5 +1,12 @@
+import { useState } from 'react'
 import { FileText, MailOpen, Mail, ArrowRight, ChevronRight, Settings } from 'lucide-react'
 import './NotificationsPage.css'
+
+const TYPE_FILTERS = [
+  { id: 'all',         label: 'All notifications' },
+  { id: 'information', label: 'For information'   },
+  { id: 'action',      label: 'For action'        },
+]
 
 /* ── Single notification row ──────────────────────────────────────── */
 function NotificationItem({ notif, onToggle }) {
@@ -43,8 +50,14 @@ function NotificationItem({ notif, onToggle }) {
 }
 
 /* ── Page ─────────────────────────────────────────────────────────── */
-export default function NotificationsPage({ style, notifications, onToggle, onMarkAllRead }) {
+export default function NotificationsPage({ style, notifications, onToggle, onMarkAllRead, onNavigateHome }) {
+  const [activeType, setActiveType] = useState('all')
+
   const unreadCount = notifications.filter(n => n.unread).length
+
+  const visible = activeType === 'all'
+    ? notifications
+    : notifications.filter(n => n.type === activeType)
 
   return (
     <main className="notif-page" style={style}>
@@ -52,7 +65,7 @@ export default function NotificationsPage({ style, notifications, onToggle, onMa
       {/* Breadcrumb */}
       <div className="notif-page__breadcrumb">
         <nav className="notif-page__breadcrumb-nav" aria-label="Breadcrumb">
-          <a className="notif-page__crumb notif-page__crumb--link" href="#">Home</a>
+          <button className="notif-page__crumb notif-page__crumb--link" onClick={() => onNavigateHome?.()}>Home</button>
           <ChevronRight size={16} strokeWidth={1.5} className="notif-page__crumb-sep" />
           <span className="notif-page__crumb">Notifications</span>
         </nav>
@@ -82,11 +95,33 @@ export default function NotificationsPage({ style, notifications, onToggle, onMa
           </div>
         </div>
 
+        {/* Type filter tabs */}
+        <div className="notif-page__filters">
+          {TYPE_FILTERS.map(f => {
+            const count = f.id === 'all'
+              ? notifications.length
+              : notifications.filter(n => n.type === f.id).length
+            return (
+              <button
+                key={f.id}
+                className={`notif-page__filter-tab${activeType === f.id ? ' notif-page__filter-tab--active' : ''}`}
+                onClick={() => setActiveType(f.id)}
+              >
+                {f.label}
+                <span className="notif-page__filter-count">{count}</span>
+              </button>
+            )
+          })}
+        </div>
+
         {/* List */}
         <div className="notif-page__list">
-          {notifications.map(n => (
+          {visible.map(n => (
             <NotificationItem key={n.id} notif={n} onToggle={onToggle} />
           ))}
+          {visible.length === 0 && (
+            <p className="notif-page__empty">No notifications in this category.</p>
+          )}
         </div>
 
       </div>
