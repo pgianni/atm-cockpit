@@ -126,8 +126,8 @@ const ALERTS = [
 ]
 
 const BOOKED_DEALS = [
-  { name: 'Infra Project B', tradeDate: '2024-08-31', maturityDate: '2030-04-01', commitment: '80 M EUR', rwa: '37 M EUR' },
-  { name: 'Infra Project A', tradeDate: '2024-08-31', maturityDate: '2030-09-01', commitment: '45 M EUR', rwa: '15 M EUR' },
+  { dealId: 1, name: 'Infra Project B', tradeDate: '2024-08-31', maturityDate: '2030-04-01', commitment: '80 M EUR', rwa: '37 M EUR' },
+  { dealId: 2, name: 'Infra Project A', tradeDate: '2024-08-31', maturityDate: '2030-09-01', commitment: '45 M EUR', rwa: '15 M EUR' },
 ]
 
 const OPP_FILTERS = [
@@ -215,7 +215,7 @@ function SearchRow({ cols }) {
 }
 
 /* ── Main component ────────────────────────────────────────────────── */
-export default function ClientsPage({ style, clientId, onBack, onNavigatePortfolio }) {
+export default function ClientsPage({ style, clientId, onBack, onNavigateHome, onNavigatePortfolio, onNavigateDeal }) {
   const [activeFilter, setActiveFilter] = useState('active')
   const CLIENT_DATA = resolveClient(clientId)
   const PARENT_GROUP = CLIENT_DATA.parent
@@ -230,7 +230,7 @@ export default function ClientsPage({ style, clientId, onBack, onNavigatePortfol
       {/* Breadcrumb */}
       <div className="clients-page__breadcrumb">
         <nav className="clients-page__breadcrumb-nav" aria-label="Breadcrumb">
-          <button onClick={onBack} className="clients-page__crumb clients-page__crumb--link">Home</button>
+          <button onClick={() => onNavigateHome?.()} className="clients-page__crumb clients-page__crumb--link">Home</button>
           <ChevronRight size={16} strokeWidth={1.5} className="clients-page__crumb-sep" />
           <button onClick={() => onNavigatePortfolio?.()} className="clients-page__crumb clients-page__crumb--link">Portfolio</button>
           <ChevronRight size={16} strokeWidth={1.5} className="clients-page__crumb-sep" />
@@ -386,9 +386,9 @@ export default function ClientsPage({ style, clientId, onBack, onNavigatePortfol
               </thead>
               <tbody>
                 {BOOKED_DEALS.map((deal, idx) => (
-                  <tr key={idx} className="cp-table__row">
+                  <tr key={idx} className="cp-table__row" onClick={() => onNavigateDeal?.(deal.dealId)} style={{ cursor: 'pointer' }}>
                     <td className="cp-table__cell">
-                      <a href="#" className="cp-table__link" onClick={e => e.preventDefault()}>{deal.name}</a>
+                      <button className="cp-table__link" onClick={e => { e.stopPropagation(); onNavigateDeal?.(deal.dealId) }}>{deal.name}</button>
                     </td>
                     <td className="cp-table__cell">{deal.tradeDate}</td>
                     <td className="cp-table__cell">{deal.maturityDate}</td>

@@ -1,11 +1,12 @@
-import { PanelLeftClose, PanelLeftOpen, Home, Wallet, Bell, LayoutGrid } from 'lucide-react'
+import { PanelLeftClose, PanelLeftOpen, Home, Wallet, Bell, LayoutGrid, ShieldAlert } from 'lucide-react'
 import './Sidebar.css'
 
 const NAV_ITEMS = [
-  { id: 'home',         label: 'Home',             icon: Home },
-  { id: 'portfolio',    label: 'My portfolio',    icon: Wallet },
-  { id: 'notifs',       label: 'Notifications',     icon: Bell },
-  { id: 'applications', label: 'My applications', icon: LayoutGrid },
+  { id: 'home',         label: 'Home',          icon: Home },
+  { id: 'portfolio',    label: 'My portfolio',  icon: Wallet },
+  { id: 'controls',     label: 'Controls',      icon: ShieldAlert },
+  { id: 'notifs',       label: 'Notifications', icon: Bell },
+  { id: 'applications', label: 'My apps',       icon: LayoutGrid },
 ]
 
 export default function Sidebar({ activePage, onNavigate, collapsed, onCollapse, unreadCount = 0 }) {
@@ -39,7 +40,8 @@ export default function Sidebar({ activePage, onNavigate, collapsed, onCollapse,
                 <span className="sidebar__badge">{unreadCount}</span>
               )}
             </span>
-            {!collapsed && <span className="sidebar__item-label">{label}</span>}
+            {/* Label: hidden by CSS when collapsed on desktop; always shown on mobile */}
+            <span className="sidebar__item-label">{label}</span>
           </button>
         ))}
       </nav>

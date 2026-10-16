@@ -5,8 +5,8 @@
 /* ── Page wrapper ── */
 .portfolio-page {
   position: relative;
-  margin-top: 62px;
-  min-height: calc(100vh - 62px);
+  margin-top: 64px;
+  min-height: calc(100vh - 64px);
   transition: margin-left 0.2s ease;
   background: var(--color-bg-page);
 }
@@ -43,7 +43,7 @@
 
 /* ── Content area ── */
 .portfolio-page__content {
-  max-width: 1054px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: var(--sp-400);
   display: flex;
@@ -63,6 +63,28 @@
   font-weight: var(--fw-bold);
   line-height: var(--lh-06);
   color: var(--color-text-major);
+}
+
+/* ── Export button ── */
+.portfolio-page__export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-075);
+  height: 36px;
+  padding: 0 var(--sp-200);
+  border-radius: var(--r-050);
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  font-size: var(--fs-02);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-reverse);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.portfolio-page__export-btn:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
 /* ── KPI row ── */
@@ -270,6 +292,164 @@
   color: var(--color-text-minor);
 }
 
+/* ── Filter block ── */
+.portfolio-filters {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--r-100);
+  padding: var(--sp-200) var(--sp-300);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-150);
+}
+
+.portfolio-filters__title {
+  font-size: var(--fs-03);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-major);
+  line-height: 1.3;
+}
+
+.portfolio-filters__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: var(--sp-200);
+  align-items: end;
+}
+
+/* ── Filter select control ── */
+.pf-select {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-050);
+  min-width: 0;
+}
+
+.pf-select__label {
+  font-size: var(--fs-02);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-minor);
+  line-height: 1.3;
+}
+
+.pf-select__wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pf-select__input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 34px;
+  padding: 0 var(--sp-300) 0 var(--sp-150);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--r-050);
+  background: var(--color-bg-surface);
+  font-size: var(--fs-02);
+  font-family: var(--font-main);
+  color: var(--color-text-major);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.pf-select__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0,125,87,0.12);
+}
+.pf-select__input:hover { border-color: #9aabb0; }
+
+.pf-select__chevron {
+  position: absolute;
+  right: var(--sp-100);
+  color: var(--color-text-minor);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+/* ── Filter actions column ── */
+.portfolio-filters__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--sp-075);
+  padding-bottom: 1px; /* visual baseline alignment */
+}
+
+.portfolio-filters__more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-050);
+  height: 34px;
+  padding: 0 var(--sp-150);
+  border-radius: var(--r-050);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-bg-surface);
+  font-size: var(--fs-02);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-minor);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.portfolio-filters__more-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.portfolio-filters__clear-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-050);
+  height: 26px;
+  padding: 0 var(--sp-100);
+  border-radius: var(--r-050);
+  border: none;
+  background: none;
+  font-size: 12px;
+  font-weight: var(--fw-semibold);
+  color: var(--color-danger);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.portfolio-filters__clear-btn:hover { background: rgba(200,0,0,0.06); }
+
+/* ── Sortable column headers ── */
+.ptable__th--sortable {
+  cursor: pointer;
+  user-select: none;
+}
+.ptable__th--sortable:hover { color: var(--color-text-major); }
+
+.ptable__th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ptable__sort-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-border-default);
+  transition: color 0.15s;
+}
+.ptable__sort-icon--active {
+  color: var(--color-primary);
+}
+.ptable__th--sortable:hover .ptable__sort-icon {
+  color: var(--color-text-minor);
+}
+
+/* ── Result count ── */
+.ptable__count {
+  font-size: var(--fs-02);
+  color: var(--color-text-minor);
+  text-align: right;
+  padding-top: var(--sp-050);
+}
+
 /* ── Status badge ── */
 .status-badge {
   display: inline-flex;
@@ -305,5 +485,44 @@
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ════════════════════════════════════════
+   Portfolio — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .portfolio-page__content { padding: var(--sp-200); gap: var(--sp-300); }
+  .portfolio-page__breadcrumb { padding: 0 var(--sp-200); }
+
+  .kpi-row { grid-template-columns: repeat(2, 1fr); gap: var(--sp-150); }
+
+  .kpi-card { padding: var(--sp-200); }
+  .kpi-card__value { font-size: 24px; }
+
+  .portfolio-section { padding: var(--sp-200); }
+  .portfolio-section__header { flex-direction: column; gap: var(--sp-075); }
+  .portfolio-section__link { display: none; }
+
+  /* Filter block: stack to 1 column */
+  .portfolio-filters { padding: var(--sp-150) var(--sp-200); }
+  .portfolio-filters__grid {
+    grid-template-columns: 1fr;
+  }
+  .portfolio-filters__actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  /* Export button: smaller */
+  .portfolio-page__export-btn { height: 32px; font-size: 12px; }
+
+  /* Table stays scroll-able, just reduce padding */
+  .ptable__th,
+  .ptable__cell { padding: var(--sp-100) var(--sp-125); font-size: 12px; }
+}
+
+@media (max-width: 480px) {
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
 }

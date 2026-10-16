@@ -23,7 +23,32 @@
       "mcp__a92ae42b-d1b9-46e7-951b-a1c27b64b8f4__get_screenshot",
       "Bash(curl -s -o /tmp/figma_popup.png \"https://www.figma.com/api/mcp/asset/d6aa5498-4e25-410f-aff2-5e0682caa50d\")",
       "Bash(lsof -ti:5173)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
+      "Bash(gh pr *)",
+      "Bash(gh repo *)",
+      "mcp__Figma__get_screenshot",
+      "Bash(curl -sL \"https://www.figma.com/api/mcp/asset/412e0b76-cfe6-4f2b-b177-215aeaa40044\" -o /tmp/cockpit-logo-check)",
+      "Read(//tmp/**)",
+      "Bash(sed -n '103,130p' \"/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/MyApplicationsPage.css\")",
+      "Bash(sed -n '504,530p' \"/Users/macnight/Documents/Claude/Projects/ATM Test/cockpit-app/src/components/ClientsPage.css\")",
+      "Bash(git stash *)",
+      "Bash(git checkout *)",
+      "Bash(git commit -m 'fix\\(header\\): logo name colour → var\\(--color-text-major\\) for dark mode *)",
+      "Bash(git commit -m 'feat\\(auth\\): logout button redirects to login page *)",
+      "Bash(git commit -m 'fix\\(controls\\): remove Export to Excel button *)",
+      "Bash(git commit -m 'chore: update allowed bash commands in settings.local.json *)",
+      "Bash(git commit -m 'revert: remove login page gate *)",
+      "mcp__Figma__get_design_context",
+      "Bash(curl -s -o /private/tmp/glass-mydeals.png \"https://www.figma.com/api/mcp/asset/0e26c4f3-f723-4086-976c-2b5bdb3092fc\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5175/)",
+      "Bash(lsof -i :5175 -sTCP:LISTEN -n -P)",
+      "Bash(curl -L -s -o /private/tmp/claude-501/-Users-macnight-Documents-Claude-Projects-ATM-Test-cockpit-app/e06c7752-6570-4689-b9a0-2f79dece6ea7/scratchpad/figma_input.png \"https://www.figma.com/api/mcp/asset/202a43e2-80e9-4fb5-a147-4b65572ee28a.png\")",
+      "Bash(sed -i '' 's/className=\"h-5 w-5\"><ArrowNextIcon \\\\/><\\\\/span>/className=\"h-4 w-4\"><ArrowNextIcon \\\\/><\\\\/span>/' DealInformation.jsx)",
+      "Bash(sed -i '' 's/className=\"w-5 h-5\"><ArrowNextIcon \\\\/><\\\\/div>/className=\"w-4 h-4\"><ArrowNextIcon \\\\/><\\\\/div>/' DealInformation.jsx)",
+      "Bash(sed -i '' 's/className=\"block h-5 w-5\"><ArrowNextIcon \\\\/><\\\\/span>/className=\"block h-4 w-4\"><ArrowNextIcon \\\\/><\\\\/span>/' DealDetail.jsx)",
+      "Bash(sed -i '' 's/className=\"w-5 h-5\"><ArrowNextIcon \\\\/><\\\\/div>/className=\"w-4 h-4\"><ArrowNextIcon \\\\/><\\\\/div>/' DealDetail.jsx)",
+      "Bash(git reset *)",
+      "Bash(curl -L -s -o /private/tmp/claude-501/-Users-macnight-Documents-Claude-Projects-ATM-Test-cockpit-app/e06c7752-6570-4689-b9a0-2f79dece6ea7/scratchpad/stroke-time-calendar.svg \"https://www.figma.com/api/mcp/asset/6e3abe23-330f-4f2d-b9ac-33416a839976.svg\")"
     ]
   }
 }

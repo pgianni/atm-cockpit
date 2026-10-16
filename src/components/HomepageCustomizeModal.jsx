@@ -3,14 +3,13 @@ import { createPortal } from 'react-dom'
 import { X, ChevronUp, ChevronDown, Trash2 } from 'lucide-react'
 import './HomepageCustomizeModal.css'
 
-const MAX_WIDGETS = 5
-
 const ALL_WIDGETS = [
-  { id: 'alerts',    name: 'Coming up soon',  description: 'Alertes, rappels et jalons à venir sur les 30 prochains jours.' },
-  { id: 'scope',     name: 'Scope overview',  description: "Synthèse de l'activité de votre portefeuille avec les métriques clés." },
-  { id: 'deals',     name: 'Recent deals',    description: 'Derniers deals ajoutés à votre portefeuille.' },
-  { id: 'controls',  name: 'Deals controls',  description: 'Alertes de contrôle sur vos deals actifs et actions requises.' },
-  { id: 'favorites', name: 'My favorites',    description: 'Accès rapide à vos applications favorites.' },
+  { id: 'alerts',         name: 'Coming up soon',          description: 'Alertes, rappels et jalons à venir sur les 30 prochains jours.' },
+  { id: 'scope',          name: 'Scope overview',           description: "Synthèse de l'activité de votre portefeuille avec les métriques clés." },
+  { id: 'deals',          name: 'Recent deals',             description: 'Derniers deals ajoutés à votre portefeuille.' },
+  { id: 'controls',       name: 'Deals controls',           description: 'Alertes de contrôle sur vos deals actifs et actions requises.' },
+  { id: 'favorites',      name: 'My favorites',             description: 'Accès rapide à vos applications favorites.' },
+  { id: 'recent-objects', name: 'Recently opened objects',  description: 'Les 10 derniers objets ouverts : deals, documents, assets, covenants et mitigants.' },
 ]
 
 export default function HomepageCustomizeModal({ open, onClose, selection, onSave }) {
@@ -46,7 +45,7 @@ export default function HomepageCustomizeModal({ open, onClose, selection, onSav
   )
 
   function handleAdd(id) {
-    if (localOrder.includes(id) || localOrder.length >= MAX_WIDGETS) return
+    if (localOrder.includes(id)) return
     setLocalOrder(prev => [...prev, id])
   }
 
@@ -139,7 +138,6 @@ export default function HomepageCustomizeModal({ open, onClose, selection, onSav
                     <p className="hcm-widget-desc">{widget.description}</p>
                     <button
                       className="hcm-add-btn"
-                      disabled={localOrder.length >= MAX_WIDGETS}
                       onClick={() => handleAdd(widget.id)}
                     >
                       + Add
@@ -157,7 +155,7 @@ export default function HomepageCustomizeModal({ open, onClose, selection, onSav
           <div className="hcm-panel hcm-panel--selection">
             <div className="hcm-panel-header">
               <h3 className="hcm-panel-title">
-                Current selection ({localOrder.length}/{MAX_WIDGETS})
+                Current selection ({localOrder.length})
               </h3>
               <p className="hcm-panel-hint">
                 Move items up or down using drag-and-drop or the arrow buttons.

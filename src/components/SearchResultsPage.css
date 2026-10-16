@@ -4,7 +4,7 @@
 
 .sr-page {
   min-height: 100vh;
-  padding-top: 62px; /* header height */
+  padding-top: 64px; /* header height */
   background: var(--color-bg-page);
 }
 

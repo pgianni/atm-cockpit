@@ -5,8 +5,8 @@
 /* ── Page wrapper ── */
 .apps-page {
   position: relative;
-  margin-top: 62px;
-  min-height: calc(100vh - 62px);
+  margin-top: 64px;
+  min-height: calc(100vh - 64px);
   transition: margin-left 0.2s ease;
   background: var(--color-bg-page);
 }
@@ -49,7 +49,7 @@
 
 /* ── Content area ── */
 .apps-page__content {
-  max-width: 1054px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: var(--sp-400);
   display: flex;
@@ -104,7 +104,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--sp-050) var(--sp-200);
+  height: 24px;
+  padding: 0 12px;
   border-radius: 999px;
   border: 1px solid #8e979c;
   background: var(--color-bg-surface);
@@ -308,3 +309,17 @@
 .app-icon--green  { background: #007d57; }
 .app-icon--orange { background: #c0580e; }
 .app-icon--teal   { background: #0e7b61; }
+
+/* ════════════════════════════════════════
+   My Apps — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .apps-page__content { padding: var(--sp-200); gap: var(--sp-300); }
+  .apps-page__breadcrumb { padding: 0 var(--sp-200); }
+
+  .apps-section__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .apps-section { padding: var(--sp-200); }
+}

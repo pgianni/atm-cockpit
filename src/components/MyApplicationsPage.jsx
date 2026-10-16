@@ -101,7 +101,7 @@ function AppSection({ section, favorites, onToggleFavorite }) {
 import { SECTIONS, ALL_APPS, CHIPS, LS_KEY } from '../data/appsData'
 
 /* ─── Page ────────────────────────────────────────────────────────── */
-export default function MyApplicationsPage({ style }) {
+export default function MyApplicationsPage({ style, onNavigateHome }) {
   const [activeChip, setActiveChip]   = useState('All')
   const [favorites,  setFavorites]    = useState(() => {
     try { return new Set(JSON.parse(localStorage.getItem(LS_KEY)) ?? []) }
@@ -132,18 +132,16 @@ export default function MyApplicationsPage({ style }) {
 
       {/* ── Breadcrumb banner ── */}
       <div className="apps-page__breadcrumb">
-        <a href="#" className="apps-page__bc-link" onClick={e => e.preventDefault()}>
-          Home
-        </a>
+        <button className="apps-page__bc-link" onClick={() => onNavigateHome?.()}>Home</button>
         <ChevronRight size={14} strokeWidth={2} className="apps-page__bc-sep" />
-        <span className="apps-page__bc-current">My applications</span>
+        <span className="apps-page__bc-current">My apps</span>
       </div>
 
       <div className="apps-page__content">
 
         {/* ── Header ── */}
         <div className="apps-page__header">
-          <h1 className="apps-page__title">My applications</h1>
+          <h1 className="apps-page__title">My apps</h1>
           <button className="apps-page__edit-btn">
             <Settings size={18} strokeWidth={1.5} />
             Edit modules

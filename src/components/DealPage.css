@@ -1,7 +1,7 @@
 .deal-page {
-  margin-top: 62px;
+  margin-top: 64px;
   margin-left: 226px;
-  min-height: calc(100vh - 62px);
+  min-height: calc(100vh - 64px);
   background: var(--color-bg-page);
   transition: margin-left 0.2s ease;
 }
@@ -265,7 +265,7 @@
 .deal-tree {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
 }
 
 .deal-tree__row {
@@ -275,7 +275,7 @@
 
 /* ── Guide columns ── */
 .deal-tree__guide {
-  width: 20px;
+  width: 30px;
   flex-shrink: 0;
   position: relative;
   align-self: stretch;
@@ -285,7 +285,7 @@
 .deal-tree__guide--line::before {
   content: '';
   position: absolute;
-  left: calc(50% - 0.5px);
+  left: 19.5px;
   top: 0;
   bottom: 0;
   width: 1px;
@@ -296,7 +296,7 @@
 .deal-tree__guide--branch::before {
   content: '';
   position: absolute;
-  left: calc(50% - 0.5px);
+  left: 19.5px;
   top: 0;
   bottom: 50%;
   width: 1px;
@@ -305,7 +305,7 @@
 .deal-tree__guide--branch::after {
   content: '';
   position: absolute;
-  left: 50%;
+  left: 20px;
   top: 50%;
   right: 0;
   height: 1px;
@@ -322,7 +322,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 10px;
+  padding: 4px 10px;
   border-radius: var(--r-050);
   cursor: pointer;
   transition: background 0.12s;
@@ -340,6 +340,27 @@
 .deal-tree__icon img {
   height: 22px;
   width: auto;
+}
+.deal-tree__icon--lo {
+  width: 28px;
+  height: 28px;
+}
+
+.deal-tree__name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deal-tree__count-tag {
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-minor);
+  background: var(--color-border-default);
+  padding: 1px 7px;
+  border-radius: 999px;
+  line-height: 18px;
+  flex-shrink: 0;
 }
 
 .deal-tree__content {
@@ -374,13 +395,25 @@
   font-size: 10px;
   font-weight: var(--fw-semibold);
   color: #fff;
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.deal-tree__badge--outline {
+  background: transparent !important;
+  border: 1px solid;
+  color: inherit;
+  text-transform: none;
+  letter-spacing: 0;
+  height: auto;
+  padding: 1px 8px;
+  font-size: 11px;
 }
 
 .deal-tree__code {
   font-size: 11px;
   color: var(--color-text-minor);
+  white-space: nowrap;
 }
 
 .deal-tree__toggle {
@@ -439,6 +472,118 @@
 }
 
 .deal-linked__arrow { color: var(--color-text-minor); flex-shrink: 0; }
+
+/* ── Linked objects tree ── */
+.lo-tree {
+  display: flex;
+  flex-direction: column;
+}
+
+.lo-tree__group {
+  border-bottom: 1px solid var(--color-border-default);
+}
+.lo-tree__group:last-child { border-bottom: none; }
+
+.lo-tree__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--r-050);
+  text-align: left;
+  transition: background 0.12s;
+}
+.lo-tree__header:hover { background: rgba(0,125,87,0.06); }
+.lo-tree__header--open { background: rgba(0,125,87,0.04); }
+
+.lo-tree__icon { color: var(--color-primary); flex-shrink: 0; }
+
+.lo-tree__label {
+  flex: 1;
+  font-size: 13px;
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-major);
+}
+
+.lo-tree__count {
+  font-size: 13px;
+  font-weight: var(--fw-bold);
+  color: var(--color-primary);
+  min-width: 20px;
+  text-align: right;
+}
+
+.lo-tree__chevron {
+  color: var(--color-text-minor);
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+.lo-tree__chevron--open { transform: rotate(180deg); }
+
+/* ── Linked object items ── */
+.lo-tree__items {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 6px 36px;
+  gap: 0;
+}
+
+.lo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 12px;
+  border-radius: var(--r-050);
+  transition: background 0.1s;
+}
+.lo-item:hover { background: rgba(0,125,87,0.05); }
+
+.lo-item__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.lo-item__name {
+  font-size: 13px;
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-major);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lo-item__type {
+  font-size: 11px;
+  color: var(--color-text-minor);
+}
+
+.lo-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.lo-item__freq, .lo-item__value {
+  font-size: 12px;
+  color: var(--color-text-minor);
+}
+
+.lo-item__status {
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-border-default);
+  color: var(--color-text-minor);
+}
+.lo-item__status--green  { background: rgba(20,133,29,.12); color: #14851d; }
+.lo-item__status--orange { background: rgba(217,119,6,.12);  color: #b45309; }
+.lo-item__status--red    { background: rgba(217,39,38,.12);  color: #d92726; }
 
 /* ── Client grid ── */
 .deal-client__grid {
@@ -586,6 +731,28 @@
   gap: 16px;
 }
 
+/* sub-title inline in card header */
+.deal-page__section-sub--header {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--color-text-minor);
+}
+.deal-page__section-sub--header a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.deal-page__section-sub--header a:hover {
+  text-decoration: underline;
+}
+
+/* small variant of the outline button */
+.deal-page__btn-outline--sm {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 12px;
+  gap: 6px;
+}
+
 /* ── Contact card ── */
 .deal-contact {
   display: flex;
@@ -645,4 +812,60 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+/* ════════════════════════════════════════
+   Deal Page — Mobile
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .deal-page__breadcrumb { padding: 0 var(--sp-200); }
+
+  /* Hero */
+  .deal-page__hero { padding: 20px 16px 28px; }
+
+  .deal-page__hero-header { gap: 12px; }
+
+  .deal-page__illu { width: 48px; height: 72px; }
+  .deal-page__illu svg { width: 48px; height: 72px; }
+
+  .deal-page__name { font-size: 18px; }
+
+  .deal-page__hero-title-row { flex-direction: column; gap: 10px; }
+
+  .deal-page__hero-actions { flex-wrap: wrap; gap: 8px; }
+
+  /* Metrics: 2 cols instead of 6 */
+  .deal-page__metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Main body: 2-col → single column */
+  .deal-page__body {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  /* Client info grid inside right panel */
+  .deal-client__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Section padding */
+  .deal-page__section,
+  .deal-page__contacts-section {
+    padding-left: var(--sp-200);
+    padding-right: var(--sp-200);
+  }
+
+  .deal-page__card { padding: var(--sp-200); }
+
+  /* Linked object tree: smaller font */
+  .deal-tree__name { font-size: 12px; }
+
+  /* Documents table: horizontal scroll */
+  .cp-table-wrap {
+    overflow-x: auto;
+    overflow-y: visible;
+  }
 }

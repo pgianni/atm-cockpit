@@ -18,3 +18,26 @@
 .page-transition {
   animation: page-enter 0.2s ease both;
 }
+
+/* ════════════════════════════════════════
+   Mobile — override inline marginLeft
+   All page wrappers receive marginLeft via
+   inline style. On mobile the sidebar is
+   at the bottom, so we zero it out.
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+  /* Override every page wrapper's inline margin-left */
+  .dashboard,
+  .portfolio-page,
+  .controls-page,
+  .apps-page,
+  .notif-page,
+  .deal-page,
+  .clients-page,
+  .settings-page,
+  .search-results-page {
+    margin-left: 0 !important;
+    /* Reserve space for the bottom nav */
+    padding-bottom: 60px;
+  }
+}
